@@ -24,39 +24,33 @@ img {
     width: 1240px;
 }
 
+/* 로고 */
+.mgsjlogo{
+	width : 125px;
+	height : 125px;
+}
 
 /* 공통 헤더 */
 #gnb {
-    height: 100px;
+	padding-top : 25px;
+	align-items : center;
     background-color: #fff;
     display: grid;
     grid-template-columns: auto auto auto;
 }
 
-h1 {
-    margin: 20px 0 0 0;
-    color: #297EFF;
-    font-size: 2.5rem;
+.search>div {
+	vertical-align: middle;
 }
 
-.search {
-    float: left;
-    padding-top: 35px;
-}
-
-.search button {
-    height: 30px;
-    border: 0;
-    background: #fff;
-}
-
-.search button i {
+.search i {
     color: #297EFF;
 }
 
 .search_box {
     width: 300px;
     height: 25px;
+    padding : 10px;
     border: 1px solid #297EFF;
     border-radius: 30px;
 }
@@ -66,7 +60,6 @@ h1 {
 .gnb-utilmenu {
     text-align: right;
     padding-right: 20px;
-    padding-top: 35px;
 }
 
 .gnb-utilmenu a i {
@@ -75,6 +68,10 @@ h1 {
 }
 
 /* gnb-navmenu */
+.gnb-navmenu{
+	justify-content: center;
+	padding-top: 20px;
+}
 .gnb-navmenu ul {
     overflow: hidden;
     height: 60px;
@@ -140,15 +137,13 @@ h1 {
 
 
 /*비공통 컨테이너*/
-#main {}
 
 .contents {
-    height: 576px;
+    min-height: 800px;
     margin: 66px 0 77px 0;
 }
 
 #main>div {
-
     text-align: center;
     padding: 0;
     font-size: 24px;
@@ -178,11 +173,15 @@ h1 {
 }
 
 .item4 {
-    width: 817px;
-    height: 268px;
+    width: 800px;
+    height: 300px;
     float: right;
     margin-top: 40px;
     background-color: rgb(239, 239, 239);
+}
+
+.hotdeal img {
+    background-size: cover;
 }
 
 
@@ -381,7 +380,7 @@ h1 {
     text-align: center;
     font-size: 40px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    padding-bottom: 50px;
+    padding-top : 50px;
 }
 
 .item a {
@@ -392,22 +391,24 @@ h1 {
     font-size: 12px;
 }
 
-.product_first {
+.product_list_box {
     display: flex;
+    flex-wrap : wrap;
+    max-width : 100%;
     justify-content: space-between;
+    align-items : center;
     margin-bottom: 87px;
 }
 
-.product_second {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 87px;
+.product{
+	padding : 20px;
+	width : calc(100%/3);
+	box-sizing: border-box;
+	display: flex;
 }
 
-.product_third {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 87px;
+.product div {
+	flex : 1;
 }
 
 /*푸터*/

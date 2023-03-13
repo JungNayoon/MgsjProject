@@ -53,10 +53,10 @@ public class InquireServiceImpl implements InquireService {
 	}
 	// 제품 문의 목록
 	@Override
-	public List<InquireDTO> inquireList() throws Exception {
+	public List<InquireDTO> inquireList(int pno) throws Exception {
 		
 		logger.info("제품 문의 목록 inquireList - Service");
 		
-		return inquireDAO.inquireList();
+		return inquireDAO.inquireList(pno);
 	}
 }

@@ -1,5 +1,7 @@
 package com.project.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,18 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
 import com.project.member.service.MemberService;
+import com.project.product.domain.ProductDTO;
+import com.project.product.service.ProductService;
 
-/**
- * 
- * @author 김재국
- *
- */
 
 @Controller
 public class MemberController {
@@ -28,10 +31,19 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	// ********************************테스트 메인페이지 (리다이렉트용 추후 삭제예정)
+	@Autowired
+	private ProductService productService;
+	
+	// 메인페이지 접속
 	@RequestMapping(value = "/mainPage/mainPage", method = RequestMethod.GET)
-	public void connectBoardMain() throws Exception {
-		logger.info("축하합니다 원하는 작업이 성공적으로 동작했군요!!");
+	public void connectBoardMain(Model model) throws Exception {
+		
+		logger.info("MGSJ 접속");
+		
+		List<ProductDTO> productList = productService.productList();
+
+		model.addAttribute("mainPageProductList", productList);
+
 	}
 
 	// 회원가입 접속 페이지
@@ -43,11 +55,14 @@ public class MemberController {
 
 	// 회원가입 로직
 	@RequestMapping(value = "/member/memberSignUp", method = RequestMethod.POST)
-	public String signUpMember(MemberDTO memberDTO) throws Exception {
+	public String signUpMember(MemberDTO memberDTO, MemberAddressDTO memberAddressDTO) throws Exception {
 
 		logger.info("회원가입 실행 signUpMember - (controller)");
 		
-		memberService.signUpMember(memberDTO);
+		/*String userId = memberDTO.getUserId();
+		memberAddressDTO.setUserId(userId);*/
+		
+		memberService.signUpMember(memberDTO, memberAddressDTO);
 		
 		logger.info("회원가입 정보 : {}", memberDTO);
 
@@ -125,4 +140,28 @@ public class MemberController {
 		
 		return "redirect:/mainPage/mainPage";
 	}
+	
+	// 아이디 중복검사 로직
+	@ResponseBody
+	@RequestMapping(value = "/member/checkDuplicateId", method = RequestMethod.POST)
+	public boolean checkDuplicateId(@RequestParam("userId") String userId) throws Exception{
+		
+		logger.info("아이디 중복검사 실행 checkDuplicateId - controller : {}", userId);
+		
+		int inputUserId = memberService.checkDuplicateId(userId);
+		
+		if (inputUserId == 1) {
+			
+			logger.info("아이디 중복입니다.");
+			
+			return false;
+			
+		} else {
+			logger.info("회원가입 가능한 아이디입니다.");
+			
+			return true;
+			
+		}
+	}
+	
 }

@@ -57,10 +57,10 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	//리뷰 목록
 	@Override
-	public List<ReviewBoardDTO> reviewList() throws Exception {
+	public List<ReviewBoardDTO> reviewList(int pno) throws Exception {
 		
 		logger.info("리뷰 목록 reviewList - Service");
 		
-		return reviewDAO.reviewList();
+		return reviewDAO.reviewList(pno);
 	}
 }

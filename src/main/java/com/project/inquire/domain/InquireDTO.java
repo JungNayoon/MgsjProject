@@ -9,6 +9,9 @@ public class InquireDTO {
 	private String askTitle;
 	private String askContent;
 	private Date askRegDate;
+	
+	//이너 조인
+	private String categoryName;
 
 	public int getAskNum() {
 		return askNum;
@@ -50,10 +53,19 @@ public class InquireDTO {
 		this.askRegDate = askRegDate;
 	}
 
-	@Override
-	public String toString() {
-		return "AskDTO [askNum=" + askNum + ", pno=" + pno + ", askTitle=" + askTitle + ", askContent=" + askContent + ", askRegDate=" + askRegDate
-				+ "]";
+	public String getProductName() {
+		return categoryName;
 	}
 
+	public void setProductName(String productName) {
+		this.categoryName = productName;
+	}
+
+	@Override
+	public String toString() {
+		return "InquireDTO [askNum=" + askNum + ", pno=" + pno + ", askTitle=" + askTitle + ", askContent=" + askContent
+				+ ", askRegDate=" + askRegDate + ", categoryName=" + categoryName + "]";
+	}
+
+	
 }

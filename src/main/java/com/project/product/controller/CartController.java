@@ -3,6 +3,7 @@ package com.project.product.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -76,14 +77,19 @@ public class CartController {
 	@ResponseBody
 	@RequestMapping(value = "/cart/cartWrite", method = RequestMethod.POST)
 	public boolean cartWrite(CartDTO cartDTO,
+					@RequestParam ("pno") int pno,
 					@RequestParam ("userId") String userId,
-					HttpServletRequest req) throws Exception {
+					HttpServletRequest req,
+					HttpServletResponse resp) throws Exception {
 
 		logger.info("장바구니 등록 cartWrite - Controller");
 		
 		HttpSession session = req.getSession();
 		
 		MemberDTO memberLoginSession = (MemberDTO)session.getAttribute("memberInfo");
+		
+		System.out.println("memberInfo의 값 ======" + memberLoginSession.getUserId());
+		
 		
 		if (memberLoginSession == null || !memberLoginSession.getUserId().equals(userId)) {
 			// 세션값이 없을때, 세션아이디값과 db에 있는 아이디값이 다를경우
@@ -98,10 +104,11 @@ public class CartController {
 		
 			cartService.cartWrite(cartDTO);
 			
+			resp.sendRedirect("/product/productView?pno=" + pno);
+			
 			return true;
 		}
 		
-
 	}
 
 	// 장바구니 수정(비동기)

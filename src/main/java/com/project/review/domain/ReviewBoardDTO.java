@@ -10,6 +10,9 @@ public class ReviewBoardDTO {
 	private String rvContent;
 	private String rvWriter;
 	private Date rvRegDate;
+	
+	//이너 조인
+	private String productName;
 
 	public int getRvno() {
 		return rvno;
@@ -59,10 +62,20 @@ public class ReviewBoardDTO {
 		this.rvRegDate = rvRegDate;
 	}
 
-	@Override
-	public String toString() {
-		return "ReviewBoardDTO [rvno=" + rvno + ", pno=" + pno + ", rvTitle=" + rvTitle + ", rvContent=" + rvContent + ", rvWriter=" + rvWriter
-				+ ", rvRegDate=" + rvRegDate + "]";
+	
+	public String getProductName() {
+		return productName;
 	}
 
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	@Override
+	public String toString() {
+		return "ReviewBoardDTO [rvno=" + rvno + ", pno=" + pno + ", rvTitle=" + rvTitle + ", rvContent=" + rvContent
+				+ ", rvWriter=" + rvWriter + ", rvRegDate=" + rvRegDate + ", productName=" + productName + "]";
+	}
+
+	
 }

@@ -223,7 +223,7 @@ textarea {
 				}
 				reader.readAsDataURL ( this.files[0] );
 			}
-		} )
+		} );
 	</script>
 </body>
 </html>

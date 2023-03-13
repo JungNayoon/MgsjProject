@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.project.member.domain.MemberDTO"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -18,19 +17,22 @@
 			<header>
 				<div id="gnb">
 					<!--상단 로고-->
-					<h1>
-						<a href="/mainPage/mainPage">MGSJ</a>
-					</h1>
+					<div class="mgsjlogo" align="center">
+						<a href="/mainPage/mainPage">
+							<img src="/resources/mainpage/MGSJlogo.png" width = "125px" height = "125px">
+						</a>
+					</div>
+
 					<!--검색창-->
-					<div class="search">
-						<button type="submit">
-							<i class="bi bi-search" style="font-size: 25px;"></i>
-						</button>
-						<input class="search_box" type="text" />
+					<div class="search" align="center">
+						<div>
+							<i class="bi bi-search" style="font-size: 40px;"></i>
+							<input class="search_box" type="text" />
+						</div>
 					</div>
 					<!--유틸메뉴-->
 					<c:choose>
-						<c:when test="${(memberInfo.userVerify) == 128 && (memberInfo != null) }">
+						<c:when test="${(memberInfo.userVerify) == 128}">
 							<!-- 관리자 -->
 							<div class="gnb-utilmenu">
 								<a href="/member/memberLoginPage" title="관리자 회원 관리 페이지">
@@ -42,9 +44,12 @@
 								<a href="#" title="로그 기록 확인 페이지">
 									<i class="bi bi-clock-history" style="font-size: 30px;"></i>
 								</a>
+								<a href="javascript:memberLogout()" title="로그아웃">
+									<i class="bi bi-door-open" style="font-size: 30px;"></i>
+								</a>
 							</div>
 						</c:when>
-						<c:when test="${(memberInfo.userVerify) == 0 && (memberInfo != null) }">
+						<c:when test="${(memberInfo.userVerify) == 0 }">
 							<!-- 회원 -->
 							<div class="gnb-utilmenu">
 								<a href="/member/memberModifyPage" title="회원정보수정">
@@ -61,7 +66,7 @@
 								</a>
 							</div>
 						</c:when>
-						<c:when test="${(memberInfo.userVerify) == 5 && (memberInfo != null) }">
+						<c:when test="${(memberInfo.userVerify) == 5 }">
 							<!-- 판매자 -->
 							<div class="gnb-utilmenu">
 								<a href="/member/memberModifyPage" title="판매자 정보 수정">
@@ -69,6 +74,9 @@
 								</a>
 								<a href="/cart/cartList" title="판매상품내역">
 									<i class="bi bi-cart" style="font-size: 30px;"></i>
+								</a>
+								<a href="/product/productWritePage" title="판매상품등록 및 관리하기">
+									<i class="bi bi-check-all" style="font-size: 30px;"></i>
 								</a>
 								<a href="#" title="활동 기록">
 									<i class="bi bi-clock-history" style="font-size: 30px;"></i>
@@ -87,35 +95,26 @@
 							</div>
 						</c:otherwise>
 					</c:choose>
-				</div>
 
-				<!--네비게이션토글-->
-				<div class="gnb-navmenu">
-					<ul>
-						<li class="dropdown">
-							<a href="javascript:void(0)" class="dropbtn">
-								<i class="bi bi-list"></i>
-							</a>
-							<div class="dropdown-content">
-								<a href="#">식품</a>
-								<a href="#">의류</a>
-								<a href="#">생활용품</a>
-								<a href="#">반려동물</a>
-								<a href="#">아동</a>
-								<a href="#">가전/디지털</a>
-								<a href="#">스포츠</a>
-							</div>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-01">현재 픽업 가능</a>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-02">1시간 내 픽업 가능</a>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-03">3시간 내 픽업 가능</a>
-						</li>
-					</ul>
+					<!--네비게이션토글-->
+					<div class="gnb-navmenu">
+						<ul>
+							<li class="dropdown">
+								<a href="javascript:void(0)" class="dropbtn">
+									<i class="bi bi-list"></i>
+								</a>
+								<div class="dropdown-content">
+									<a href="#">식품</a>
+									<a href="#">의류</a>
+									<a href="#">생활용품</a>
+									<a href="#">반려동물</a>
+									<a href="#">아동</a>
+									<a href="#">가전/디지털</a>
+									<a href="#">스포츠</a>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</header>
 		</div>
@@ -163,7 +162,7 @@
 				<div class="notice-box">
 					<div class="notice">
 						<p>NOTICE</p>
-						<a href="notice.html">+더보기</a>
+						<a href="/announcement/announcement?pageNum=1">+더보기</a>
 						<ul>
 							<li>
 								<a href="#" class="noticeopen">1. 텍스트입니다텍스트입니다텍스트입니다</a>
@@ -208,74 +207,27 @@
 			<!--상품-->
 			<div class="item">
 				<p>ITEM</p>
-				<div class="product_first">
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-				</div>
-				<div class="product_second">
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-				</div>
-				<div class="product_third">
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
-					<div class="product">
-						<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg">
-						<br>
-						<a href="/product.html" class="product_name">상품명</a>
-						<br>
-						<p class="product_price">0원</p>
-					</div>
+				<!-- 
+					private int pno;
+					private int cno;
+					private String productName;
+					private int productPrice;
+					private int productStock;
+					private String productDescription;
+					private Date productRegDate;
+				 -->
+				<div class="product_list_box">
+					<c:forEach var="mainPageProductList" items="${mainPageProductList }">
+						<div class="product">
+							<div>
+								<img src="${pageContext.request.contextPath}/resources/mgsjimages/mainimages/huskyAnimal.jpg" alt="상품이미지로딩실패">
+								<br>
+								<a href="/product/productView?pno=${mainPageProductList.pno }" class="product_name">${mainPageProductList.productName }</a>
+								<br>
+								<p class="product_price">${mainPageProductList.productPrice }원</p>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 
 			</div>

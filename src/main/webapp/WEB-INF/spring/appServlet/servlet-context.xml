@@ -63,7 +63,7 @@
 		</interceptor>
 		<!-- 관리자 인증 -->
 		<interceptor>
-			<mapping path="/board/admin/**"/>
+			<mapping path="/admin/**"/>
 			<beans:ref bean="AdminVerifyInterceptor"/>
 		</interceptor>
 	</interceptors>

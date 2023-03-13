@@ -26,22 +26,11 @@ request.setCharacterEncoding("UTF-8");
 					<th class = "col-sm-2  text-center">제품이름</th>
 					<th class = "col-sm-2  text-center">제품가격</th>
 					<th class = "col-sm-2  text-center">제품재고</th>		
-					<th class = "col-sm-2  text-center">등록날짜</th>
-					<th class = "col-sm-2  text-center">제품조회수</th>	
+					<th class = "col-sm-2  text-center">등록날짜</th>	
 					<th class = "col-sm-2  text-center">관리</th>		
 				</tr>
 			</thead>
 			<tbody>
-					<!--  
-						pno int AI PK 
-						cno int 
-						productName varchar(30) 
-						productPrice int 
-						productStock int  
-						productDescription text 
-						productRegDate datetime 
-						productReadCnt int
-					 -->
  
 				<c:forEach var = "productList" items = "${productList}">
 				<tr>
@@ -52,7 +41,6 @@ request.setCharacterEncoding("UTF-8");
 					<td align = "center">${productList.productPrice}</td>
 					<td align = "center">${productList.productStock}</td>
 					<td align = "center"><fmt:formatDate value = "${productList.productRegDate}" pattern = "yyyy-MM-dd"/></td>
-					<td align = "center">${productList.productReadCnt}</td>
 					<td align = "center"><a class="btn btn-sm btn-warning" href="javascript:deleteProductList('${productList.pno}')">삭제</a>
 					<!-- 나중 사용을 위해서 이미지 이름과 경로 히든 처리 -->
 				</tr>

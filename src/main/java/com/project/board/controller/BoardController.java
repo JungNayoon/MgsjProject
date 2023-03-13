@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.board.domain.BoardDTO;
 import com.project.board.domain.BoardReplyDTO;
+import com.project.board.domain.PageIngredient;
 import com.project.board.service.BoardService;
 import com.project.board.service.ReplyService;
 import com.project.member.domain.MemberDTO;
@@ -29,37 +31,38 @@ public class BoardController {
 
 	@Autowired
 	private ReplyService replyService;
+	
+	// 공지사항 출력 + 페이징 + 검색
+	@RequestMapping(value = "/announcement/announcement", method = RequestMethod.GET)
+	public void adminBoardList(@RequestParam("pageNum") int pageNum,
+			@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			PageIngredient page, Model model) throws Exception {
 
-	// 공지 게시글 목록보기
-	@RequestMapping(value = "/board/admin/adminBoardList", method = RequestMethod.GET)
-	public void adminBoardList(Model model) throws Exception {
+		logger.info("페이징 + 검색기능 시작 (Controller)\n검색타입 : {}\n검색어 : {}", searchType, keyword);
+		
+		// 파라미터 순서 int contentNum , int maxPageNum, int selectContent
+		page = new PageIngredient(10,10,10);
+		
+		page.setPageNum(pageNum);
+		page.setSearchType(searchType);
+		page.setKeyword(keyword);
+		page.setSearchTypeAndKeyword(searchType, keyword);
 
-		logger.info("BoardController에서 공지 게시글 목록보기 시작");
+		// 게시글 총 갯수를 구한다. 단 검색타입과 키워드에 맞춘 결과에 대한 총 갯수를 출력해야한다.
+		page.setTotalContent(boardService.totalSearchContent(searchType, keyword));
 
-		List<BoardDTO> adminBoardList = boardService.adminBoardList();
-
-		logger.info("공지 게시글 목록 ==> " + adminBoardList);
-
+		List<BoardDTO> adminBoardList = null;
+		adminBoardList = boardService.adminBoardList(page.getSelectContent(), page.getContentNum(), searchType, keyword);
 		model.addAttribute("adminBoardList", adminBoardList);
+		model.addAttribute("page", page);
 
-	}
-
-	// 일반 게시글 목록보기
-	@RequestMapping(value = "/board/member/memberBoardList", method = RequestMethod.GET)
-	public void memberBoardList(Model model) throws Exception {
-
-		logger.info("BoardController에서 일반 게시글 목록보기 시작");
-
-		List<BoardDTO> memberBoardList = boardService.memberBoardList();
-
-		logger.info("일반 게시글 목록 ==> " + memberBoardList);
-
-		model.addAttribute("memberBoardList", memberBoardList);
-
+		// 현재 페이지가 몇페이지인지 쉽게 구분하기위한 구분자를 넘겨주자
+		model.addAttribute("selectedPageNum", pageNum);
 	}
 
 	// 작성 페이지 접속
-	@RequestMapping(value = "/board/boardWritePage", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/boardWritePage", method = RequestMethod.GET)
 	public void connectMemberBoardWrite() throws Exception {
 
 		logger.info("회원 게시글 작성 페이지 접속 memberBoardWrite - controller");
@@ -67,51 +70,51 @@ public class BoardController {
 	}
 
 	// 게시글 등록하기
-	@RequestMapping(value = "/board/boardWrite", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/boardWrite", method = RequestMethod.POST)
 	public String boardWrite(BoardDTO boardDTO, HttpSession session) throws Exception {
 
 		logger.info("회원 게시글 작성 memberBoardWrite - controller");
-		
+
 		// 타입검사
-		logger.info("타입검사 결과 : {}" , session.getAttribute("memberInfo") instanceof Object);
-		
+		logger.info("타입검사 결과 : {}", session.getAttribute("memberInfo") instanceof Object);
+
 		MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
-		
-		if(memberInfo != null) {
-			
+
+		if (memberInfo != null) {
+
 			if (memberInfo.getUserVerify() == 128) {
 				boardDTO.setBoardLevel(1);
 				boardService.boardWrite(boardDTO);
-				
+
 			} else {
 				boardDTO.setBoardLevel(0);
 				boardService.boardWrite(boardDTO);
-				
+
 			}
-			
+
 		} else {
 			boardDTO.setBoardLevel(-1);
 			boardService.boardWrite(boardDTO);
-			
+
 		}
-	
-		return "redirect:/board/member/memberBoardList";
+
+		return "redirect:/admin/announcement";
 	}
 
-	// 게시글 삭제하기
-	@RequestMapping(value = "/board/boardDelete", method = RequestMethod.GET)
-	public String boardDelete(@RequestParam("bno") int bno) throws Exception {
+	// 공지 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/admin/boardDelete", method = RequestMethod.POST)
+	public void boardDelete(@RequestParam("bno") int bno) throws Exception {
 
 		logger.info("회원 게시글 삭제 memberBoardDelete - BoardController");
 
 		boardService.boardDelete(bno);
 
-		return "redirect:/board/main";
 	}
 
-	// 게시글 조회하기 + 댓글도 가져오기
-	@RequestMapping(value = "/board/boardView", method = RequestMethod.GET)
-	public void boardView(@RequestParam("bno") int bno, Model model, BoardDTO boardDTO) throws Exception {
+	// 게시글 조회, 댓글보기
+	@RequestMapping(value = "/admin/boardView", method = RequestMethod.GET)
+	public void boardView(@RequestParam("bno") int bno, Model model, BoardDTO boardDTO, PageIngredient page) throws Exception {
 
 		logger.info("회원 게시글 조회 boardView - BoardController");
 
@@ -124,10 +127,11 @@ public class BoardController {
 		model.addAttribute("boardDTO", boardDTO);
 
 		model.addAttribute("replyDTO", boardReplyDTO);
+
 	}
 
 	// 게시글 수정하기 (의 개념으로 수정페이지 들어가기)
-	@RequestMapping(value = "/board/boardModifyPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/boardModifyPage", method = RequestMethod.GET)
 	public void connectBoardModify(@RequestParam("bno") int bno, Model model, BoardDTO boardDTO) throws Exception {
 
 		logger.info("게시글 수정 페이지 접속 connectBoardModify - controller");
@@ -138,14 +142,14 @@ public class BoardController {
 	}
 
 	// 게시글 수정하기 로직
-	@RequestMapping(value = "/board/boardModify", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/boardModify", method = RequestMethod.POST)
 	public String boardModify(BoardDTO boardDTO) throws Exception {
 
 		logger.info("게시글 수정 로직 실행 boardModify - controller");
 
 		boardService.boardModify(boardDTO);
 
-		return "redirect:/board/boardView?bno=" + boardDTO.getBno();
+		return "redirect:/admin/boardView?bno=" + boardDTO.getBno();
 	}
 
 }

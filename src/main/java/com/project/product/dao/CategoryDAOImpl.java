@@ -17,52 +17,61 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	private static final String NAME_SPACE = "mappers.categoryMapper";
 
-	//카테고리 등록
+	// 카테고리 등록
 	@Override
 	public void categoryWrite(CategoryDTO categoryDTO) throws Exception {
-		
+
 		logger.info("카테고리 등록 categoryWrite - DAO");
-		
+
 		sqlSession.insert(NAME_SPACE + ".categoryWrite", categoryDTO);
 	}
-	
-	//카테고리 조회
+
+	// 카테고리 조회
 	@Override
 	public CategoryDTO categoryView(int cno) throws Exception {
-		
+
 		logger.info("카테고리 조회 categoryView - DAO");
-		
+
 		return sqlSession.selectOne(NAME_SPACE + ".categoryView", cno);
 	}
-	
-	//카테고리 수정
+
+	// 카테고리 수정
 	@Override
 	public void categoryUpdate(CategoryDTO categoryDTO) throws Exception {
-		
+
 		logger.info("카테고리 수정 categoryUpdate - DAO");
-		
+
 		sqlSession.update(NAME_SPACE + ".categoryUpdate", categoryDTO);
 	}
-	
-	//카테고리 삭제
+
+	// 카테고리 삭제
 	@Override
 	public void categoryDelete(int cno) throws Exception {
-		
+
 		logger.info("카테고리 삭제 categoryDelete - DAO");
-		
+
 		sqlSession.delete(NAME_SPACE + ".categoryDelete", cno);
 	}
-	
-	//카테고리 목록
+
+	// 카테고리 목록
 	@Override
 	public List<CategoryDTO> categoryList() throws Exception {
-		
+
 		logger.info("카테고리 목록 categoryList - DAO");
-		
+
 		return sqlSession.selectList(NAME_SPACE + ".categoryList");
-}
-	
+	}
+
+	// 카테고리 목록에 의한 세부 상품 출력
+	@Override
+	public List<CategoryDTO> categoryDetailProduct() throws Exception {
+
+		logger.info("카테고리 목록에 의한 상품출력 categoryDetailProduct - DAO");
+
+		return sqlSession.selectList(NAME_SPACE + ".categoryDetailProduct");
+	}
+
 }

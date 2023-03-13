@@ -40,9 +40,14 @@ WHERE askNum = #{askNum}
 </delete>
 
 <!-- 제품 문의 목록 -->
-<select id = "inquireList" resultType = "com.project.inquire.domain.InquireDTO">
-SELECT askNum, pno, askTitle, askContent, askRegDate
-FROM askdto
+<select id = "inquireList" parameterType = "int" resultType = "com.project.inquire.domain.InquireDTO">
+SELECT askNum, a.pno, askTitle, askContent, askRegDate, p.productName
+FROM askdto a
+INNER JOIN productdto p
+ON a.pno = p.pno
+WHERE a.pno = #{a.pno}
 ORDER BY askNum DESC
 </select>
+
+
 </mapper>

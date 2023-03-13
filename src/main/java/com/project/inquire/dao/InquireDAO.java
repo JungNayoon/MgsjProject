@@ -19,6 +19,6 @@ public interface InquireDAO {
 	public void inquireDelete(int askNum) throws Exception;
 	
 	//제품 문의 목록
-	public List<InquireDTO> inquireList() throws Exception;
+	public List<InquireDTO> inquireList(int pno) throws Exception;
 	
 }

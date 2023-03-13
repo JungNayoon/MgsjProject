@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.boardMapper">
-	<!-- 
-		bno	int	NO	PRI		auto_increment
-		writer	varchar(20)	NO			
-		title	varchar(50)	NO			
-		content	text	NO			
-		regDate	datetime	NO		CURRENT_TIMESTAMP	DEFAULT_GENERATED
-		readCount	int	NO		0		
-	 -->
 
-	<!-- 공지 게시글 목록 -->
-	<select id="adminBoardList" resultType="com.project.board.domain.BoardDTO">
-		SELECT bno, writer, title, content, regDate, readCount
-		FROM boarddto
-        where boardLevel = 1
-		order by bno desc;
+	<!-- 게시글 리스트 + 검색기능 + 페이징 -->
+	<!-- 공지글 -->
+	<select id="adminBoardList" resultType="com.project.board.domain.BoardDTO" parameterType="hashMap">
+		
+		select bno, title, content, writer, regDate, readCount
+			from boarddto
+		
+		<if test="searchType.equals('title')">
+			where title like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('content')">
+			where content like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('title_and_content')">
+			where title like concat('%', #{keyword}, '%')
+				or content like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('writer')">
+			where writer like concat('%', #{keyword}, '%')
+		</if>
+		
+		order by bno desc
+		limit #{displayTotalContent} , #{pageContent}
+		
 	</select>
-
-
-	<!-- 일반 게시글 목록 -->
-	<select id="memberBoardList" resultType="com.project.board.domain.BoardDTO">
-		SELECT bno, writer, title, content, regDate, readCount
-		FROM boarddto
-		where not boardLevel = 1
-		order by bno desc;
+	
+	<!-- 검색된 결과에 따른 총 갯수를 가져오는 쿼리. 페이징 + 검색기능에 필요. -->
+	<select id="totalSearchContent" resultType="Int" parameterType="hashmap">
+		
+		select count(bno)
+			from boarddto
+		
+		<if test="searchType.equals('title')">
+			where title like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('content')">
+			where content like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('title_and_content')">
+			where title like concat('%', #{keyword}, '%')
+				or content like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('writer')">
+			where writer like concat('%', #{keyword}, '%')
+		</if>
+		
+		
 	</select>
 
 	<!-- 게시글 작성 -->
@@ -53,6 +77,13 @@
 		select bno, writer, title, content, regDate, readCount
 		from boarddto
 		where bno = #{bno}
+	</select>
+	
+	<!-- 게시글 총 갯수 가져오기 -->
+	<select id="totalContent" parameterType="Int" resultType="Int">
+		select count(*)
+		from boarddto
+		where boardLevel = #{boardLevel}
 	</select>
 	
 </mapper>

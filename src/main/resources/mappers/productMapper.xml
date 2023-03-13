@@ -34,8 +34,10 @@
  <!-- 상품 게시글 상세 조회 -->
  <select id = "productView" parameterType = "int" resultType = "com.project.product.domain.ProductDTO">
  	
- 	SELECT pno, cno, productName, productPrice, productStock, productDescription, productRegDate, productReadCnt
- 	FROM productdto
+ 	SELECT pno, c.cno, productName, productPrice, productStock, productDescription, productRegDate, c.categoryName
+ 	FROM productdto p
+ 	INNER JOIN categorydto c
+ 	ON p.cno = c.cno
  	WHERE pno = #{pno}
  
  </select>
@@ -43,24 +45,12 @@
  <!-- 상품 게시글 목록 -->
 <select id = "productList" resultType = "com.project.product.domain.ProductDTO">
 
-	SELECT pno, cno, productName, productPrice, productStock, productDescription, productRegDate, productReadCnt
+	SELECT pno, cno, productName, productPrice, productStock, productDescription, productRegDate
 	FROM productdto
 	ORDER BY pno DESC
 
 
 </select>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </mapper>

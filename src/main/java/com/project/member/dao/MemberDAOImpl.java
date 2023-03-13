@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
 
 @Repository
@@ -20,9 +21,11 @@ public class MemberDAOImpl implements MemberDAO {
 
 	// 회원가입 로직 구현
 	@Override
-	public void signUpMember(MemberDTO memberDTO) throws Exception {
+	public void signUpMember(MemberDTO memberDTO, MemberAddressDTO memberAddressDTO) throws Exception {
 		logger.info("회원가입 실행 signUpMember - (DAO)");
-
+		
+		sqlSession.insert(NAME_SPACE + ".signUpAddress", memberAddressDTO);
+		
 		sqlSession.insert(NAME_SPACE + ".signUpMember", memberDTO);
 	}
 
@@ -35,12 +38,22 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(NAME_SPACE + ".memberLogin", memberDTO);
 	}
 	
+	// 정보수정 로직
 	@Override
 	public void memberModify(MemberDTO memberDTO) throws Exception {
 		
 		logger.info("회원정보 수정 memberModify - DAO");
 		
 		sqlSession.update(NAME_SPACE + ".memberModify", memberDTO);
+	}
+	
+	// 아이디 중복검사 로직
+	@Override
+	public int checkDuplicateId(String userId) throws Exception {
+		
+		logger.info("아이디 중복검사 수행 checkDuplicateId - DAO : {}", userId);
+		
+		return sqlSession.selectOne(NAME_SPACE + ".checkDuplicateId", userId);
 	}
 
 }

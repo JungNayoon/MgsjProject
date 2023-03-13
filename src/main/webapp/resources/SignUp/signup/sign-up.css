@@ -65,13 +65,28 @@ body{
 }
 
 .signUp button {
-    background-color: #297eff;
+    background-color: #969696;
     color:#fff;
     border: 1px solid #dadada;
     padding: 15px;
     width: 100%;
     margin-bottom: 5px;
     margin-top: 15px;
+}
+
+.field>button {
+    background-color: #297eff;
+    color:#fff;
+    border: 1px solid #dadada;
+    width: 40%;
+    margin-bottom: 5px;
+    padding : 5px 0;
+    border-radius : 5px;
+}
+
+.field>button:hover{
+	cursor: pointer;
+	background-color: #0064CD;
 }
 
 

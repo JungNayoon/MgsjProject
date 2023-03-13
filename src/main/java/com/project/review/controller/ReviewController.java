@@ -1,5 +1,9 @@
 package com.project.review.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.member.domain.MemberDTO;
 import com.project.review.domain.ReviewBoardDTO;
 import com.project.review.service.ReviewService;
 
@@ -73,18 +78,20 @@ public class ReviewController {
 		
 		reviewService.reviewDelete(rvno);
 	}
-/*	
-	//리뷰 목록
-	@RequestMapping(value = "/review/reviewList", method = RequestMethod.GET)
-	public void reviewList(Model model) throws Exception {
-		
-		logger.info("리뷰 목록 reviewList - Controller");
-		
-		List<ReviewBoardDTO> reviewList = reviewService.reviewList();
-		
-		logger.info("리뷰 목록 ==> " + reviewList);
-		
-		model.addAttribute("reviewList", reviewList);
-	}
-*/
+	
+	/*
+	 * //리뷰 목록
+	 * 
+	 * @RequestMapping(value = "/review/reviewList", method = RequestMethod.GET)
+	 * public void reviewList(Model model) throws Exception {
+	 * 
+	 * logger.info("리뷰 목록 reviewList - Controller");
+	 * 
+	 * List<ReviewBoardDTO> reviewList = reviewService.reviewList();
+	 * 
+	 * logger.info("리뷰 목록 ==> " + reviewList);
+	 * 
+	 * model.addAttribute("reviewList", reviewList); }
+	 */
+
 }

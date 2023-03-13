@@ -32,10 +32,13 @@
 	</delete>
 
 	<!-- 리뷰 목록 -->
-	<select id="reviewList" resultType="com.project.review.domain.ReviewBoardDTO">
+	<select id="reviewList" parameterType = "int" resultType="com.project.review.domain.ReviewBoardDTO">
 
-		SELECT rvno, pno, rvTitle, rvContent, rvWriter, rvRegDate
-		FROM reviewboarddto
+		SELECT rvno, r.pno, rvTitle, rvContent, rvWriter, rvRegDate, p.productName
+		FROM reviewboarddto r
+		INNER JOIN productdto p
+		ON r.pno = p.pno
+		WHERE r.pno = #{pno}
 		ORDER BY rvno DESC
 
 	</select>

@@ -6,6 +6,11 @@ public class CategoryDTO {
 	private String categoryName;
 	private int categoryLevel;
 	private int level;
+	
+	//이너 조인
+	private String productName;
+	private String productPrice;
+	private int pno;
 
 	public int getCno() {
 		return cno;
@@ -39,12 +44,36 @@ public class CategoryDTO {
 		this.level = level;
 	}
 
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(String productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public int getPno() {
+		return pno;
+	}
+
+	public void setPno(int pno) {
+		this.pno = pno;
+	}
+
 	@Override
 	public String toString() {
 		return "CategoryDTO [cno=" + cno + ", categoryName=" + categoryName + ", categoryLevel=" + categoryLevel
-				+ ", level=" + level + "]";
+				+ ", level=" + level + ", productName=" + productName + ", productPrice=" + productPrice + ", pno="
+				+ pno + "]";
 	}
 
 	
-
 }
