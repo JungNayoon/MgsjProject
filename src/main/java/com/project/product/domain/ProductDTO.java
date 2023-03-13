@@ -3,7 +3,7 @@ package com.project.product.domain;
 import java.util.Date;
 
 public class ProductDTO {
-	
+
 	private int pno;
 	private int cno;
 	private String productName;
@@ -11,7 +11,24 @@ public class ProductDTO {
 	private int productStock;
 	private String productDescription;
 	private Date productRegDate;
-	private int productReadCnt;
+
+	private String originFileName;
+	private String storedFileName;
+	private String storedThumbNail;
+
+	// 이너 조인
+	private String categoryName;
+
+	public ProductDTO() {
+		// 오버로딩 => 기본생성자 필수
+	}
+
+	// 파일세팅을 하기 위한 생성자
+	public ProductDTO(String originFileName, String storedFileName, String storedThumbNail) {
+		this.originFileName = originFileName;
+		this.storedFileName = storedFileName;
+		this.storedThumbNail = storedThumbNail;
+	}
 
 	public int getPno() {
 		return pno;
@@ -69,19 +86,46 @@ public class ProductDTO {
 		this.productRegDate = productRegDate;
 	}
 
-	public int getProductReadCnt() {
-		return productReadCnt;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setProductReadCnt(int productReadCnt) {
-		this.productReadCnt = productReadCnt;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
+	// 파일 업로드
+	public String getOriginFileName() {
+		return originFileName;
+	}
+
+	public void setOriginFileName(String originFileName) {
+		this.originFileName = originFileName;
+	}
+
+	public String getStoredFileName() {
+		return storedFileName;
+	}
+
+	public void setStoredFileName(String storedFileName) {
+		this.storedFileName = storedFileName;
+	}
+
+	public String getStoredThumbNail() {
+		return storedThumbNail;
+	}
+
+	public void setStoredThumbNail(String storedThumbNail) {
+		this.storedThumbNail = storedThumbNail;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductDTO [pno=" + pno + ", cno=" + cno + ", productName=" + productName + ", productPrice=" + productPrice + ", productStock="
-				+ productStock + ", productDescription=" + productDescription + ", productRegDate=" + productRegDate + ", productReadCnt="
-				+ productReadCnt + "]";
+				+ productStock + ", productDescription=" + productDescription + ", productRegDate=" + productRegDate + ", originFileName="
+				+ originFileName + ", storedFileName=" + storedFileName + ", storedThumbNail=" + storedThumbNail + ", categoryName=" + categoryName
+				+ "]";
 	}
+
 
 }

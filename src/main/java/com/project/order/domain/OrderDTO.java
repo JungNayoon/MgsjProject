@@ -18,6 +18,7 @@ public class OrderDTO {
 	private String productName;
 	private int productPrice;
 	private int productCnt;
+	private int pno;
 	 
 	/* alt + shift + a로 지우기
 	 * private int totalPrice; public OrderDTO() { this.totalPrice = this.productCnt
@@ -119,16 +120,19 @@ public class OrderDTO {
 	 * public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
 	 */
 
+	public int getPno() {
+		return pno;
+	}
+
+	public void setPno(int pno) {
+		this.pno = pno;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderDTO [orderNum=" + orderNum + ", userId=" + userId + ", orderDate=" + orderDate + ", postAddress="
 				+ postAddress + ", detailAddress=" + detailAddress + ", detailAddress2=" + detailAddress2
 				+ ", recipient=" + recipient + ", recipientPhone=" + recipientPhone + ", productName=" + productName
-				+ ", productPrice=" + productPrice + ", productCnt=" + productCnt + "]";
+				+ ", productPrice=" + productPrice + ", productCnt=" + productCnt + ", pno=" + pno + "]";
 	}
-
-	
-
-	
-	
 }

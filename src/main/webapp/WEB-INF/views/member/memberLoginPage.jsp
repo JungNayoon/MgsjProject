@@ -13,7 +13,7 @@
 <body>
 	<div class="login">
 		<h1>
-			<a href="/common/common.html">
+			<a href="/mainPage/mainPage" title="메인페이지로 이동">
 				<span class="login-logo">Ezen</span>
 			</a>
 		</h1>
@@ -41,6 +41,9 @@
 
 					</li>
 					<li class="error pwd-error">비밀번호를 입력해주세요</li>
+					<c:if test="${loginMessage == false }">
+						<li style="color: red; border: none;">아이디나 비밀번호를 확인해주세요</li>
+					</c:if>
 				</ul>
 				<button type="submit" id="login-btn" onclick="memberLogin()">로그인</button>
 			</div>

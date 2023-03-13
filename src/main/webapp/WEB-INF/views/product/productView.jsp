@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 정상적으로 로그인이 되었는지 확인할수있는 파라미터값 = result -->
 <%
@@ -9,390 +9,343 @@ request.setCharacterEncoding("UTF-8");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>${productDTO.productName }</title>
-<style type="text/css">
-#product-content {
-	display: flex;
-}
-
-.inner-content {
-	display: flex-column;
-	margin: 0 auto;
-}
-
-.img-management {
-	float: left;
-}
-
-.inner-content>h1 {
-	text-align: left;
-}
-
-.inner-content>.product-management {
-	display: flex;
-	justify-content: center;
-}
-
-.img-area {
-	float: left;
-	height: 350px;
-	border: 1px solid #e9e9e9;
-	margin: 30px;
-	width: 350px;
-}
-
-.img-area-item {
-	vertical-align: middle;
-}
-
-.img-upload>label {
-	padding: 5px;
-}
-
-.img-upload>div {
-	margin-top: 10px;
-}
-
-.img-upload>label:hover {
-	cursor: pointer;
-	background: #e9e9e9;
-	border: 1px solid black;
-}
-
-.container {
-	position: relative;
-	float: right;
-	width: 500px;
-	height: 500px;
-	text-align: left;
-}
-
-.show-image img {
-	z-index: 1;
-}
-
-.pushing-bottom-flex-box {
-	display: flex-column;
-	color: white;
-}
-
-textarea {
-	width: 450px;
-	height: 200px;
-	resize: none;
-}
-
-div>input {
-	border: none;
-}
-
-div>input:hover {
-	pointer-events : none;
-}
-
-div>input:active {
-	border: none;
-	pointer-events : none;
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${productDTO.productName}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="${contextPath}/resources/product/js/animatescroll.js"></script>
+   <!--  <script src="js/animatescroll.js?v=1.0.5"></script> -->
+    <link rel="stylesheet" href="${contextPath}/resources/product/product.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
-<body>
-	<div id="product-content" align="center">
-		<div class="inner-content">
-			<h1>${productDTO.productName }</h1>
-			<div class="product-management">
-				<div class="img-management">
-
-					<div class="img-area">
-						<div class="img-area-item">
-							<div class="show-image">
-								<img src="" />
+    <body>
+        <div class="wrap">
+            <!--공통 헤더 영역-->
+        <div id="header">
+            <header>
+                <div id="gnb">
+                    <!--상단 로고-->
+                    <h1>
+						<a href="/mainPage/mainPage">MGSJ</a>
+					</h1>
+                    <!--검색창-->
+                    <div class="search">
+                        <button type="submit"><i class="bi bi-search" style="font-size: 25px;"></i></button>
+                        <input class="search_box" type="text" />
+                    </div>
+                    <!--유틸메뉴-->
+                    <c:choose>
+						<c:when test="${(memberInfo.userVerify) == 128 && (memberInfo != null) }">
+							<!-- 관리자 -->
+							<div class="gnb-utilmenu">
+								<a href="/member/memberLoginPage" title="관리자 회원 관리 페이지">
+									<i class="bi bi-bookmark-star-fill" style="font-size: 30px;"></i>
+								</a>
+								<a href="/cart.html" title="관리자 상품 관리 페이지">
+									<i class="bi bi-box-seam-fill" style="font-size: 30px;"></i>
+								</a>
+								<a href="#" title="로그 기록 확인 페이지">
+									<i class="bi bi-clock-history" style="font-size: 30px;"></i>
+								</a>
 							</div>
-						</div>
-					</div>
-
-					<!-- <div>
-						<label for="productFile">이곳을 클릭하여 이미지 업로드</label>
-						<br>
-						<input type="file" id="productFile" name="file">
-					</div> -->
-					<!-- 경로 : D:\jsp\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp8\wtpwebapps\Mgsjproject\ -->
-				</div>
-
-				<div class="container">
-					<!-- form-action은 타이틀 밑의 js파일에서 구현 예정 -->
-					<div class="product-Info">
-						<div class="col-sm-12">
-							<h2 align="left">${productDTO.productName } 상품정보</h2>
-						</div>
-					</div>
-					
-					<%--
-						아래 주석 부분은 가방 > 백팩 이런식으로 추후 구현 예정
-						 
-						<c:if test="${productDTO.cno == (이걸창의적으로바꾸야함) }">
-						<p>(이걸창의적으로바꾸야함)</p>
-						</c:if>
-						<label>1차 분류</label>
-						<select class="category1">
-							<option value="">전체</option>
-						</select>
-						<label>2차 분류</label>
-						<select class="category2" name="cno">
-							<option value="">전체</option>
-						</select>
-					--%>
-
-					<input type="hidden" class="form-control" name="cartNum" value="장바구니 번호" />
-					<div class="form-group">
-						<label class="col-sm-2 control-label">제품 번호</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" value="${productDTO.pno}" name="pno" readonly="readonly" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">제품 이름</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" value="${productDTO.productName}" readonly="readonly" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">제품 가격</label>
-						<div class="col-sm-4">
-							<input type="number" class="form-control" value="${productDTO.productPrice}" readonly="readonly" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">주문 수량</label>
-						<div class="col-sm-4">
-							<input type="number" class="productCnt" name="productCnt" 
-							style="border:1px solid black;" onkeydown="javascript: return event.keyCode == 69 ? false : true" />
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="pushing-bottom-flex-box">1</div>
-						<div class="pushing-bottom-flex-box">2</div>
-						<div class="pushing-bottom-flex-box">3</div>
-						<div class="pushing-bottom-flex-box">4</div>
-						<div class="pushing-bottom-flex-box">5</div>
-						<div align="center">
-							<div style="width: 100%" align="right">
-								<button type="button" onclick="goCartOn('${productDTO.pno}','${memberInfo.userId}')">장바구니에 넣기</button>
-								<button type="button" class="btn btn-danger" onClick="location.href = '/product/productList'">상품 목록 이동</button>
-								<div style="color: #e9e9e9;">추후 판매자 계정(=상품등록자) session값 검사하여 보여지게 만들기</div>
-								<!-- 
-									sellerVerify = (MemberDTO)session.getAttribute("memberInfo")
-									
-									if(sellerVerify.getUserVerify == 5){
-										<대충태그>보여짐</대충태그>
-									} else {
-										return;
-									}
-								 -->
+						</c:when>
+						<c:when test="${(memberInfo.userVerify) == 0 && (memberInfo != null) }">
+							<!-- 회원 -->
+							<div class="gnb-utilmenu">
+								<a href="/member/memberModifyPage" title="회원정보수정">
+									<i class="bi bi-person-fill" style="font-size: 30px;"></i>
+								</a>
+								<a href="/cart/cartList" title="주문내역">
+									<i class="bi bi-cart" style="font-size: 30px;"></i>
+								</a>
+								<a href="#" title="활동 기록">
+									<i class="bi bi-clock-history" style="font-size: 30px;"></i>
+								</a>
+								<a href="javascript:memberLogout()" title="로그아웃">
+									<i class="bi bi-door-open" style="font-size: 30px;"></i>
+								</a>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+						</c:when>
+						<c:when test="${(memberInfo.userVerify) == 5 && (memberInfo != null) }">
+							<!-- 판매자 -->
+							<div class="gnb-utilmenu">
+								<a href="/member/memberModifyPage" title="판매자 정보 수정">
+									<i class="bi bi-person-fill" style="font-size: 30px;"></i>
+								</a>
+								<a href="/cart/cartList" title="판매상품내역">
+									<i class="bi bi-cart" style="font-size: 30px;"></i>
+								</a>
+								<a href="#" title="활동 기록">
+									<i class="bi bi-clock-history" style="font-size: 30px;"></i>
+								</a>
+								<a href="javascript:memberLogout()" title="로그아웃">
+									<i class="bi bi-door-open" style="font-size: 30px;"></i>
+								</a>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 비회원 -->
+							<div class="gnb-utilmenu">
+								<a href="/member/memberLoginPage" title="로그인">
+									<i class="bi bi-person-fill" style="font-size: 30px;"></i>
+								</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
+                </div>
 
-	<br>
-	<hr>
-
-	<div align="center">
-		<h1>${productDTO.productName } 상품 문의</h1>
-		<table border="1">
-			<thead>
-				<tr class="warning">
-					<th class="col-sm-2 text-center ask-num">제품문의번호</th>
-					<th class="col-sm-2 text-center pno">제품번호</th>
-					<th class="col-sm-2 text-center ask-title">문의제목</th>
-					<th class="col-sm-2 text-center ask-reg-date">문의날짜</th>
-					<th>관리버튼</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 
-				!!! 여기는 데이터베이스 테이블명이 askdto !!!!
-				askNum int AI PK 
-				pno int 
-				askTitle varchar(50) 
-				askContent text 
-				askRegDate datetime
-			-->
-				<c:forEach var="inquireList" items="${inquireList}">
-					<tr>
-						<td align="center">${inquireList.askNum}</td>
-						<td align="center">${inquireList.pno}</td>
-						<td align="center" title="${inquireList.askContent}">
-							<a href="${contextPath}/inquire/inquireView?askNum=${inquireList.askNum}">${inquireList.askTitle}</a>
-						</td>
-						<td>
-							<fmt:formatDate value="${inquireList.askRegDate}" pattern="yyyy-MM-dd" />
-						</td>
-						<td align="center">
-							<a class="btn btn-sm btn-warning" href="javascript:deleteInquireList('${inquireList.askNum}','${productDTO.pno}')">삭제</a>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div>
-			<button type="button" onclick="location.href = '/inquire/inquireWritePage?pno=${productDTO.pno}'">제품문의하기</button>
-		</div>
-	</div>
-	<div align="center">
-		<h1>${productDTO.productName } 상품 리뷰</h1>
-		<table border="1">
-			<thead>
-				<tr class="warning">
-					<th class="col-sm-1 text-center rvno">리뷰 번호</th>
-					<th class="col-sm-1 text-center pno">제품 번호(관리자만 보면 됨)</th>
-					<th class="col-sm-1 text-center rv-Title">리뷰 제목</th>
-					<th class="col-sm-1 text-center rv-Writer">리뷰 작성자</th>
-					<th class="col-sm-1 text-center rv-RegDate">리뷰 작성일</th>
-					<th>관리버튼</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 
-					reviewboarddto 테이블
-					rvno	int	NO	PRI
-					pno	int	NO	PRI
-					rvTitle	varchar(50)	NO	
-					rvContent	text	NO	
-					rvWriter	varchar(50)	NO	
-					rvRegDate	datetime	NO	
-			-->
-				<c:forEach var="reviewList" items="${reviewList}">
-					<tr>
-						<td align="center">${reviewList.rvno}</td>
-						<td align="center">${reviewList.pno}</td>
-						<td align="center" title="${reviewList.rvContent}">
-							<a href="${contextPath}/review/reviewView?rvno=${reviewList.rvno}">${reviewList.rvTitle}</a>
-						</td>
-						<td align="center">${reviewList.rvWriter}</td>
-						<td>
-							<fmt:formatDate value="${reviewList.rvRegDate}" pattern="yyyy-MM-dd" />
-						</td>
-						<td align="center">
-							<a class="btn btn-sm btn-warning" href="javascript:deleteReviewList('${reviewList.rvno}', '${productDTO.pno}')">삭제</a>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div>
-			<button type="button" onclick="location.href = '/review/reviewWritePage?pno=${productDTO.pno}'">리뷰 작성</button>
-		</div>
-	</div>
-
-</body>
-<script type="text/javascript">
-	function deleteInquireList ( askNum , pno ) {
-		let deleteYN = confirm ( "삭제할까요?" );
-
-		if ( deleteYN == true ) {
-			$.ajax (
-				{
-					url : '/inquire/inquireDelete' ,
-					type : 'POST' ,
-					data :
-						{
-							askNum : askNum
-						} ,
-					success : function ( data ) {
-						alert ( "삭제되었습니다" );
-						location.reload ( true );
-						/* 
-							reload의 기본값은 false 
-							false : 쿠키값에 기반하여 새로고침 (웹브라우저 내 데이터기반)
-							true : 서버에서부터 새로고침 (db기반)
-						 */
-					} ,
-					error : function ( error ) {
-						alert ( "알수없는 오류가 발생하였습니다.\n잠시 후에 다시 시도해주세요" );
-					}
-				} );
-		} else {
-			alert ( "삭제가 취소되었습니다." );
-
-		}
-	}
-	function deleteReviewList ( rvno , pno ) {
-		let deleteYN = confirm ( "삭제할까요?" );
-
-		if ( deleteYN == true ) {
-			$.ajax (
-				{
-					url : '/review/reviewDelete' ,
-					type : 'POST' ,
-					data :
-						{
-							rvno : rvno
-						} ,
-					success : function ( data ) {
-						alert ( '삭제되었습니다.' );
-						location.reload ( true );
-					} ,
-					error : function ( error ) {
-						alert ( '알 수 없는 오류 발생하였습니다.\n잠시 후에 다시 시도해주세요.' );
-					}
-
-				} );
-		} else {
-			alert ( "삭제가 취소되었습니다." );
-		}
-	}
+                <!--네비게이션토글-->
+                <div class="gnb-navmenu">
+                    <ul>
+                        <li class="dropdown">
+                            <a href="javascript:void(0)" class="dropbtn"><i class="bi bi-list"></i></a>                         
+                            <div class="dropdown-content">
+                           		<c:forEach var = "categoryList" items = "${categoryList}">
+                                <a href="#" id = "cateName">${categoryList.categoryName}</a>
+                                </c:forEach>
+                            </div>
+                            
+                        </li>
+                        <li><a href="pickup.html#pickup-01">현재 픽업 가능</a></li>
+                        <li><a href="pickup.html#pickup-02">1시간 내 픽업 가능</a></li>
+                        <li><a href="pickup.html#pickup-03">3시간 내 픽업 가능</a></li>
+                    </ul>
+                </div>
+            </header>
+        </div>
 
 
-	function goCartOn ( pno , userId ) {
+            <!--product 작업부분 시작-->
+            <div class="main">
+                <!--product 간략한 정보-->
+                <div class="contents_simple">
+                    <div class="location">
+                        <div class="location_label">
+                            <label><a href="/mainPage/mainPage">Shoppingmall</a></label> &nbsp;  &gt;
+                            <label><a href = "#">${productDTO.categoryName}</a></label>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product_lft">
+                            <div class="product_img">
+                                <img id="resultimg" src="${contextPath}/resources/product/images/product_sample1.png">
+                            </div>
+                            <div class="thumbnail">
+                                <button id="thumbnail_1" ><img src="${contextPath}/resources/product/images/product_sample1.png"></button>
+                                <button id="thumbnail_2" ><img src="${contextPath}/resources/product/images/product_sample2.png"></button>
+                                <button id="thumbnail_3" ><img src="${contextPath}/resources/product/images/product_sample3.png"></button>
+                                <button id="thumbnail_4" ><img src="${contextPath}/resources/product/images/product_sample4.png"></button>
+                            </div>
+                          </div>
+                       
+                        <div class="product_rgt">
+                        	<form id = "form-cart" action = "/cart/cartWrite" method = "post">
+                        		<!-- cart에 필요한 데이터 -->
+                        		<input type = "hidden" name = "userId" value = "${memberInfo.userId}"/>
+                            <div class="product_info">
+                                <div class="product_num">
+                                	<input type = "hidden" name = "pno" value = "${productDTO.pno}"/>
+                                	제품번호 : ${productDTO.pno}
+                                </div>
+                                <div class="product_name">${productDTO.productName}</div>
+                                <hr>
+                                <div class="product_price"><fmt:formatNumber value = "${productDTO.productPrice}" pattern="###,###,###"/>원</div>
+                                <hr>
+                                <div class="product_delivery">배송 정보 : 3일 내 도착예정 <br> 배송비 : 무료</div>
+                            </div>
+                            <div class="product_option">
+                                <div class="product_amount">
+                                        <span>구매수량</span>
+                                            <p class="amount_pm">
+                                               <button type="button" class="plus">+&nbsp;</button>
+													<input type="number" class="numbox" min= "1" max= "${productDTO.productStock}" value="1" name = "productCnt" readonly="readonly"/>&nbsp;
+												<button type="button" class="minus">-</button>
+                                            </p>
+                                </div>
+                                <div class="nextbtn">
+                                    <div class="cart"><a><button type = "submit" class = "cart">장바구니</button></a></div>
+                                    <div class="buy"><a href="/order/orderList">바로구매</a></div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-		let productCntVal = document.querySelector ( ".productCnt" ).value;
+                <!--product 상세한 정보-->
+                <div class="contents_detail">
+                    <nav id="scrolltab">
+                        <ul>
+                            <li><a href="#" onclick="$('#box1').animatescroll();">상품상세정보</a></li>
+                            <li><a href="#" onclick="$('#box2').animatescroll();">리뷰</a></li>
+                            <li><a href="#" onclick="$('#box3').animatescroll();">제품문의</a></li>
+                        </ul>
+                    </nav>
+                    <div class="contents_detail_wrap">
+                        <div id="box1">
+                            <div class="titlearea">상품상세정보</div>            
+                            	<div>${productDTO.productName}</div>
+                            	<div>${productDTO.productPrice}</div>
+                            	<div>${productDTO.productDescription}</div>
+                            	<fmt:formatDate value = "${productDTO.productRegDate}" pattern="yyyy-MM-dd"/>
+                        </div>
+                        <div id="box2">
+                            <div class="titlearea">리뷰</div>
+                            <table class="review" align="center">
+                               <c:forEach var = "reviewList" items = "${reviewList}">
+                                <tr>
+                                    <td class="review_content">
+                                        <p class="comment_title">제목 : ${reviewList.rvTitle}</p>         <!--리뷰제목-->
+                                        <p class="comment_product">상품명 : ${reviewList.productName}</p>       <!--제품이름-->
+                                        <p class="comment_summary">리뷰 내용: ${reviewList.rvContent}</p> <!--리뷰내용-->
+                                    </td>
+                                    <td class="review_info">
+                                        <p>작성자 : ${reviewList.rvWriter}</p>
+                                        <p>등록일 : <fmt:formatDate value = "${reviewList.rvRegDate}" pattern="yyyy-MM-dd"/></p>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+                            </table>
+                            <ul class="btn-group pagination">
+                                <li>
+                                    <a href="#"><span><i class="bi bi-arrow-left"></i></span></a>
+                                    <a href="#"><span>1</span></a>
+                                    <a href="#"><span>2</span></a>
+                                    <a href="#"><span>3</span></a>
+                                    <a href="#"><span>4</span></a>
+                                    <a href="#"><span>5</span></a>
+                                    <a href="#"><span><i class="bi bi-arrow-right"></i></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="box3">
+                            <div class="titlearea">제품문의</div>
+                            <table class="ask">
+                                <tr>
+                                    <th width="40px">번호</th>
+                                    <th width="80px">제품이름</th>
+                                    <th width="80px">답변상태</th>
+                                    <th width="240px">제목</th> 
+                                    <th width="80px">등록일</th>
+                               </tr>
+                            
+                              <c:forEach var = "inquireList" items = "${inquireList}">
+                              	
+                                <tr>
+                                    <td>${inquireList.askNum}</td>
+                                    <td>${inquireList.productName}</td>
+                                    <td>답변완료</td>
+                                    <td>${inquireList.askTitle}</td>
+                                    <td><fmt:formatDate value="${inquireList.askRegDate}" pattern="yyyy-MM-dd" /></td>
+                                </tr>
+                                
+                               </c:forEach>
+                            </table>
+                            <ul class="btn-group pagination">
+                                <li>
+                                    <a href="#"><span><i class="bi bi-arrow-left"></i></span></a>
+                                    <a href="#"><span>1</span></a>
+                                    <a href="#"><span>2</span></a>
+                                    <a href="#"><span>3</span></a>
+                                    <a href="#"><span>4</span></a>
+                                    <a href="#"><span>5</span></a>
+                                    <a href="#"><span><i class="bi bi-arrow-right"></i></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!--푸터 영역-->
+            <footer>
+                <div class="company">
+                    <div class="corporate">
+                        <span>고객센터</span>
+                        <i class="bi bi-headset"></i> <i>1234-5678</i>
+                    </div>
+                    <div class="corporate-txt">
+                        <p>대표자 : 이젠3조 | 서울특별시 종로구 | 사업자등록번호 : 000-00-00000</p>
+                        <br>
+                        <p><a href="mailto:3teamproject@example.com">3teamproject@example.com</a>&nbsp;&nbsp;| FAX : 02-0000-0000</p>
+                        <address>&copy;Copyright 2023. ezen3projectteam. All rights reserved.</address>
+                    </div>
+                </div>
+    
+            </footer>
+        </div>
+        <!--product 작업부분 끝-->
 
-		if ( productCntVal == 0 || productCntVal < 0 || productCntVal == "") {
-			alert ( "제품 수량은 반드시 한개 이상 입력해주세요." );
 
-			return false;
-		}
 
-		$.ajax (
-			{
-				url : '/cart/cartWrite' ,
-				type : 'POST' ,
-				data :
-					{
-						"pno" : pno ,
-						"userId" : userId ,
-						"productCnt" : productCntVal
-					} ,
-				dataType : 'json' ,
 
-				success : function ( data ) {
+        <script>
 
-					if ( data == false ) {
+            /*
+            div class="amount_pm">
+                  <button type="button" class="plus">+&nbsp;</button>
+								<input type="number" class="numbox" min="1" max="${productDTO.productStock}" value="1" readonly="readonly"/>&nbsp;
+					<button type="button" class="minus">-</button>
+                                            </div> */
+         $(".plus").click(function(){
+   			var num = $(".numBox").val();
+		  	var plusNum = Number(num) + 1;
+		   
+		   if(plusNum >= ${productDTO.productStock}) {
+		    $(".numBox").val(num);
+		   } else {
+		    $(".numBox").val(plusNum);          
+		   }
+		  });
+		  
+		  $(".minus").click(function(){
+		   var num = $(".numBox").val();
+		   var minusNum = Number(num) - 1;
+		   
+		   if(minusNum <= 0) {
+		    $(".numBox").val(num);
+		   } else {
+		    $(".numBox").val(minusNum);          
+		   }
+  });
 
-						alert ( "로그인해주세요" );
-						location.href = "/board/boardMain";
+            /*썸네일 변경*/
+            $(document).ready(function(){
+                $('#thumbnail_1').click(function(){
+                    $('#resultimg').attr('src', '${contextPath}/resources/product/images/product_sample1.png');
+                });
+                $('#thumbnail_2').click(function(){
+                    $('#resultimg').attr('src', '${contextPath}/resources/product/images/product_sample2.png');
+                });
+                $('#thumbnail_3').click(function(){
+                    $('#resultimg').attr('src', '${contextPath}/resources/product/images/product_sample3.png');
+                });
+                $('#thumbnail_4').click(function(){
+                    $('#resultimg').attr('src', '${contextPath}/resources/product/images/product_sample4.png');
+                });
+            });
+            </script>
 
-						return false;
+            <script>
+                /*scrolltab 상단에 고정하기*/
+                const nav = document.querySelector('#scrolltab');
+                const navTop = nav.offsetTop;
+                function fixNav(){
+                    if(window.scrollY >= navTop){
+                        document.body.classList.add('fixed-nav');
+                        document.body.style.paddingTop = nav.offsetHeight + 'px';
+                    } else{
+                        document.body.classList.remove('fixed-nav');
+                        document.body.style.paddingTop = 0;
+                    }
+                }
+                window.addEventListener('scroll', fixNav);
+            </script>
+            
+            <script>
+            </script>
+    </body>
 
-					} else {
-
-						alert ( "장바구니에 담겼습니다" );
-						return true;
-
-					}
-
-				} ,
-				error : function ( error ) {
-					alert ( '알 수 없는 오류 발생하였습니다.\n잠시 후에 다시 시도해주세요.' );
-					console.log ( error );
-				}
-
-			} );
-
-	}
-</script>
 </html>

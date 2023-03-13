@@ -57,10 +57,10 @@ public class ReviewDAOImpl implements ReviewDAO {
 	
 	//리뷰 목록
 	@Override
-	public List<ReviewBoardDTO> reviewList() throws Exception {
+	public List<ReviewBoardDTO> reviewList(int pno) throws Exception {
 		
 		logger.info("리뷰 목록 reviewList - DAO");
 		
-		return sqlSession.selectList(NAME_SPACE + ".reviewList");
+		return sqlSession.selectList(NAME_SPACE + ".reviewList", pno);
 	}
 }

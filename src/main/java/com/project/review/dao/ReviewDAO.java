@@ -19,6 +19,6 @@ public interface ReviewDAO {
 	public void reviewDelete(int rvno) throws Exception;
 	
 	//리뷰 목록
-	public List<ReviewBoardDTO> reviewList() throws Exception;
+	public List<ReviewBoardDTO> reviewList(int pno) throws Exception;
 	
 }

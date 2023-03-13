@@ -29,7 +29,7 @@ public class InquireController {
 		logger.info("제품 문의 페이지 inquirePage - Controller");
 		
 		model.addAttribute("productNumber", pno);
-
+		
 		return "/inquire/inquireWritePage";
 	}
 

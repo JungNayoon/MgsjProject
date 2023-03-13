@@ -11,7 +11,7 @@ function memberLogin() {
 		return false;
 	}
 	
-	if (userPwd.value == "" || userPwd.value.length < 6) {
+	if (userPwd.value == "" || userPwd.value.length < 4) {
 	
 		alert("비밀번호는 6자 이상으로 반드시 입력해주세요!");
 		userPwd.focus();

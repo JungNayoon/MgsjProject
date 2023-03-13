@@ -20,7 +20,7 @@ public class AdminVerifyInterceptor extends HandlerInterceptorAdapter{
 		
 		if (memberSession == null || memberSession.getUserVerify() != 128) {
 			
-			response.sendRedirect("/");
+			response.sendRedirect("/mainPage/mainPage");
 			
 			return false;
 			

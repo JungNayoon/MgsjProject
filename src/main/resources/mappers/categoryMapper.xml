@@ -28,7 +28,7 @@
 	<!-- 카테고리 목록 -->
 	<select id="categoryList" resultType="com.project.product.domain.CategoryDTO">
 		WITH recursive classifyCategory AS (
-		
+
 		SELECT categoryName, cno, categoryLevel, 1 AS level
 		FROM categorydto
 		WHERE categoryLevel IS null
@@ -37,9 +37,31 @@
 		FROM categorydto as ano
 		INNER JOIN classifyCategory
 		ON ano.categoryLevel = classifyCategory.cno
-		
+
 		)
-		SELECT categoryName, cno, categoryLevel, level FROM classifyCategory;
+		SELECT categoryName, cno, categoryLevel, level
+		FROM classifyCategory;
+
+	</select>
+
+	<!-- 카테고리 목록에 따른 세부 상품 목록 출력 -->
+	<select id="categoryDetailProduct" resultType="com.project.product.domain.CategoryDTO">
+		WITH recursive classifyCategory AS (
+
+		SELECT categoryName, cno, categoryLevel, 1 AS level
+		FROM categorydto
+		WHERE categoryLevel IS null
+		UNION all
+		SELECT ano.categoryName, ano.cno, ano.categoryLevel, 1 + LEVEL AS level
+		FROM categorydto as ano
+		INNER JOIN classifyCategory
+		ON ano.categoryLevel = classifyCategory.cno
+
+		)
+		SELECT categoryName, c.cno, categoryLevel, level, p.productName, p.productPrice, p.pno
+		FROM classifyCategory as c
+		INNER JOIN productdto as p
+		ON c.cno = p.cno
 	</select>
 
 </mapper>

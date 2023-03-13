@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.paymentMapper">
+
+<!-- 
+
+Table: paymentdto
+orderNum	int	NO	MUL
+paymentSet	varchar(20)	NO	
+paymentCard	varchar(20)	NO	
+paymentMoney	int	NO	
+paymentRegDate	datetime	NO	
+
+ -->
+
+<!--  결제 등록 -->
+
+<insert id = "paymentWrite" parameterType = "com.project.order.domain.PaymentDTO">
+
+INSERT INTO paymentdto(orderNum, paymentSet, paymentCard, paymentMoney, paymentRegDate)
+VALUES (#{orderNum}, #{paymentSet}, #{paymentCard}, #{paymentMoney}, NOW())
+
+</insert>
+
+
+<!--  결제 내역 목록 -->
+<select id = "paymentList" resultType = "com.project.order.domain.PaymentDTO" parameterType = "com.project.order.domain.PaymentDTO">
+
+SELECT p.orderNum, paymentSet, paymentCard, paymentMoney, paymentRegDate, o.userId
+FROM paymentdto as p
+INNER JOIN orderdto as o
+ON p.orderNum = o.orderNum
+WHERE o.userId = #{userId}
+ORDER BY p.orderNum;
+
+</select>
+
+</mapper>

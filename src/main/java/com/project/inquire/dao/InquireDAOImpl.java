@@ -65,10 +65,10 @@ public class InquireDAOImpl implements InquireDAO {
 
 	// 제품 문의 목록
 	@Override
-	public List<InquireDTO> inquireList() throws Exception {
-
+	public List<InquireDTO> inquireList(int pno) throws Exception {
+             
 		logger.info("제품 문의 목록 inquireList - DAO");
 
-		return sqlSession.selectList(NAME_SPACE + ".inquireList");
+		return sqlSession.selectList(NAME_SPACE + ".inquireList", pno);
 	}
 }
