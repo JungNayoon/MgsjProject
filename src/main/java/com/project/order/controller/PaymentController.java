@@ -29,7 +29,7 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 	
-	@Autowired
+	@Autowired(required = false)
 	private OrderService orderService;
 	
 	//결제 - 주문정보(주문품목테이블), 주문세부정보(주소)
@@ -47,10 +47,11 @@ public class PaymentController {
 		MemberDTO memberLoginSession = (MemberDTO) session.getAttribute("memberInfo");
 
 		paymentDTO.setUserId(memberLoginSession.getUserId());
+	
 		
 		paymentService.paymentWrite(userId, paymentDTO, orderDTO, orderDetailDTO);
 		
-		return "/order/orderList";
+		return "redirect:/order/orderList";
 	}
 	
 	

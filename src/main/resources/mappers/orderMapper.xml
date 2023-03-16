@@ -28,38 +28,42 @@ userId varchar(20)
 <insert id = "orderWrite" parameterType = "com.project.order.domain.OrderDTO">
 
 INSERT INTO orderdto (userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone)
-VALUES (#{userId}, NOW(), #{postAddress}, #{detailAddress}, #{detailAddress2}, #{recipient}, #{recipientPhone});
+VALUES (#{userId}, NOW(), #{postAddress}, #{detailAddress}, #{detailAddress2}, #{recipient}, #{recipientPhone})
 
 </insert>
 
 <insert id = "orderDetailWrite" parameterType = "com.project.order.domain.OrderDetailDTO">
 
-INSERT INTO paymentdto (orderNum, paymentKind, paymentCard, paymentMoney, paymentRegDate)
-SELECT o.orderNum, #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()
-FROM orderdto as o
-INNER JOIN memberdto as m
-ON m.userId = o.userId
-WHERE m.userid = #{userId};
-
-
+INSERT INTO orderdetaildto (orderNum, pno, productPrice, productCnt, userId)
+SELECT orderNum, #{pno}, #{productPrice}, #{productCnt}, #{userId}
+FROM orderdto
+WHERE userId = #{userId}
 
 </insert>
 
 <!-- 주문 상세 조회 -->
 <!-- orderdetailDTO -->
 <!-- 주문번호, 사용자이이디(세션용), 상품명, 주문일자, 상품가격, 카트의 상품주문량 -->
-<select id = "orderView" parameterType = "int" resultType = "com.project.order.domain.OrderDetailDTO">
+<select id = "orderView" parameterType = "HashMap" resultType = "com.project.order.domain.OrderDTO">
 
-SELECT o.orderNum, o.userId, o.orderDate, p.productName, p.productPrice, c.productCnt
-	FROM orderdetaildto as od
-	INNER JOIN orderdto as o
-	ON od.orderNum = o.orderNum
-	INNER JOIN cartdto as c
-	ON o.userId = c.userId
+SELECT p.productName, od.productPrice, 
+SUM(od.productCnt) as totalCnt, o.recipient, 
+o.recipientPhone, o.postAddress, o.detailAddress, o.detailAddress2,  od.orderNum,
+pay.paymentKind, pay.paymentCard, pay.paymentMoney, pay.paymentRegDate,
+m.userId
+	FROM orderdto as o
+	INNER JOIN orderdetaildto as od
+	ON o.orderNum = od.orderNum
 	JOIN productdto as p
-	ON c.pno = p.pno
-WHERE o.userId = #{o.userId};
-
+	ON od.pno = p.pno
+	JOIN paymentdto as pay
+	ON o.orderNum = pay.orderNum
+	JOIN memberdto as m
+	ON o.userId = m.userId
+	WHERE o.userId = od.userId
+	AND o.orderNum = #{orderNum}
+GROUP BY od.pno, o.orderNum
+LIMIT 0,1;
 
 </select>
 
@@ -72,17 +76,19 @@ WHERE orderNum = #{orderNum}
 </delete>
 
 <!-- 주문 목록 -->
-<select id = "orderList" parameterType = "com.project.order.domain.OrderDTO" resultType = "com.project.order.domain.OrderDTO">
+<select id = "orderList" parameterType = "HashMap" resultType = "com.project.order.domain.OrderDTO">
 
-SELECT orderNum, o.userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone, p.productName, p.productPrice, c.productCnt, p.pno 
-	FROM orderdto as o
-	INNER JOIN cartdto as c
-    ON o.userId = c.userId
+SELECT o.orderNum, o.orderDate, od.pno, od.productPrice, od.userId, p.productName, SUM(od.productCnt) as totalCnt
+	FROM orderdto as o 
+    INNER JOIN orderdetaildto as od
+	ON o.orderNum = od.orderNum
     JOIN productdto as p
-    ON c.pno = p.pno
-    WHERE o.userId = #{userId}
-    ORDER BY orderNum
-
+	ON od.pno = p.pno
+	WHERE od.userId = #{userId}
+    AND o.orderNum = od.orderNum
+	GROUP BY pno, orderNum
+	ORDER BY orderNum DESC;
+	
 </select>
 
 <!-- 회원 주소 조회 -->

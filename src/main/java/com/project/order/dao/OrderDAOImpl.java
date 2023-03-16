@@ -1,6 +1,8 @@
 package com.project.order.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -32,12 +34,16 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	// 주문 조회
 	@Override
-	public OrderDetailDTO orderView(String userId) throws Exception {
+	public OrderDTO orderView(int orderNum, String userId) throws Exception {
 		
 		logger.info("주문 조회 orderView - DAO");
 		
+		 Map<String, Object> paramMap = new HashMap<>();
+		    paramMap.put("orderNum", orderNum);
+		    paramMap.put("userId", userId);
 		
-	return sqlSession.selectOne(NAME_SPACE + ".orderView", userId);
+		
+	return sqlSession.selectOne(NAME_SPACE + ".orderView", paramMap);
 	}
 	// 주문 수정
 	@Override
@@ -60,6 +66,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderDTO> orderList(OrderDTO orderDTO) throws Exception {
 		
 		logger.info("주문 목록 orderList - DAO");
+
 		
 		return sqlSession.selectList(NAME_SPACE + ".orderList", orderDTO);
 	}
@@ -77,6 +84,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public MemberAddressDTO memAddress(String userId) throws Exception {
 				
+		
 		logger.info("회원 주소 조회 memAddress - DAO");
 		
 		

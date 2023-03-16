@@ -51,11 +51,11 @@ public class CartDAOImpl implements CartDAO {
 	
 	//장바구니 삭제
 	@Override
-	public void cartDelete(int pno) throws Exception {
+	public void cartDelete(CartDTO cartDTO) throws Exception {
 
 		logger.info("장바구니 삭제 cartDelete - DAO");
 		
-		sqlSession.delete(NAME_SPACE + ".cartDelete", pno);
+		sqlSession.delete(NAME_SPACE + ".cartDelete", cartDTO);
 	}
 	
 	//장바구니 목록

@@ -12,7 +12,7 @@ public interface OrderService {
 	public void orderWrite(OrderDTO orderDTO) throws Exception;
 	
 	// 주문 조회
-	public OrderDetailDTO orderView(String userId) throws Exception;
+	public OrderDTO orderView(int orderNum, String userId) throws Exception;
 	
 	// 주문 수정
 	public void orderUpdate(OrderDTO orderDTO) throws Exception;

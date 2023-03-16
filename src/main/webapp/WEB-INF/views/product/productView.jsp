@@ -16,7 +16,6 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="${contextPath}/resources/product/js/animatescroll.js"></script>
-<!--  <script src="js/animatescroll.js?v=1.0.5"></script> -->
 <link rel="stylesheet" href="${contextPath}/resources/product/product.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>

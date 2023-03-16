@@ -17,7 +17,7 @@ public interface CartService {
 	public void cartUpdate(CartDTO cartDTO) throws Exception;
 	
 	//장바구니 삭제
-	public void cartDelete(int pno) throws Exception;
+	public void cartDelete(CartDTO cartDTO) throws Exception;
 	
 	//장바구니 목록
 	public List<CartDTO> cartList(CartDTO cartDTO) throws Exception;

@@ -3,10 +3,11 @@ package com.project.order.domain;
 public class OrderDetailDTO {
 	
 	private int orderDetailNum; // [2] 여기로 들어온 키가
+	private int orderNum;
 	private int pno;  // [3] 다시 여기로 역전됨
 	private int productTotalPrice;
-	private int productTotalCnt;
-	private int orderNum;
+	private int productCnt;
+	
 	
 	// 이너 조인 값
 	private String userId;
@@ -20,6 +21,12 @@ public class OrderDetailDTO {
 	public void setOrderDetailNum(int orderDetailNum) {
 		this.orderDetailNum = orderDetailNum;
 	}
+	public int getOrderNum() {
+		return orderNum;
+	}
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
+	}
 	public int getPno() {
 		return pno;
 	}
@@ -32,11 +39,11 @@ public class OrderDetailDTO {
 	public void setProductTotalPrice(int productTotalPrice) {
 		this.productTotalPrice = productTotalPrice;
 	}
-	public int getProductTotalCnt() {
-		return productTotalCnt;
+	public int getProductCnt() {
+		return productCnt;
 	}
-	public void setProductTotalCnt(int productTotalCnt) {
-		this.productTotalCnt = productTotalCnt;
+	public void setProductCnt(int productCnt) {
+		this.productCnt = productCnt;
 	}
 	public String getUserId() {
 		return userId;
@@ -50,12 +57,7 @@ public class OrderDetailDTO {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public int getOrderNum() {
-		return orderNum;
-	}
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
-	}
+
 	public int getProductPrice() {
 		return productPrice;
 	}
@@ -66,7 +68,7 @@ public class OrderDetailDTO {
 	@Override
 	public String toString() {
 		return "OrderDetailDTO [orderDetailNum=" + orderDetailNum + ", pno=" + pno + ", productTotalPrice="
-				+ productTotalPrice + ", productTotalCnt=" + productTotalCnt + ", orderNum=" + orderNum + ", userId="
+				+ productTotalPrice + ", productCnt=" + productCnt + ", orderNum=" + orderNum + ", userId="
 				+ userId + ", productName=" + productName + ", productPrice=" + productPrice + "]";
 	}
 	

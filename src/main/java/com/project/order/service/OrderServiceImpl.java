@@ -32,11 +32,11 @@ public class OrderServiceImpl implements OrderService {
 	
 	// 주문 조회
 	@Override
-	public OrderDetailDTO orderView(String userId) throws Exception {
+	public OrderDTO orderView(int orderNum, String userId) throws Exception {
 	
 		logger.info("주문 조회 orderView - Service");
 		
-		return orderDAO.orderView(userId);
+		return orderDAO.orderView(orderNum, userId);
 	}
 	
 	// 주문 수정

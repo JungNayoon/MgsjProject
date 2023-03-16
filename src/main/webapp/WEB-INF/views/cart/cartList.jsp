@@ -130,123 +130,125 @@ request.setCharacterEncoding("UTF-8");
 		<div class="titlearea">
 			<p>장바구니</p>
 		</div>
-			<div class="cartarea">
-				<div class="cart_lft">
-					<div class="itemcheck">
-						<ul class="checkbtn1">
-							<li>
-								<span class="checkall">
-									<input type="checkbox" id="allchk" />
-									<label>전체선택</label>
-								</span>
-							</li>
-						</ul>
-						<ul class="checkbtn2">
-							<li>
-								<button type="button" class="chkdlt">
-									<span>선택삭제</span>
-								</button>
-							</li>
-						</ul>
-					</div>
-
-					<div class="itemview">
-						<table>
-							<colgroup>
-
-								<col style="width: 70px">
-								<col style="width: 140px">
-								<col style="width: 210px">
-								<col style="width: 140px">
-								<col style="width: 140px">
-							</colgroup>
-							<tbody>
-
-								<c:set var="total" value="0" />
-								<c:forEach var="cartList" items="${cartList}">
-									<tr>
-										<td class="itemview_chk"><input type="checkbox" id="chkbox" class="test" data-pno="${cartList.pno}"></td>
-										<td class="itemview_thum"><a href="/product.html">
-												<img src="/resources/product/images/product_sample.png">
-											</a></td>
-										<td class="itemview_info">
-
-											<div>
-												<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
-												<span class="product_name">
-													<a href="${contextPath}/product/productView?pno=${cartList.pno}">${cartList.productName}</a>
-												</span>
-											</div>
-
-										</td>
-										<td class="itemview_price">
-
-											<div>
-												<span>${cartList.productPrice}</span>
-												<span>원</span>
-											</div>
-
-											<div class="product_amount">
-												<div class="amount_pm">
-
-													<%--    <button onclick="decrease()">-</button>
-                                                          <div class = "input-group">
-                                                <input type = "number" name = "productCnt" value = "${cartList.productCnt}">
-                                             </div>     
-                                          <button onclick="increase()">+</button> --%>
-
-													<div class="input-group">
-														<button class="btn-decrease">-</button>
-														<input type="number" class="input-number" min="1" value="${cartList.totalCnt}" onkeydown="javascript: return event.keyCode == 69 ? false : true">
-														<button class="btn-increase">+</button>
-													</div>
-
-
-												</div>
-											</div>
-
-										</td>
-										<!--  <td class="itemview_pay">
-                                        <button class="btn_paynow">
-                                            <span>바로 구매</span>
-                                        </button>
-                                    </td> -->
-									</tr>
-									<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
+		<div class="cartarea">
+			<div class="cart_lft">
+				<div class="itemcheck">
+					<ul class="checkbtn1">
+						<li>
+							<span class="checkall">
+								<input type="checkbox" id="allchk" />
+								<label>전체선택</label>
+							</span>
+						</li>
+					</ul>
+					<ul class="checkbtn2">
+						<li>
+							<button type="button" class="delete-btn">
+								<span>선택삭제</span>
+							</button>
+						</li>
+					</ul>
 				</div>
 
+				<div class="itemview">
+					<table>
+						<colgroup>
+							<col style="width: 70px">
+							<col style="width: 140px">
+							<col style="width: 210px">
+							<col style="width: 140px">
+							<col style="width: 140px">
+						</colgroup>
+						<tbody id="cart-info-all">
+							<c:set var="total" value="0" />
+							<c:forEach var="cartList" items="${cartList}">
+								<tr class="cart-info">
+									<td class="itemview_chk">
+										<input type="checkbox" id="chkbox" class="pnoCheckBox" value="${cartList.pno}">
+									</td>
 
-				<div class="cart_rgt">
-					<div class="cart_price">
-						<div class="cart_itemprice">
-							<span>주문금액</span>
-							<span>
-								<c:out value="${total}" />
-								원
-							</span>
-						</div>
-						<div class="cart_deliveryprice">
-							<span>배송비</span>
-							<span>3,000원</span>
-						</div>
-					</div>
-					<hr>
-					<div class="cart_sum">
-						<span>결제예정금액</span>
-						<span><input type = "text" name = "productTotalPrice" value = "${total + 3000}"/>원</span>
-					</div>
+									<td class="itemview_thum">
+										<a href="/product.html">
+											<img src="/resources/product/images/product_sample.png">
+										</a>
+									</td>
 
-					<a href="/order/orderPage">
-						<button type="button" class="btn_pay">
-							<span>주문하기</span>
-						</button>
-					</a>
+									<td class="itemview_info">
+
+										<div>
+											<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
+											<span class="product_name">
+												<a href="${contextPath}/product/productView?pno=${cartList.pno}">${cartList.productName}</a>
+											</span>
+										</div>
+
+									</td>
+
+									<td class="itemview_price">
+
+										<div>
+											<span>${cartList.productPrice}</span>
+											<span>원</span>
+										</div>
+
+										<div class="product_amount">
+											<div class="amount_pm">
+
+												<div class="input-group">
+													<button class="btn-decrease">-</button>
+													<input type="number" class="input-number" min="1" value="${cartList.totalCnt}" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+													<button class="btn-increase">+</button>
+												</div>
+
+											</div>
+										</div>
+									</td>
+
+									<td>
+										<div class="del-product">
+											<a href="javascript:deleteCartProduct()">상품삭제</a>
+										</div>
+									</td>
+
+								</tr>
+								<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
+
+
+			<div class="cart_rgt">
+				<div class="cart_price">
+					<div class="cart_itemprice">
+						<span>주문금액</span>
+						<span>
+							<c:out value="${total}" />
+							원
+						</span>
+					</div>
+					<div class="cart_deliveryprice">
+						<span>배송비</span>
+						<span>3,000원</span>
+					</div>
+				</div>
+				<hr>
+				<div class="cart_sum">
+					<span>결제예정금액</span>
+					<span>
+						<input type="text" name="productTotalPrice" value="${total + 3000}" />
+						원
+					</span>
+				</div>
+
+				<a href="/order/orderPage">
+					<button type="button" class="btn_pay">
+						<span>주문하기</span>
+					</button>
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
 <!--cart 작업부분 끝-->
@@ -273,47 +275,81 @@ request.setCharacterEncoding("UTF-8");
 </footer>
 
 <script>
-       $("#allchk").click(function(){
-         var chk = $("#allchk").prop("checked");
-      
-         if(chk) {
-            $(".test").prop("checked", true);
-         } else {
-            $(".test").prop("checked", false);
-         }
-      
-      }); 
-    
-   /*    $(document).on('click', "#allchk", function() {
-         var chk = $("#allchk").prop("checked");
-         
-         if(chk) {
-            $(".test").prop("checked", true);
-         } else {
-            $(".test").prop("checked", false);
-         }
-      
-      }); */
-    
-        /*수량 증가, 감소*/
-      /*   function count(type){
-            
-         const resultElement = document.getElementById('result');
+		// 상품 전체선택
+		const allchk = document.querySelector("#allchk");
+		
+		allchk.addEventListener("click", function() {
+		  const chk = allchk.checked;
+		
+		  const pnoCheckBoxes = document.querySelectorAll(".pnoCheckBox");
+		  pnoCheckBoxes.forEach(function(pnoCheckBoxes) {
+			pnoCheckBoxes.checked = chk;
+		  });
+		});
+		
+		// 선택된 상품 삭제 - ajax로 db까지 연동
+		const productDeleteButton = document.querySelector(".delete-btn");
+		
+		// 선택 삭제 버튼을 눌렀을 때
+		productDeleteButton.addEventListener("click", function() {
+			
+		  const mainProductCheckBoxes = document.querySelectorAll(".pnoCheckBox:checked");
+		  
+		  const productNum = document.getElementById("chkbox").value;
+			  
+			  let deleteCartProduct = confirm("선택하신 상품을 삭제하시겠습니까?");
+			  
+			  if(deleteCartProduct == true){
+				  
+				  const checkProductArr = new Array();
+				  const checkboxes = document.querySelectorAll('input[class="pnoCheckBox"]:checked');
+				  
+				  checkboxes.forEach(function(checkbox) {
+					  checkProductArr.push(checkbox.getAttribute("value"));
+				  });
+				  
+				  $.ajax({
+					  url : "/cart/cartDelete",
+					  type : "post",
+					  data : {
+						  cartProductNum : checkProductArr
+					  },
+					  
+					  success : function (deleteResult) {
+						  
+						  if(deleteResult == 1){
+							  
+						  	mainProductCheckBoxes.forEach(function(eachProductCheckBox) {
+								// 체크박스된 태그의 부모노드 (td태그) 선택
+							  	const parentTag = eachProductCheckBox.parentNode;
+							  	// 그 input태그의 부모노드 (tr태그 전체) 선택
+							  	const overParentTag = parentTag.parentNode;
+							  	// tr태그 delete
+							  	overParentTag.parentNode.removeChild(overParentTag);
+							  });
+							  
+							  alert("장바구니 목록 삭제가 완료되었습니다.");
+							  
+							  location.reload(true);
+							  
+						  } else {
+							  
+							  alert("장바구니 목록 삭제에 실패하였습니다. 로그인 해주십시오.");
+						  }
+						  
+					},
+					error : function (error) {
+						alert("오류가 발생하였습니다.");
+						console.log(error);
+					}
+					  
+				  })
+			  } else {
+				  alert("장바구니 목록 삭제를 취소하셨습니다.");
+			  }
+			  
+		});
 
-            let number = resultElement;
-
-            if(type == 'plus'){
-                number = parseInt(number) + 1;
-            }else if(type == 'minus'){
-                number = parseInt(number) - 1;
-            }
-            if(number < 1){
-                number = 1;
-            }
-            resultElement.innerText = number;   
-        } */
-        
-      
         const groups = document.querySelectorAll('.input-group');
 
         groups.forEach(group => {
@@ -331,7 +367,7 @@ request.setCharacterEncoding("UTF-8");
         });
         
         
-        </script>
+</script>
 
 </body>
 </html>

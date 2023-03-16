@@ -1,7 +1,8 @@
 package com.project.product.domain;
 
 public class CartDTO {
-
+	
+	private int cartNum;
 	private int pno;
 	private String userId;
 	private int productCnt;
@@ -9,6 +10,14 @@ public class CartDTO {
 	private int totalCnt;
 	private String productName;
 	private int productPrice;
+	
+	public int getCartNum() {
+		return cartNum;
+	}
+
+	public void setCartNum(int cartNum) {
+		this.cartNum = cartNum;
+	}
 
 	public int getPno() {
 		return pno;
@@ -60,8 +69,7 @@ public class CartDTO {
 
 	@Override
 	public String toString() {
-		return "CartDTO [pno=" + pno + ", totalCnt=" + totalCnt + ", userId=" + userId + ", productCnt=" + productCnt + ", productName=" + productName
-				+ ", productPrice=" + productPrice + "]";
+		return "CartDTO [cartNum=" + cartNum + ", pno=" + pno + ", userId=" + userId + ", productCnt=" + productCnt + ", totalCnt=" + totalCnt
+				+ ", productName=" + productName + ", productPrice=" + productPrice + "]";
 	}
-
 }

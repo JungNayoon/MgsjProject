@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
@@ -47,25 +46,28 @@ public class OrderController {
 
 		MemberDTO memberLoginSession = (MemberDTO) session.getAttribute("memberInfo");
 
-		cartDTO.setUserId(memberLoginSession.getUserId());
+		if(memberLoginSession == null) {
+			
+			return "/member/memberLoginPage";
+			
+		} else {
+			
+			MemberAddressDTO memadd = orderService.memAddress(memberLoginSession.getUserId());
+			
+			List<CartDTO> cartList = cartService.cartList(cartDTO);
+			
+			model.addAttribute("cartList", cartList);
+			
+			model.addAttribute("memberAddress", memadd);
+			
+			return "/order/orderPage";
+		}
 
-		MemberAddressDTO memadd = orderService.memAddress(userId);
-
-		List<CartDTO> cartList = cartService.cartList(cartDTO);
-
-		model.addAttribute("cartList", cartList);
-
-		model.addAttribute("memberAddress", memadd);
-
-		return "/order/orderPage";
 	}
-	
-
-	
 
 	// 주문 내역 상세 조회
 	@RequestMapping(value = "/order/orderView", method = RequestMethod.GET)
-	public void orderView(HttpServletRequest req, Model model, OrderDetailDTO orderdetailDTO, String userId) throws Exception {
+	public String orderView(@RequestParam("orderNum") int orderNum, HttpServletRequest req, Model model, OrderDTO orderDTO, String userId) throws Exception {
 
 		logger.info("주문 조회 orderView - Controller");
 
@@ -73,15 +75,18 @@ public class OrderController {
 
 		MemberDTO memberLoginSession = (MemberDTO) session.getAttribute("memberInfo");
 
-		orderdetailDTO.setUserId(memberLoginSession.getUserId());
-
-		OrderDetailDTO orderdetail = orderService.orderView(userId);
-
+		orderDTO.setUserId(memberLoginSession.getUserId());
+		
+		OrderDTO orderdetail = orderService.orderView(orderNum, userId);
+		
 		model.addAttribute("orderDetailDTO", orderdetail);
+		
+		return "/order/orderFinish";
 	}
 	
 
 	// 주문 목록(orderdetailDTO(주문내역), orderDTO(주문주소내역))
+	// 결제 완료후 주문 내역창에서 나오는 리스트
 	@RequestMapping(value = "/order/orderList", method = RequestMethod.GET)
 	public void orderList(HttpServletRequest req, OrderDTO orderDTO, Model model) throws Exception {
 
@@ -98,5 +103,6 @@ public class OrderController {
 		model.addAttribute("orderList", orderList);
 
 	}
+	
 
 }

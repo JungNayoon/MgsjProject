@@ -32,47 +32,7 @@ public class CartController {
 
 	@Autowired
 	private ProductService productService;
-/*
-	// 장바구니 등록하기 페이지
-	@RequestMapping(value = "/cart/cartWritePage", method = RequestMethod.GET)
-	public String cartWritePage(@RequestParam("pno") int pno, Model model) throws Exception {
 
-		logger.info("장바구니 등록하기 cartWritePage - Controller");
-
-		// 제품 번호를 가져와서 입력시켜줘야한다...
-		ProductDTO productView = productService.productView(pno);
-
-		model.addAttribute("product", productView);
-
-		return "/cart/cartWritePage";
-	}
-
-	@RequestMapping(value = "/cart/cartWritePage", method = RequestMethod.POST)
-	@ResponseBody
-	public boolean cartWritePage(
-			@RequestParam("pno") int pno,
-			@RequestParam ("userId") String userId,
-			Model model,
-			HttpServletRequest req
-			) throws Exception {
-		
-		logger.info("장바구니 등록하기 cartWritePage - Controller");
-		
-		HttpSession session = req.getSession();
-		
-		MemberDTO memberLoginSession = (MemberDTO)session.getAttribute("memberInfo");
-		
-		if (memberLoginSession == null || memberLoginSession.getUserId() != userId) {
-			
-			return false;
-			
-		} else {
-			
-			return true;
-		
-		}
-	}
-*/
 	// 장바구니 등록
 	@ResponseBody
 	@RequestMapping(value = "/cart/cartWrite", method = RequestMethod.POST)
@@ -142,14 +102,33 @@ public class CartController {
 
 	// 장바구니 삭제
 	// 장바구니 안의 항목 삭제
+	@ResponseBody
 	@RequestMapping(value = "/cart/cartDelete", method = RequestMethod.POST)
-	public String cartDelete(@RequestParam("pno") int pno) throws Exception {
+	public int cartDelete(@RequestParam(value="cartProductNum[]") List<String> cartProductNum, CartDTO cartDTO, HttpSession session) throws Exception {
 
 		logger.info("장바구니 삭제 cartDelete - Controller");
 
-		cartService.cartDelete(pno);
+		MemberDTO cartSession = (MemberDTO)session.getAttribute("memberInfo");
+		String cartUserId = cartSession.getUserId();
+		
+		int result = 0;
+		int cartProductNumber = 0;
+		
+		if (cartSession != null) {
+			cartDTO.setUserId(cartUserId);
+			
+			for (String i : cartProductNum) {
+				
+				cartProductNumber = Integer.parseInt(i);
+				cartDTO.setPno(cartProductNumber);
+				cartService.cartDelete(cartDTO);
+			}
+			
+			result = 1;
+		}
+		
+		return result;
 
-		return "redirect:/cart/cartList";
 	}
 
 	// 장바구니 목록

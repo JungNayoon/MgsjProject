@@ -83,23 +83,27 @@ request.setCharacterEncoding("UTF-8");
         </colgroup>
         <thead>
           <tr>
-            <th class="first">주문일자</th>
+            <th class="first">주문번호</th>
+            <th scope="col">주문일자</th>
             <th scope="col">주문 상품 정보</th>
             <th scope="col">상품금액(수량)</th>
-            <th scope="col">배송</th>
-            <th scope="col">주문상태</th>
-            <th scope="col">확정/취소/리뷰</th>
+            <th scope="col">배송상태</th>
+            <th colspan = "">결제 상세 내역</th>
           </tr>
         </thead>
         <!-- 주문목록틀 -->
         
-        <!-- 주문목록 데이터 -->
+        <!-- 주문목록 데이터 -->       
         <tbody>
         <c:forEach var = "orderList" items = "${orderList}">
           <tr>
+          	<!-- 주문 번호 -->
+           <td class="first" rowspan="1">
+          		 <a>${orderList.orderNum}</a>
+            </td>
             <!-- 주문일자 -->
             <td class="first" rowspan="1">
-              
+            
               <fmt:formatDate value = "${orderList.orderDate}" pattern = "yyyy-MM-dd"/>  <!-- 실전에선 주문일자 값을 받아와야됨 -->
              
             </td>
@@ -107,12 +111,7 @@ request.setCharacterEncoding("UTF-8");
             <td>
               <div class="cont">
                 <p>
-                  <span class="ic-lowprice">
-                    <em>최저가</em>
-                  </span>
-                </p>
-                <p>
-                  <a>${orderList.productName}</a> <!-- 상품 타이틀 이름 마찬가지로 상품 값을 받아와야함 htef=로 상품 클릭시 해당 url로 가게 -->
+                  <a href = "/product/productView?pno=${orderList.pno}">${orderList.productName}</a> <!-- 상품 타이틀 이름 마찬가지로 상품 값을 받아와야함 htef=로 상품 클릭시 해당 url로 가게 -->
                 </p>
                 <!-- 상품 주문 옵션 -->
               </div>
@@ -120,13 +119,8 @@ request.setCharacterEncoding("UTF-8");
             <!-- 주문금액 -->
             <td>
               <p class="fnt-1">
-                <strong>${orderList.productPrice}</strong><span> (${orderList.productCnt}개)</span>
+                <strong>${orderList.productPrice * orderList.totalCnt}</strong><span> (${orderList.totalCnt}개)</span>
               </p>
-            </td>
-            
-            <!-- 배송비 -->
-            <td rowspan="1">
-              <p class="fnt-2">무료(Ezen통운)</p>
             </td>
             <!-- 배송 -->
             <td class="td-center">
@@ -139,20 +133,18 @@ request.setCharacterEncoding("UTF-8");
                     <button class="close" type="submit">Close</button>
                   </div>
                 </div>
-                
                 <script src="${contextPath}/resources/order/modal.js"></script>
               </span>
             </td>
             <!-- 주문상태 -->
             <td>
               <div class="ord-con">
-                <button type ="button" class = "btn btn-warning" onclick ="deleteOrder('${orderList.orderNum}')">취소</button><br>
-                <a href="/member/memberModifyPage">내정보</a><br>
-                <a href="/product/productView?pno=${orderList.pno}"><button>리뷰</button></a>
-              </div>
+                <%-- <button type ="button" class = "btn btn-warning" onclick ="deleteOrder('${orderList.orderNum}')">취소</button><br> --%>
+                <a href="/order/orderView?orderNum=${orderList.orderNum}"><button>결제 내역</button></a>
+              </div>	
             </td>
           </tr>
-          </c:forEach>
+            </c:forEach>
         </tbody>
         <!-- 주문목록 데이터 -->
       </table>
