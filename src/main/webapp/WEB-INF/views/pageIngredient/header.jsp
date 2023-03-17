@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.project.member.domain.MemberDTO"%>
+<c:set var = "contextPath" value = "${pageContext.request.contextPath}"/>
 <%
 String cp = request.getContextPath();
 request.setCharacterEncoding("UTF-8");
@@ -16,8 +17,8 @@ Cookie[] ck = request.getCookies();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/pageIngredient/header/logout.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="/resources/pageIngredient/header/header.css">
-<link rel="stylesheet" href="/resources/pageIngredient/header/hambuger.css">
+<link rel="stylesheet" href="${contextPath}/resources/pageIngredient/header/header.css">
+<link rel="stylesheet" href="${contextPath}/resources/pageIngredient/header/hambuger.css">
 </head>
 <body>
 	<div class="header">
@@ -25,7 +26,7 @@ Cookie[] ck = request.getCookies();
 			<div class="navbar">
 				<div class="logo">
 					<a href="/mainPage/mainPage">
-						<img src="/resources/pageIngredient/header/header-img/logo2.png" width="125px">
+						<img src="${contextPath}/resources/pageIngredient/header/header-img/logo2.png" width="125px">
 					</a>
 				</div>
 
