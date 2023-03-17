@@ -18,6 +18,11 @@ public class OrderDTO {
 	private int productPrice;
 	private int productCnt;
 	private int pno;
+	private int totalCnt;
+	private int paymentMoney;
+	private String paymentCard;
+	private String paymentKind;
+	private Date paymentRegDate;
 
 	public int getOrderNum() {
 		return orderNum;
@@ -114,13 +119,59 @@ public class OrderDTO {
 	public void setPno(int pno) {
 		this.pno = pno;
 	}
+	
+	public int getTotalCnt() {
+		return totalCnt;
+	}
+
+	public void setTotalCnt(int totalCnt) {
+		this.totalCnt = totalCnt;
+	}
+
+	public int getPaymentMoney() {
+		return paymentMoney;
+	}
+
+	public void setPaymentMoney(int paymentMoney) {
+		this.paymentMoney = paymentMoney;
+	}
+
+	public String getPaymentCard() {
+		return paymentCard;
+	}
+
+	public void setPaymentCard(String paymentCard) {
+		this.paymentCard = paymentCard;
+	}
+
+	public String getPaymentKind() {
+		return paymentKind;
+	}
+
+	public void setPaymentKind(String paymentKind) {
+		this.paymentKind = paymentKind;
+	}
+
+	public Date getPaymentRegDate() {
+		return paymentRegDate;
+	}
+
+	public void setPaymentRegDate(Date paymentRegDate) {
+		this.paymentRegDate = paymentRegDate;
+	}
 
 	@Override
 	public String toString() {
-		return "OrderDTO [orderNum=" + orderNum + ", userId=" + userId + ", orderDate=" + orderDate + ", postAddress=" + postAddress
-				+ ", detailAddress=" + detailAddress + ", detailAddress2=" + detailAddress2 + ", recipient=" + recipient + ", recipientPhone="
-				+ recipientPhone + ", productName=" + productName + ", productPrice=" + productPrice + ", productCnt=" + productCnt + ", pno=" + pno
-				+ "]";
+		return "OrderDTO [orderNum=" + orderNum + ", userId=" + userId + ", orderDate=" + orderDate + ", postAddress="
+				+ postAddress + ", detailAddress=" + detailAddress + ", detailAddress2=" + detailAddress2
+				+ ", recipient=" + recipient + ", recipientPhone=" + recipientPhone + ", productName=" + productName
+				+ ", productPrice=" + productPrice + ", productCnt=" + productCnt + ", pno=" + pno + ", totalCnt="
+				+ totalCnt + ", paymentMoney=" + paymentMoney + ", paymentCard=" + paymentCard + ", paymentKind="
+				+ paymentKind + ", paymentRegDate=" + paymentRegDate + "]";
 	}
+
+	
+	
+
 
 }

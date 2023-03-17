@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%-- 액션(코어)태그 --%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -123,24 +125,24 @@ request.setCharacterEncoding("UTF-8");
 			</header>
 		</div>
 
-
-		<div class="container" align="center">
-			<div class="main">
-				<div class="titlearea">
-					<p>주문하기</p>
-				</div>
-				<div class="orderarea">
-					<div class="order_lft">
-						<div class="itemcheck">
-							<ul class="checkbtn1">
-								<li>
-									<span class="checkall">
-                                    	<input type="checkbox" id="allchk" name="allchk"/>                                    
-                                	<label>전체선택</label>
-                                </span>
-								</li>
-							</ul>
-							<!-- <ul class="checkbtn2">
+		<form action="/payment/paymentWrite" method="post">
+			<div class="container" align="center">
+				<div class="main">
+					<div class="titlearea">
+						<p>주문하기</p>
+					</div>
+					<div class="orderarea">
+						<div class="order_lft">
+							<div class="itemcheck">
+								<ul class="checkbtn1">
+									<li>
+										<span class="checkall">
+											<input type="checkbox" id="allchk" name="allchk" />
+											<label>전체선택</label>
+										</span>
+									</li>
+								</ul>
+								<!-- <ul class="checkbtn2">
                             <li>
                                 <button type="button" id="chkdlt"><span>선택삭제</span></button>
                             </li>
@@ -148,163 +150,240 @@ request.setCharacterEncoding("UTF-8");
                                 <button type="button" id="alldlt"><span>전체삭제</span></button>
                             </li>
                         </ul> -->
-						</div>
-						<div class="itemview">
-							<table>
-								<colgroup>
-									<col style="width: 70px">
-									<col style="width: 140px">
-									<col style="width: 210px">
-									<col style="width: 140px">
-									<col style="width: 140px">
-								</colgroup>
-								<tbody>
-									<c:set var="total" value="0" />
+							</div>
+
+							<div class="itemview">
+								<table>
+									<colgroup>
+										<col style="width: 70px">
+										<col style="width: 140px">
+										<col style="width: 210px">
+										<col style="width: 140px">
+										<col style="width: 140px">
+									</colgroup>
+
+									<!-- 
+					
+									
+									orderdto
+									private String userId;
+									private String postAddress;
+									private String detailAddress;
+									private String detailAddress2; -- if null
+									private String recipient;
+									private String recipientPhone;
+									
+									payment
+									private int orderNum;
+									private String paymentKind;
+									private String paymentCard;
+									private int paymentMoney;
+									
+									orderdetail
+									private int pno;
+									private int productTotalPrice;
+									private int productTotalCnt;
+									private int orderNum;
+								 -->
+									<tbody>
+										<c:set var="total" value="0" />
 										<c:forEach var="cartList" items="${cartList}">
-											<tr>	
-	                                    <td class="itemview_chk">
-	                                        <input type="checkbox" id = "chkbox" name = "chkbox" class = "test" data-pno = "${cartList.pno}">
-	                                    </td>
-	                                    <td class="itemview_thum">
-	                                        <a href="/product.html"><img src="/resources/product/images/product_sample.png"></a>
-	                                    </td>
-	                                    <td class="itemview_info">
+											<tr>
+												<td class="itemview_chk"><input type="checkbox" id="chkbox" name="chkbox" class="test" data-pno="${cartList.pno}"></td>
+												<td class="itemview_thum"><a href="/product.html">
+														<img src="/resources/product/images/product_sample.png">
+													</a></td>
+												<td class="itemview_info">
 
-												<div>
-													<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
-													<span class="product_name">
-														<a href="${contextPath}/product/productView?pno=${cartList.pno}">${cartList.productName}</a>
-													</span>
-												</div>
+													<div>
+														<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
+														<span class="product_name">
+															<input type = "hidden" name = "pno" value = "${cartList.pno}">
+															<a href="${contextPath}/product/productView?pno=${orderDetailList.pno}">${cartList.productName}</a>
+														</span>
+													</div>
 
-											</td>
-											<td class="itemview_price">
+												</td>
+												<td class="itemview_price">
 
-												<div>
-													<span>${cartList.productPrice}</span>
-													<span>원</span>
-												</div>
-												<div class="input-group">
-													<button class="btn-decrease">-</button>
-														<input type="number" class="input-number" min = "1" name = "productCnt" value="${cartList.totalCnt}" onkeydown= "javascript: return event.keyCode == 69 ? false : true">
-													<button class="btn-increase">+</button>
-												</div>
-											</td>
-										</tr>
-										<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
-									</c:forEach>
-								</tbody>
-							</table>
+													<div>
+														<span>금액 : <input type = "text" name = "productPrice" value = "${cartList.productPrice}"></span>
+														<span>원</span>
+													</div>
+													<div class="input-group">
+														<span>주문개수 :</span>
+														<input type="number" class="input-number" min="1" name="productCnt" value="${cartList.totalCnt}" onkeydown="javascript: return event.keyCode == 69 ? false : true" readonly="readonly">
+													</div>
+												</td>
+											</tr>
+											<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="payment-wrap">
+
+								<br> <br>
+								<div class="pay-title">
+									<b>Payment</b>
+								</div>
+								<%
+								// order_date : value 출력용
+								SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+								Calendar payCal = Calendar.getInstance();
+								String paymentDate = date.format(payCal.getTime());
+								%>
+								<br>
+								<!-- 주문시 주문정보  -->
+								<div class="pay-product">
+									<b class="pro-title">결제일자</b> <input type="text" id="order_date" value="<%=paymentDate.toString()%>" readonly /> <br>
+									<div class="pay-method">
+										<b class="pro-title">결제수단</b>
+										<div class="pay-radio">
+											<!-- 자바스크립트로 라디오타입의 value값을 따와서 text할 예정 -->
+											<label>
+												<input id="pay-card" type="radio" name="paymentKind" value ="카드" checked>카드
+											</label>
+											<label>
+												<input id="pay-cash" type="radio" name="paymentTransfer" value = "계좌이체">계좌이체
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="card-container">
+									<div class="card-sel">
+										<b class="pro-title">카드선택</b>
+										<select>
+											<option value="hyundai">현대카드</option>
+											<option value="lotte">롯데카드</option>
+											<option value="ezen">이젠카드</option>
+										</select>
+										<b class="pro-title">유효기간</b> <input type="date" id="card_date" name="card_date" />
+									</div>
+									<br>
+									<div class="card-info">
+										<b class="pro-title">카드번호</b> <input type="text" id="card_num" name="paymentCard" /> <b class="cd-pw">비밀번호</b><input type="number" id="card_pwd" name="card_pwd" placeholder="카드 비밀번호" />
+									</div>
+								</div>
+
+								<div class="payment-btn">
+									<button type="button" onclick="payment()">결제하기</button>
+								</div>
+							</div>
 						</div>
 					</div>
 
-					<form class="userInfoBox" id="frm" action="/order/orderWrite" method="post">
-						<div class = "userInfo">
-							<div class="form-group">
-								<div>
-									<h2 align="center">주소 확인</h2>
-								</div>
-							</div>
-							<!-- SELECT  c.pno, p.productName, p.productPrice, c.productCnt, member.userId -->
-							<div class="form-group">
-								<label for="subject" class="col-sm-2 control-label">회원아이디</label>
-								<div class="col-sm-10">
-									<input type="text" name="userId" maxlength="200" value="${memberInfo.userId}" readOnly>
-								</div>
-							</div>
 
-							<div class="form-group">
-								<label for="writer" class="col-sm-2 control-label">우편번호</label>
-								<div class="col-sm-2">
-									<input type="Number" class="checkDel" id = "postAddress" name="postAddress" value="${memberAddress.postAddress}" maxlength="200" />
-								</div>
+					<div class="userInfo">
+						<div class="form-group">
+							<div>
+								<h2 align="center">주소 확인</h2>
 							</div>
-							<div class="form-group">
-								<label for="writer" class="col-sm-2 control-label">상세주소1</label>
-								<div class="col-sm-2">
-									<input type="text" class="checkDel" id ="detailAddress"  name="detailAddress" value="${memberAddress.address}" maxlength="200" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="writer" class="col-sm-2 control-label">상세주소2</label>
-								<div class="col-sm-2">
-									<input type="text" class="checkDel" id = "detailAddress2" name="detailAddress2" value="${memberAddress.detailAddress}" maxlength="200" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="writer" class="col-sm-2 control-label">수령인</label>
-								<div class="col-sm-2">
-									<input type="text" class="checkDel" id = "recipient" name="recipient" value="${memberInfo.userId}" maxlength="200" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="writer" class="col-sm-2 control-label">수령인 전화번호</label>
-								<div class="col-sm-2">
-									<input type="Number" class="checkDel" id = "recipientPhone" name="recipientPhone" value="+82 ${memberAddress.userPhoneNumber}" maxlength="200" />
-								</div>
-							</div>
-							<br>
-							<input type='checkbox' id='my_checkbox' onclick = 'toggleTextbox(this)'/>배송지 정보 직접입력		
 						</div>
-						
-						<!-- 유저 정보 저장 박스 끝 -->
-						
+						<!-- SELECT  c.pno, p.productName, p.productPrice, c.productCnt, member.userId -->
 
-						<div class="order_rgt">
-							<div class="order_price">
-								<div class="order_itemprice">
-									<span>주문금액</span>
-									<span>
-										<c:out value="${total}" />
-										원
-									</span>
-								</div>
-								<div class="order_deliveryprice">
-									<span>배송비</span>
-									<span>3,000원</span>
-								</div>
+						<div class="form-group">
+							<label for="subject" class="col-sm-2 control-label">회원아이디</label>
+							<div class="col-sm-10">
+								<input type="text" name="userId" maxlength="200" value="${memberInfo.userId}" readOnly>
 							</div>
-							<hr>
-							<div class="order_sum">
-								<span>결제예정금액</span>
-								<span>${total + 3000}원</span>
-							</div>
-							<a href="/payment/paymentPage">
-								<button type="submit" class="btn_pay">
-									<span>주문하기</span>
-								</button>
-							</a>
-							<a href="/cart/cartList">
-								<button type="button" class="btn_cart">
-									<span>장바구니로 이동</span>
-								</button>
-							</a>
 						</div>
-					</form>
+						<div class="form-group">
+							<label for="writer" class="col-sm-2 control-label">우편번호</label>
+							<div class="col-sm-2">
+								<input type="Number" class="checkDel" id="postAddress" name="postAddress" value="${memberAddress.postAddress}" maxlength="200" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="writer" class="col-sm-2 control-label">상세주소1</label>
+							<div class="col-sm-2">
+								<input type="text" class="checkDel" id="detailAddress" name="detailAddress" value="${memberAddress.address}" maxlength="200" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="writer" class="col-sm-2 control-label">상세주소2</label>
+							<div class="col-sm-2">
+								<input type="text" class="checkDel" id="detailAddress2" name="detailAddress2" value="${memberAddress.detailAddress}" maxlength="200" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="writer" class="col-sm-2 control-label">수령인</label>
+							<div class="col-sm-2">
+								<input type="text" class="checkDel" id="recipient" name="recipient" value="${memberInfo.userId}" maxlength="200" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="writer" class="col-sm-2 control-label">수령인 전화번호</label>
+							<div class="col-sm-2">
+								<input type="Number" class="checkDel" id="recipientPhone" name="recipientPhone" value="${memberAddress.userPhoneNumber}" maxlength="200" />
+							</div>
+						</div>
+
+						<br> <input type='checkbox' id='my_checkbox' onclick='toggleTextbox(this)' />배송지 정보 직접입력
+					</div>
+
+					<!-- 유저 정보 저장 박스 끝 -->
+
+
+					<div class="order_rgt">
+						<div class="order_price">
+							<div class="order_itemprice">
+								<span>주문금액</span>
+								<span>
+									<c:out value="${total}" />
+									원
+								</span>
+							</div>
+							<div class="order_deliveryprice">
+								<span>배송비</span>
+								<span>3,000원</span>
+							</div>
+						</div>
+						<hr>
+						<div class="order_sum">
+							<span>결제예정금액</span>
+							<span><input type = "number" name = "paymentMoney" value = "${total}">${total + 3000}원</span>/span>
+						</div>
+						<a href="/payment/paymentPage">
+							<button type="submit" class="btn_pay">
+								<span>결제하기</span>
+							</button>
+						</a>
+						<a href="/cart/cartList">
+							<button type="button" class="btn_cart">
+								<span>장바구니로 이동</span>
+							</button>
+						</a>
+					</div>
 				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!--푸터 영역-->
+	<footer>
+		<div class="company">
+			<div class="corporate">
+				<span>고객센터</span>
+				<i class="bi bi-headset"></i> <i>1234-5678</i>
+			</div>
+			<div class="corporate-txt">
+				<p>대표자 : 이젠3조 | 서울특별시 종로구 | 사업자등록번호 : 000-00-00000</p>
+				<br>
+				<p>
+					<a href="mailto:3teamproject@example.com">3teamproject@example.com</a>
+					&nbsp;&nbsp;| FAX : 02-0000-0000
+				</p>
+				<address>&copy;Copyright 2023. ezen3projectteam. All rights reserved.</address>
 			</div>
 		</div>
-		<!--푸터 영역-->
-		<footer>
-			<div class="company">
-				<div class="corporate">
-					<span>고객센터</span>
-					<i class="bi bi-headset"></i> <i>1234-5678</i>
-				</div>
-				<div class="corporate-txt">
-					<p>대표자 : 이젠3조 | 서울특별시 종로구 | 사업자등록번호 : 000-00-00000</p>
-					<br>
-					<p>
-						<a href="mailto:3teamproject@example.com">3teamproject@example.com</a>
-						&nbsp;&nbsp;| FAX : 02-0000-0000
-					</p>
-					<address>&copy;Copyright 2023. ezen3projectteam. All rights reserved.</address>
-				</div>
-			</div>
 
-		</footer>
+	</footer>
 
-		<script>
+	<script>
 		 $("#allchk").click(function(){
 				var chk = $("#allchk").prop("checked");
 			

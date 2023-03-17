@@ -1,8 +1,8 @@
 /* reset */
 .input-group input {
 	height : 30px;
-  	width : 50px;
-  	font-size:1px;
+  	width : 130px;
+  	font-size:12px;
 }
 
 * {
@@ -265,6 +265,28 @@ td{
     height: 40px;
     border: none;
     cursor: pointer;
+}
+
+.input-group>button{
+	width : 20px;
+	height : 20px;
+	border : none;
+	border-radius: 2px;
+
+}
+
+.input-group>button:hover{
+	background-color : #ccc;
+}
+
+.input-group>input{
+	width : 30px;
+	height : 20px;
+}
+
+.del-product{
+	width : 100px;
+	
 }
 
 /*cart 오른쪽 영역(결제)*/

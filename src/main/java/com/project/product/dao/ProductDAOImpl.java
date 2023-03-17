@@ -1,7 +1,8 @@
 package com.project.product.dao;
 
+import java.util.HashMap;
 import java.util.List;
- 
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ public class ProductDAOImpl implements ProductDAO {
 	private SqlSession sqlSession;
 	
 	private static final String NAME_SPACE = "mappers.productMapper";
+	
+	private static final String NAME_SPACE_ADMIN = "mappers.adminMapper";
 	
 	// 상품 게시글 등록하기
 	@Override
@@ -68,5 +71,33 @@ public class ProductDAOImpl implements ProductDAO {
 		logger.info("상품 게시글 목록 productList - productDAO");
 		
 		return sqlSession.selectList(NAME_SPACE + ".productList");
+	}
+	
+	// -------------------------------------관리자-------------------------------------
+	// 상품 목록 : 검색 + 페이징 + 리스트
+	@Override
+	public List<ProductDTO> getProductList(int displayTotalContent, int pageContent, String searchType, String keyword) {
+		
+		logger.info("관리자 상품 목록 getProductList - productDAO");
+		
+		HashMap<String, Object> productPageData = new HashMap<>();
+		productPageData.put("displayTotalContent", displayTotalContent);
+		productPageData.put("pageContent", pageContent);
+		productPageData.put("searchType", searchType);
+		productPageData.put("keyword", keyword);
+		
+		return sqlSession.selectList(NAME_SPACE_ADMIN + ".adminProductList", productPageData);
+	}
+	
+	// 검색 결과에 따른 상품 목록 출력
+	@Override
+	public int totalSearchProduct(String searchType, String keyword) throws Exception {
+		
+		HashMap<String, String> productPageData = new HashMap<>();
+
+		productPageData.put("searchType", searchType);
+		productPageData.put("keyword", keyword);
+		
+		return sqlSession.selectOne(NAME_SPACE_ADMIN + ".totalSearchProduct", productPageData);
 	}
 }

@@ -12,30 +12,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
 	<div id="boardGroup">
-		<h1>상품 목록</h1>
+		<h1>상품 목록 (관리자)</h1>
 		<table>
 			<thead>
 				<tr>
 					<th style="width: 80px;">상품번호</th>
+					<th style="width: 150px;">상품이미지</th>
 					<th style="width: 300px;">상품이름</th>
-					<th style="width: 150px;">판매자</th>
 					<th style="width: 150px;">상품가격</th>
 					<th style="width: 150px;">상품재고</th>
-					<th style="width: 80px;">상품등록일</th>
+					<th style="width: 150px;">상품등록일</th>
+					<th style="width: 80px;">상품관리</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${adminBoardList }" var="adminBoardList">
+				<c:forEach items="${productList }" var="productList">
 					<tr>
-						<td>${adminBoardList.bno }</td>
+						<td>${productList.pno }</td>
+						
 						<td>
-							<a href="/admin/boardView?bno=${adminBoardList.bno }">${adminBoardList.title }</a>
+							<img alt=""${productList.productName } 
+							src="${productList.storedFileName }"
+							width="130px"
+							height="130px">
 						</td>
-						<td>${adminBoardList.writer }</td>
+						
 						<td>
-							<fmt:formatDate value="${adminBoardList.regDate}" pattern="yyyy-MM-dd" />
+							<a href="/product/productView?pno=${productList.pno }">${productList.productName }</a>
 						</td>
-						<td>${adminBoardList.readCount }</td>
+						
+						<td>${productList.productPrice }</td>
+						
+						<td>${productList.productStock }</td>
+						
+						<td>
+							<fmt:formatDate value="${productList.productRegDate }" pattern="yyyy-MM-dd" />
+						</td>
+						
+						<td>
+							<a href="">[상품수정]</a>
+							<br>
+							<a href="">[상품삭제]</a>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -47,10 +65,8 @@
 		%>
 		<div>
 			<select class="searchType" name="searchType" onchange="changeInputTag();">
-				<option value="userId" <%=pageIngredient.getSearchType().equals("userId") ? "selected" : ""%>>제목</option>
-				<option value="content" <%=pageIngredient.getSearchType().equals("content") ? "selected" : ""%>>내용</option>
-				<option value="title_and_content" <%=pageIngredient.getSearchType().equals("title_and_content") ? "selected" : ""%>>제목+내용</option>
-				<option value="writer" <%=pageIngredient.getSearchType().equals("writer") ? "selected" : ""%>>작성자</option>
+				<option value="productName" <%=pageIngredient.getSearchType().equals("productName") ? "selected" : ""%>>상품이름</option>
+				<option value="cno" <%=pageIngredient.getSearchType().equals("cno") ? "selected" : ""%>>상품종류</option>
 			</select>
 			<input type="text" id="keyword" class="keyword" name="keyword" value="<%=pageIngredient.getKeyword()%>" onkeyup="enterSearching();">
 			<button id="searchingActivate" type="button" onclick="searchingActivate();">검색</button>
@@ -65,7 +81,7 @@
 		if (pageIngredient.isPrevPage() == true) {
 		%>
 		<span>
-			<a href="/announcement/announcement?pageNum=<%=pageIngredient.getStartPage() - 1%><%=pageIngredient.getSearchTypeAndKeyword()%>">◀이전</a>
+			<a href="/admin/productManagement?pageNum=<%=pageIngredient.getStartPage() - 1%><%=pageIngredient.getSearchTypeAndKeyword()%>">◀이전</a>
 		</span>
 		<%
 		}
@@ -76,7 +92,7 @@
 		if (selectedPageNum != i) {
 		%>
 		<span>
-			<a id="notSelectedPage" href="/announcement/announcement?pageNum=<%=i%><%=pageIngredient.getSearchTypeAndKeyword()%>"><%=i%></a>
+			<a id="notSelectedPage" href="/admin/productManagement?pageNum=<%=i%><%=pageIngredient.getSearchTypeAndKeyword()%>"><%=i%></a>
 		</span>
 		<%
 		} else if (selectedPageNum == i) {
@@ -92,7 +108,7 @@
 		if (pageIngredient.isNextPage() == true) {
 		%>
 		<span>
-			<a href="/announcement/announcement?pageNum=<%=pageIngredient.getEndPage() + 1%><%=pageIngredient.getSearchTypeAndKeyword()%>">다음▶</a>
+			<a href="/admin/productManagement?pageNum=<%=pageIngredient.getEndPage() + 1%><%=pageIngredient.getSearchTypeAndKeyword()%>">다음▶</a>
 		</span>
 		<%
 		}
@@ -100,5 +116,5 @@
 		<!-- 페이징 끝 -->
 	</div>
 </body>
-<script type="text/javascript" src="/resources/admin/member/adminMember.js"></script>
+<script type="text/javascript" src="/resources/admin/product/adminProduct.js"></script>
 </html>

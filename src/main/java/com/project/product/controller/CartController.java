@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.member.domain.MemberDTO;
+import com.project.order.domain.OrderDetailDTO;
 import com.project.product.domain.CartDTO;
 import com.project.product.service.CartService;
 import com.project.product.service.ProductService;
@@ -31,47 +32,7 @@ public class CartController {
 
 	@Autowired
 	private ProductService productService;
-/*
-	// 장바구니 등록하기 페이지
-	@RequestMapping(value = "/cart/cartWritePage", method = RequestMethod.GET)
-	public String cartWritePage(@RequestParam("pno") int pno, Model model) throws Exception {
 
-		logger.info("장바구니 등록하기 cartWritePage - Controller");
-
-		// 제품 번호를 가져와서 입력시켜줘야한다...
-		ProductDTO productView = productService.productView(pno);
-
-		model.addAttribute("product", productView);
-
-		return "/cart/cartWritePage";
-	}
-
-	@RequestMapping(value = "/cart/cartWritePage", method = RequestMethod.POST)
-	@ResponseBody
-	public boolean cartWritePage(
-			@RequestParam("pno") int pno,
-			@RequestParam ("userId") String userId,
-			Model model,
-			HttpServletRequest req
-			) throws Exception {
-		
-		logger.info("장바구니 등록하기 cartWritePage - Controller");
-		
-		HttpSession session = req.getSession();
-		
-		MemberDTO memberLoginSession = (MemberDTO)session.getAttribute("memberInfo");
-		
-		if (memberLoginSession == null || memberLoginSession.getUserId() != userId) {
-			
-			return false;
-			
-		} else {
-			
-			return true;
-		
-		}
-	}
-*/
 	// 장바구니 등록
 	@ResponseBody
 	@RequestMapping(value = "/cart/cartWrite", method = RequestMethod.POST)
@@ -90,14 +51,11 @@ public class CartController {
 		if (memberLoginSession == null || !memberLoginSession.getUserId().equals(userId)) {
 			// 세션값이 없을때, 세션아이디값과 db에 있는 아이디값이 다를경우
 			
-			
-			
+
 			return false;
 			
 		} else {
 			
-			System.out.println(" 성공 ===== " + cartDTO);
-		
 			cartService.cartWrite(cartDTO);
 			
 			resp.sendRedirect("/product/productView?pno=" + pno);
@@ -106,7 +64,29 @@ public class CartController {
 		}
 		
 	}
+	// 장바구니 목록 주문목록으로 넘기기
+	@RequestMapping(value = "/cart/cartOrder", method = RequestMethod.POST)
+	public String cartOrder(
+			HttpServletRequest req,
+			OrderDetailDTO orderdetailDTO,
+			String userId
+			) throws Exception {
+		
+		logger.info("장바구니 주문목록으로 넘기기 cartOrder - Controller");
 
+		HttpSession session = req.getSession();
+		
+		MemberDTO memberLoginSession = (MemberDTO)session.getAttribute("memberInfo");
+		
+		orderdetailDTO.setUserId(memberLoginSession.getUserId());
+		
+		cartService.cartOrder(orderdetailDTO);
+
+		return "redirect:/order/orderPage";
+	}
+	
+	
+	
 	// 장바구니 수정(비동기)
 	// 앞단에서 장바구니 번호 받아오자
 	// pno에 빗대서 업데이트
@@ -122,14 +102,33 @@ public class CartController {
 
 	// 장바구니 삭제
 	// 장바구니 안의 항목 삭제
+	@ResponseBody
 	@RequestMapping(value = "/cart/cartDelete", method = RequestMethod.POST)
-	public String cartDelete(@RequestParam("pno") int pno) throws Exception {
+	public int cartDelete(@RequestParam(value="cartProductNum[]") List<String> cartProductNum, CartDTO cartDTO, HttpSession session) throws Exception {
 
 		logger.info("장바구니 삭제 cartDelete - Controller");
 
-		cartService.cartDelete(pno);
+		MemberDTO cartSession = (MemberDTO)session.getAttribute("memberInfo");
+		String cartUserId = cartSession.getUserId();
+		
+		int result = 0;
+		int cartProductNumber = 0;
+		
+		if (cartSession != null) {
+			cartDTO.setUserId(cartUserId);
+			
+			for (String i : cartProductNum) {
+				
+				cartProductNumber = Integer.parseInt(i);
+				cartDTO.setPno(cartProductNumber);
+				cartService.cartDelete(cartDTO);
+			}
+			
+			result = 1;
+		}
+		
+		return result;
 
-		return "redirect:/cart/cartList";
 	}
 
 	// 장바구니 목록

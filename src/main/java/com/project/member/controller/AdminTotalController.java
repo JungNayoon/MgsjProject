@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.board.domain.PageIngredient;
 import com.project.member.domain.MemberDTO;
 import com.project.member.service.MemberService;
+import com.project.product.domain.ProductDTO;
 import com.project.product.service.ProductService;
 
 @Controller
@@ -24,7 +25,7 @@ public class AdminTotalController {
 	@Autowired
 	private MemberService memberService;
 
-	@Autowired(required = false)
+	@Autowired
 	private ProductService productService;
 
 	// 회원 목록 출력
@@ -34,7 +35,7 @@ public class AdminTotalController {
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, PageIngredient page, Model model) throws Exception {
 
 		logger.info("관리자 페이지 - 회원 목록 출력 getMemberList - controller");
-		
+
 		logger.info("관리자 페이지 - 회원 목록 출력\n검색어 : {}\n검색타입: ", keyword, searchType);
 
 		// 파라미터 순서 int contentNum , int maxPageNum, int selectContent
@@ -57,15 +58,15 @@ public class AdminTotalController {
 		model.addAttribute("selectedPageNum", pageNum);
 
 	}
-	
+
 	// 관리자 상품 목록 출력
 	@RequestMapping(value = "/admin/productManagement", method = RequestMethod.GET)
 	public void getProductList(@RequestParam("pageNum") int pageNum,
-			@RequestParam(value = "searchType", required = false, defaultValue = "userId") String searchType,
+			@RequestParam(value = "searchType", required = false, defaultValue = "productName") String searchType,
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, PageIngredient page, Model model) throws Exception {
 
 		logger.info("관리자 페이지 - 상품 목록 출력 getProductList - controller");
-		
+
 		logger.info("관리자 페이지 - 상품 목록 출력\n검색어 : {}\n검색타입: ", keyword, searchType);
 
 		// 파라미터 순서 int contentNum , int maxPageNum, int selectContent
@@ -77,11 +78,11 @@ public class AdminTotalController {
 		page.setSearchTypeAndKeyword(searchType, keyword);
 
 		// 게시글 총 갯수를 구한다. 단 검색타입과 키워드에 맞춘 결과에 대한 총 갯수를 출력해야한다.
-		page.setTotalContent(memberService.totalSearchMember(searchType, keyword));
+		page.setTotalContent(productService.totalSearchProduct(searchType, keyword));
 
-		List<MemberDTO> memberList = null;
-		memberList = memberService.getMemberList(page.getSelectContent(), page.getContentNum(), searchType, keyword);
-		model.addAttribute("memberList", memberList);
+		List<ProductDTO> productList = null;
+		productList = productService.getProductList(page.getSelectContent(), page.getContentNum(), searchType, keyword);
+		model.addAttribute("productList", productList);
 		model.addAttribute("page", page);
 
 		// 현재 페이지가 몇페이지인지 쉽게 구분하기위한 구분자를 넘겨주자

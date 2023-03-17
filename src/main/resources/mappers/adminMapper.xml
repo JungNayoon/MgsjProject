@@ -33,7 +33,7 @@
 		
 	</select>
 	
-	<!-- 검색된 결과에 따른 총 갯수를 가져오는 쿼리. 페이징 + 검색기능에 필요. -->
+	<!-- 검색된 결과에 일치하는 회원수 -->
 	<select id="totalSearchMember" resultType="Int" parameterType="hashmap">
 		
 		select count(*)
@@ -47,6 +47,62 @@
 		</if>
 		<if test="searchType.equals('userVerify')">
 			where userVerify like concat('%', #{keyword}, '%')
+		</if>
+		
+	</select>
+	
+	<!-- 검색 결과에 따른 상품 목록 출력 및 페이징 -->
+	<!-- 
+		pno
+		cno
+		productName
+		productPrice
+		productStock
+		productDescription
+		productRegDate
+		originFileName
+		storedFileName
+		storedThumbNail
+	 -->
+	<select id="adminProductList" resultType="com.project.product.domain.ProductDTO" parameterType="hashMap">
+		
+		select 
+			pno,
+			cno,
+			productName,
+			productPrice,
+			productStock,
+			productDescription,
+			productRegDate,
+			originFileName,
+			storedFileName,
+			storedThumbNail
+	
+		from productdto
+		
+		<if test="searchType.equals('productName')">
+			where productName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('cno')">
+			where cno like concat('%', #{keyword}, '%')
+		</if>
+		
+		order by pno desc
+		limit #{displayTotalContent} , #{pageContent}
+		
+	</select>
+	
+	<!-- 검색 결과에 따른 상품 목록 갯수 출력 -->
+	<select id="totalSearchProduct" resultType="Int" parameterType="hashmap">
+		
+		select count(*)
+			from productdto
+		
+		<if test="searchType.equals('productName')">
+			where productName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('cno')">
+			where cno like concat('%', #{keyword}, '%')
 		</if>
 		
 	</select>

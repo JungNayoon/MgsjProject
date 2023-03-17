@@ -62,4 +62,22 @@ public class ProductServiceImpl implements ProductService {
 		
 		return productDAO.productList();
 	}
+	
+	// -------------------------------------관리자-------------------------------------
+	// 상품 목록 : 검색 + 페이징 + 리스트
+	@Override
+	public List<ProductDTO> getProductList(int displayTotalContent, int pageContent, String searchType, String keyword) throws Exception {
+		
+		logger.info("상품 전체 리스트 출력(관리자)");
+		
+		return productDAO.getProductList(displayTotalContent, pageContent, searchType, keyword);
+	}
+	
+	@Override
+	public int totalSearchProduct(String searchType, String keyword) throws Exception {
+		
+		logger.info("검색 결과에 따른 상품 목록 출력 (관리자)");
+		
+		return productDAO.totalSearchProduct(searchType, keyword);
+	}
 }

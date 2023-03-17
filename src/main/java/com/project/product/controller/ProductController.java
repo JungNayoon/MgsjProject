@@ -157,11 +157,5 @@ public class ProductController {
 		model.addAttribute("categoryList", categoryList);
 
 	}
-	
-	// -----------------------------------------------관리자-----------------------------------------------
-	@RequestMapping(value = "/admin/productManagement", method = RequestMethod.GET)
-	public void getProductList() throws Exception {
-
-	}
 
 }

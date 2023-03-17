@@ -60,7 +60,25 @@ public class MemberDAOImpl implements MemberDAO {
 
 		return sqlSession.selectOne(NAME_SPACE + ".checkDuplicateId", userId);
 	}
-
+	
+	// 아이디 찾기
+	@Override
+	public MemberDTO memberFindId(MemberDTO memberDTO) throws Exception {
+		
+		logger.info("회원 아이디 찾기 실행 - DAO : {}", memberDTO);
+		
+		return sqlSession.selectOne(NAME_SPACE + ".memberFindId", memberDTO);
+	}
+	
+	// 비밀번호 찾기
+	@Override
+	public MemberDTO memberFindPwd(MemberDTO memberDTO) throws Exception {
+		
+		logger.info(NAME_SPACE + ".memberFindPwd", memberDTO);
+		
+		return sqlSession.selectOne(NAME_SPACE + ".memberFindPwd", memberDTO);
+	}
+	
 	// ---------------관리자---------------
 	// 회원 관리를 위한 회원 리스트 가져오기
 	@Override

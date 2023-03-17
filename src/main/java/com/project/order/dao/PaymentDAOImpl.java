@@ -7,7 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.project.order.domain.OrderDTO;
+import com.project.order.domain.OrderDetailDTO;
 import com.project.order.domain.PaymentDTO;
 
 @Repository
@@ -19,15 +22,24 @@ public class PaymentDAOImpl implements PaymentDAO {
 	private SqlSession sqlSession;
 	
 	private static final String NAME_SPACE = "mappers.paymentMapper";
-	
-	
+	private static final String NAME_SPACE2 = "mappers.orderMapper";
+	private static final String NAME_SPACE3 = "mappers.cartMapper";
 	//결제 등록
+	
 	@Override
-	public void paymentWrite(PaymentDTO paymentDTO) throws Exception {
+	public void paymentWrite(String userId, 
+							PaymentDTO paymentDTO, 
+							OrderDTO orderDTO, 
+							OrderDetailDTO orderDetailDTO)
+							throws Exception {
 		
 		logger.info("결제 등록 paymentWrite - DAO");
 
-		sqlSession.insert(NAME_SPACE + ".paymentWrite", paymentDTO);
+		sqlSession.insert(NAME_SPACE2 + ".orderWrite", orderDTO); //주소정보
+		sqlSession.insert(NAME_SPACE2+ ".orderDetailWrite", orderDetailDTO); // 장바구니목록 주문에 복사
+		sqlSession.insert(NAME_SPACE + ".paymentWrite", paymentDTO); // 결제정보
+		sqlSession.delete(NAME_SPACE3 + ".cartDeleteAll", userId); //카트 삭제
+		
 	}
 	
 	//결제 내역 목록
