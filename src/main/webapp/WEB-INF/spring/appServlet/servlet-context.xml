@@ -69,6 +69,7 @@
 		<!-- 관리자 인증 -->
 		<interceptor>
 			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/boardView*"/>
 			<beans:ref bean="AdminVerifyInterceptor"/>
 		</interceptor>
 		<!-- 로그인 확인 -->
@@ -81,6 +82,7 @@
 			<mapping path="/payment/**"/>
 			<mapping path="/category/**"/>
 			<mapping path="/review/**"/>
+			<exclude-mapping path="/product/productView*"/>
 			<beans:ref bean="LoginInterceptor"/>
 		</interceptor>
 	</interceptors>

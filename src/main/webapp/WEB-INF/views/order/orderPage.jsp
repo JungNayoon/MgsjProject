@@ -125,6 +125,19 @@ request.setCharacterEncoding("UTF-8");
 			</header>
 		</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<form action="/payment/paymentWrite" method="post">
 			<div class="container" align="center">
 				<div class="main">
@@ -142,14 +155,7 @@ request.setCharacterEncoding("UTF-8");
 										</span>
 									</li>
 								</ul>
-								<!-- <ul class="checkbtn2">
-                            <li>
-                                <button type="button" id="chkdlt"><span>선택삭제</span></button>
-                            </li>
-                            <li>
-                                <button type="button" id="alldlt"><span>전체삭제</span></button>
-                            </li>
-                        </ul> -->
+								
 							</div>
 
 							<div class="itemview">
@@ -162,29 +168,6 @@ request.setCharacterEncoding("UTF-8");
 										<col style="width: 140px">
 									</colgroup>
 
-									<!-- 
-					
-									
-									orderdto
-									private String userId;
-									private String postAddress;
-									private String detailAddress;
-									private String detailAddress2; -- if null
-									private String recipient;
-									private String recipientPhone;
-									
-									payment
-									private int orderNum;
-									private String paymentKind;
-									private String paymentCard;
-									private int paymentMoney;
-									
-									orderdetail
-									private int pno;
-									private int productTotalPrice;
-									private int productTotalCnt;
-									private int orderNum;
-								 -->
 									<tbody>
 										<c:set var="total" value="0" />
 										<c:forEach var="cartList" items="${cartList}">
