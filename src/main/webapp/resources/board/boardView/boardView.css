@@ -1,195 +1,245 @@
 @charset "UTF-8";
 
-#boardTB {
-	width: 95%;
-	margin : auto;
-	padding: auto;
-	margin-top : 3%;
-	margin-bottom : 3%;
+hr {
+   margin: 0;
 }
 
+#boardTB {
+   width: 95%;
+   margin : auto;
+   margin-top : 3%;
+   margin-bottom : 3%;
+   display: flex;
+   align-items: center;
+     flex-wrap: wrap;
+     justify-content: space-around;
+     flex-direction: column;
+}
+
+.col-1 {
+  flex-basis: 50%;
+  min-width: 300px;
+  width: 800px;
+}
+.col-2 {
+  flex-basis: 50%;
+  min-width: 300px;
+  width: 800px;
+}
+.col-3 {
+  flex-basis: 50%;
+  min-width: 300px;
+  width: 800px;
+}
+
+
 label {
-	font-size: 22px;
+   font-size: 22px;
 }
 
 .boardTextarea {
-	margin-left: 80px;
-	font-size: 18px;
-	width: 90%;
-	height: 200px;
-	resize: none;
+   font-size: 18px;
+    height: 200px;
+    width: 800px;
+    resize: none;
+    border: 1px solid #ccc;
 }
+
+
+
 form>div{
-	width : 170px;
-	float : left;
-	
+   float : left;
+   
 }
 form>span{
-	padding: 4px 5px 0px 15px;
-	display : inline-block;
-	font-size: 18px;
+   padding: 4px 5px 0px 15px;
+   display : inline-block;
+   font-size: 18px;
 }
 
 #content {
-	resize: none;
-	padding-bottom: 10px;
-	margin-bottom: 5px;
+   resize: none;
+   padding-bottom: 10px;
+   margin-bottom: 5px;
 }
 
 a {
-	text-decoration: none;
+   text-decoration: none;
 }
 
 button:hover{
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .boardUpdate {
-	width: 200px;
-	height: 50px;
-	font-size: 22px;
+   width: 100px;
+    height: 35px;
+    font-size: 15px;
+    background: #a6c9ff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
 }
 .boardDelete {
-	width: 200px;
-	height: 50px;
-	font-size: 22px;
+   width: 100px;
+    height: 35px;
+    font-size: 15px;
+    background: #a6c9ff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+}
+.boardUpdate:hover {
+	background : #bebebe;
+}
+
+.boardDelete:hover {
+	background : #bebebe;
+}
+
+tr {
+   color: #555;
 }
 
 td, th {
-	height: 50px;
-	border-bottom: 1px solid #dcdcdc;
-	/*
-		테이블 태그와 관련된 속성은 margin속성 적용이 불가능하다. 그래서 padding으로 밀어주어야 한다.
-		또한 밑줄 긋는걸 원할 경우 border로 따로 설정해 주어야 한다.
-	*/
+   border-bottom: 1px solid #dcdcdc;
+   /*
+      테이블 태그와 관련된 속성은 margin속성 적용이 불가능하다. 그래서 padding으로 밀어주어야 한다.
+      또한 밑줄 긋는걸 원할 경우 border로 따로 설정해 주어야 한다.
+   */
 }
 
 .modifyAndDelete{
-	margin : 15px 0;
+   margin : 15px 0;
 }
 
 #replyContent {
-	padding-left: 20px;
+   padding-left: 20px;
 }
 
 tr:nth-child(even) {
-	/*
-		nth-child는 자식속성에 한하여 css를 적용시키겠다는 의미이다. 괄호안에 숫자를 입력해서 몇번째인지를 지정해주거나
-		odd : 홀수번째만 / even : 짝수번째만 이런식으로 적용이 가능하다.
-	*/
-	background-color: #f9f9f9;
+   /*
+      nth-child는 자식속성에 한하여 css를 적용시키겠다는 의미이다. 괄호안에 숫자를 입력해서 몇번째인지를 지정해주거나
+      odd : 홀수번째만 / even : 짝수번째만 이런식으로 적용이 가능하다.
+   */
+   background-color: #f9f9f9;
 }
 
 .replyModalModify {
-	height: 35px;
-	width: 80px;
-	background-color: #dcdcdc;
-	border-radius: 5px;
-	border: none;
+   height: 35px;
+   width: 80px;
+   background-color: #dcdcdc;
+   border-radius: 5px;
+   border: none;
 }
 .replyModalCancel {
-	height: 35px;
-	width: 80px;
-	background-color: #dcdcdc;
-	border-radius: 5px;
-	border: none;
+   height: 35px;
+   width: 80px;
+   background-color: #dcdcdc;
+   border-radius: 5px;
+   border: none;
 }
 .replyModalModify:hover {
-	background-color: #bebebe;
+   background-color: #bebebe;
 }
 .replyModalCancel:hover {
-	background-color: #bebebe;
+   background-color: #bebebe;
 }
 
 .replyModifyBtn{
-	background: none;
-	background-color: none;
-	border : none;
+   background: none;
+   background-color: none;
+   border : none;
 }
 .replyDeleteBtn{
-	background: none;
-	background-color: none;
-	border : none;
+   background: none;
+   background-color: none;
+   border : none;
 }
 
 .replyModifyBtn:hover{
-	color : blue;
-	cursor: pointer;
+   color : blue;
+   cursor: pointer;
 }
 .replyDeleteBtn:hover{
-	color : blue;
-	cursor: pointer;
+   color : blue;
+   cursor: pointer;
 }
 
 .replySubmitButton {
-	border: none;
-	border-radius : 5px;
-	width: 80px;
-	height: 30px;
+   border: none;
+   border-radius : 5px;
+   width: 80px;
+   height: 30px;
+   background: #a6c9ff;
 }
 .replySubmitButton:hover {
-	background-color: #bebebe;
+   background-color: #bebebe;
 }
 
 /* 댓글 수정창 modal css */
 #modal {
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	width: 80%;
-	margin-left: -40%; /* half of width */
-	height: 400px;
-	margin-top: -190px; /* half of height */
-	overflow: hidden;
-	z-index: 1;
-	border-radius: 10px;
+   display: none;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   width: 80%;
+   margin-left: -40%; /* half of width */
+   height: 450px;
+   margin-top: -225px; /* half of height */
+   overflow: hidden;
+   z-index: 1;
+   border-radius: 10px;
 }
 
 #modal .replyTitle h2 { /* 댓글 수정 */
-	display: inline;
-	margin: 0;
+   display: inline;
+   margin: 0;
 }
 
 #modal button {
-	display: inline-block;
-	width: 100px;
-	margin-left: calc(100% -100px-10px);
+   display: inline-block;
+   width: 100px;
+   margin-left: calc(100% -100px-10px);
 }
 
 #modal .modal_content {
-	width: 65%;
-	height: 250px;
-	margin: 100px auto;
-	padding: 20px 10px;
-	background: #fff;
-	border: 2px none #666;
-	border-radius: 10px;
-	resize: none;
+   width: 65%;
+   height: 300px;
+   margin: 100px auto;
+   padding: 20px 10px;
+   background: #fff;
+   border: 2px none #666;
+   border-radius: 10px;
+   resize: none;
 }
 
 #modal .modal_layer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: -1;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.5);
+   z-index: -1;
 }
 
 #modal .close-button{
-	display: inline;
-	float: right;
-	width: 30px;
-	height: 30px;
-	border: none;
-	border-radius: 5px;
-	background-color: #dcdcdc;
-	
+   display: inline;
+   float: right;
+   width: 30px;
+   height: 30px;
+   border: none;
+   border-radius: 5px;
+   background-color: #dcdcdc;
+   
 }
 #modal .close-button:hover{
-	background-color: #bebebe;
+   background-color: #bebebe;
+}
+
+.modal-config-btn{
+	margin-top : 30px;
 }
 
 /* 댓글 수정 모달 끝*/
