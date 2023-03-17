@@ -54,6 +54,8 @@ public class OrderController {
 			
 			MemberAddressDTO memadd = orderService.memAddress(memberLoginSession.getUserId());
 			
+			cartDTO.setUserId(memberLoginSession.getUserId());
+			
 			List<CartDTO> cartList = cartService.cartList(cartDTO);
 			
 			model.addAttribute("cartList", cartList);
