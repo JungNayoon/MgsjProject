@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/admin/adminPage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
+<jsp:include page="../pageIngredient/header.jsp"></jsp:include>
 	<div id="boardGroup">
 		<h1>상품 목록 (관리자)</h1>
 		<table>
@@ -115,6 +116,7 @@
 		%>
 		<!-- 페이징 끝 -->
 	</div>
+	<jsp:include page="../pageIngredient/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript" src="/resources/admin/product/adminProduct.js"></script>
 </html>
