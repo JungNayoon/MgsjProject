@@ -99,7 +99,7 @@ public class OrderController {
 		MemberDTO memberLoginSession = (MemberDTO) session.getAttribute("memberInfo");
 
 		orderDTO.setUserId(memberLoginSession.getUserId());
-
+		
 		List<OrderDTO> orderList = orderService.orderList(orderDTO);
 
 		model.addAttribute("orderList", orderList);
