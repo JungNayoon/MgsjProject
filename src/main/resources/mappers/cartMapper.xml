@@ -39,16 +39,15 @@
 
 	<!-- 장바구니 목록 -->
 	<select id="cartList" parameterType="com.project.product.domain.CartDTO" resultType="com.project.product.domain.CartDTO">
-		SELECT c.cartNum, c.pno, p.productName, p.productPrice, SUM(c.productCnt) as totalCnt, member.userId
+		SELECT c.pno, p.productName, p.productPrice, SUM(c.productCnt) as totalCnt, member.userId
 			FROM cartdto as c
 				INNER JOIN productdto as p
 				ON c.pno = p.pno
 				join memberdto as member
 				on member.userId = c.userId
-			where member.userId = ${userId}
+			where member.userId = #{userId}
             GROUP BY c.pno
-			ORDER BY c.pno
-
+            order by c.pno
 	</select>
 
 </mapper>

@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/board/boardList/boardList.css">
 
 <body>
+<jsp:include page="../pageIngredient/header.jsp"></jsp:include>
 	<div id="boardGroup">
 		<h1>공지사항 목록</h1>
 		<table>
@@ -104,6 +105,7 @@
 		%>
 		<!-- 페이징 끝 -->
 	</div>
+	<jsp:include page="../pageIngredient/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript" src="/resources/board/boardList/board.js"></script>
 </html>
