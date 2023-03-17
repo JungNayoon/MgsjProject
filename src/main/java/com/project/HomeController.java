@@ -84,4 +84,10 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/order/orderimsi", method = RequestMethod.GET)
+	public void orderimsi() throws Exception {
+		
+		
+	}
+	
 }
