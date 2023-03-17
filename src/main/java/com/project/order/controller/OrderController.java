@@ -12,11 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
 import com.project.order.domain.OrderDTO;
-import com.project.order.domain.OrderDetailDTO;
 import com.project.order.service.OrderService;
 import com.project.product.domain.CartDTO;
 import com.project.product.service.CartService;
@@ -53,6 +53,8 @@ public class OrderController {
 		} else {
 			
 			MemberAddressDTO memadd = orderService.memAddress(memberLoginSession.getUserId());
+			
+			cartDTO.setUserId(memberLoginSession.getUserId());
 			
 			List<CartDTO> cartList = cartService.cartList(cartDTO);
 			
