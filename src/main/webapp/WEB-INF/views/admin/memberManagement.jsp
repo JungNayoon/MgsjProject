@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.project.board.domain.PageIngredient" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="com.project.board.domain.PageIngredient"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>회원 관리 페이지</title>
+<meta charset="UTF-8">
+<title>회원 관리 페이지</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/resources/admin/adminPage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <body>
+	<jsp:include page="../pageIngredient/header.jsp"></jsp:include>
 	<div id="boardGroup">
 		<h1>회원 목록</h1>
 		<table>
@@ -27,7 +28,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<!-- 
+				<!-- 
 			private String userId;
 			private String userPwd;
 			private String userName;
@@ -121,6 +122,7 @@
 		%>
 		<!-- 페이징 끝 -->
 	</div>
+	<jsp:include page="../pageIngredient/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript" src="/resources/admin/member/adminMember.js"></script>
 </html>
