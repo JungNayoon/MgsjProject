@@ -10,11 +10,13 @@
 		VALUES (#{categoryName}, #{cno}, #{categoryLevel})
 	</insert>
 
-	<!-- 카테고리 조회 -->
+	<!-- 카테고리별 상품 조회 -->
 	<select id="categoryView" parameterType="int" resultType="com.project.product.domain.CategoryDTO">
-		SELECT categoryName, cno, categoryLevel
-		FROM categorydto
-		WHERE cno = #{cno}
+		SELECT c.cno, p.pno, p.productName, p.productPrice
+		FROM categorydto as c
+		INNER JOIN productdto as p
+		ON c.cno = p.cno
+		WHERE p.cno = #{cno};
 	</select>
 
 	<!-- 카테고리 수정 -->
@@ -44,24 +46,37 @@
 
 	</select>
 
-	<!-- 카테고리 목록에 따른 세부 상품 목록 출력 -->
-	<select id="categoryDetailProduct" resultType="com.project.product.domain.CategoryDTO">
-		WITH recursive classifyCategory AS (
-
-		SELECT categoryName, cno, categoryLevel, 1 AS level
-		FROM categorydto
-		WHERE categoryLevel IS null
-		UNION all
-		SELECT ano.categoryName, ano.cno, ano.categoryLevel, 1 + LEVEL AS level
-		FROM categorydto as ano
-		INNER JOIN classifyCategory
-		ON ano.categoryLevel = classifyCategory.cno
-
-		)
-		SELECT categoryName, c.cno, categoryLevel, level, p.productName, p.productPrice, p.pno
-		FROM classifyCategory as c
-		INNER JOIN productdto as p
-		ON c.cno = p.cno
+	<!-- 카테고리 목록에 따른 세부 상품 1차 목록  출력 -->
+	<select id="categoryDetailProduct1" resultType="com.project.product.domain.CategoryDTO">
+	  WITH recursive classifyCategory AS (
+	    SELECT categoryName, cno, categoryLevel, 1 AS level
+	    FROM categorydto
+	    WHERE categoryLevel IS NULL
+	    UNION ALL
+	    SELECT ano.categoryName, ano.cno, ano.categoryLevel, 1 + LEVEL AS level
+	    FROM categorydto AS ano
+	    INNER JOIN classifyCategory ON ano.categoryLevel = classifyCategory.cno
+	  )
+	  SELECT categoryName, cno, categoryLevel, level
+	  FROM classifyCategory
+	  WHERE level = 1
 	</select>
+	
+	<!-- 카테고리 목록에 따른 세부 상품 2차 목록  출력 -->
+	<select id="categoryDetailProduct2" resultType="com.project.product.domain.CategoryDTO">
+	  WITH recursive classifyCategory AS (
+	    SELECT categoryName, cno, categoryLevel, 1 AS level
+	    FROM categorydto
+	    WHERE categoryLevel IS NULL
+	    UNION ALL
+	    SELECT ano.categoryName, ano.cno, ano.categoryLevel, 1 + LEVEL AS level
+	    FROM categorydto AS ano
+	    INNER JOIN classifyCategory ON ano.categoryLevel = classifyCategory.cno
+	  )
+	  SELECT categoryName, cno, categoryLevel, level
+	  FROM classifyCategory
+	  WHERE level = 2
+	</select>
+	
 
 </mapper>

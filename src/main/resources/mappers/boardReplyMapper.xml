@@ -36,9 +36,9 @@
 	</delete>
 	
 	<!-- 댓글 삭제시 비밀번호 체크 로직 -->
-	<select id="checkPwd" parameterType="com.project.board.domain.BoardReplyDTO" resultType="int">
+	<select id="getReplyPwd" parameterType="com.project.board.domain.BoardReplyDTO" resultType="int">
 		select replyPwd
-		from boardreplydto
+			from boardreplydto
 		where rno = #{rno}
 		and bno = #{bno}
 	</select>

@@ -74,6 +74,22 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.memberFindId(memberDTO);
 	}
 	
+	// 회원 탈퇴
+	@Override
+	public void removeMember(MemberDTO memberDTO) throws Exception {
+		
+		logger.info("회원탈퇴 - service");
+		
+		memberDAO.removeMember(memberDTO);
+	}
+	
+	// 회원 탈퇴에 필요한 비밀번호 가져오기
+	@Override
+	public String getUserPwd(String userId) throws Exception {
+		
+		return memberDAO.getUserPwd(userId);
+	}
+	
 	// ---------------관리자---------------
 	// 회원 관리를 위한 회원 리스트 가져오기
 	@Override
