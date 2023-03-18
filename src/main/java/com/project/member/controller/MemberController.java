@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
 import com.project.member.service.MemberService;
+import com.project.product.domain.CategoryDTO;
 import com.project.product.domain.ProductDTO;
+import com.project.product.service.CategoryService;
 import com.project.product.service.ProductService;
 
 @Controller
@@ -32,6 +34,9 @@ public class MemberController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	// 메인페이지 접속
 	@RequestMapping(value = "/mainPage/mainPage", method = RequestMethod.GET)
@@ -39,8 +44,18 @@ public class MemberController {
 
 		logger.info("MGSJ 접속");
 
+		
+		  List<CategoryDTO> categoryList1 = categoryService.categoryDetailProduct1();
+		  
+		  List<CategoryDTO> categoryList2 = categoryService.categoryDetailProduct2();
+		  
+		  model.addAttribute("categoryList1", categoryList1);
+		  
+		  model.addAttribute("categoryList2", categoryList2);
+		 
+		
 		List<ProductDTO> productList = productService.productList();
-
+		
 		model.addAttribute("mainPageProductList", productList);
 
 	}
@@ -58,8 +73,9 @@ public class MemberController {
 
 		logger.info("회원가입 실행 signUpMember - (controller)");
 
-		/*String userId = memberDTO.getUserId();
-		memberAddressDTO.setUserId(userId);*/
+		/*
+		 * String userId = memberDTO.getUserId(); memberAddressDTO.setUserId(userId);
+		 */
 
 		memberService.signUpMember(memberDTO, memberAddressDTO);
 
@@ -177,20 +193,20 @@ public class MemberController {
 	public void memberFindId(MemberDTO memberDTO) throws Exception {
 
 		logger.info("회원 아이디 찾기 시작 memberFindIdpwdPage - controller");
-		
+
 		memberService.memberFindId(memberDTO);
 
 	}
-	
+
 	// 비밀번호 찾기 - 로직
 	@ResponseBody
 	@RequestMapping(value = "/member/memberFindpwd", method = RequestMethod.POST)
 	public void memberFindPwd(MemberDTO memberDTO) throws Exception {
-		
+
 		logger.info("회원 비밀번호 찾기 시작 memberFindIdpwdPage - controller");
-		
+
 		memberService.memberFindPwd(memberDTO);
-		
+
 	}
 
 }
