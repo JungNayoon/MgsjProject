@@ -31,7 +31,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
-
+	
 	@Autowired
 	private ProductService productService;
 	
@@ -207,6 +207,33 @@ public class MemberController {
 
 		memberService.memberFindPwd(memberDTO);
 
+	}
+	
+	// 회원 탈퇴 로직
+	@ResponseBody
+	@RequestMapping(value = "/member/removeMember", method = RequestMethod.POST)
+	public boolean removeMember(MemberDTO memberDTO) throws Exception {
+		
+		String inputPwd = memberDTO.getUserPwd();
+		System.out.println("들어온 비밀번호 : " + inputPwd);
+		
+		String userPwd = memberService.getUserPwd(memberDTO.getUserId());
+		System.out.println("db 비밀번호 : " + userPwd);
+		
+		if(inputPwd.equals(userPwd)) {
+			
+			logger.info("비밀번호 일치, 회원탈퇴 시작 : {}", memberDTO.getUserId());
+			
+			memberService.removeMember(memberDTO);
+			
+			return true;
+			
+		} else {
+			
+			logger.info("비밀번호 불일치, 회원탈퇴 실패");
+			
+			return false;
+		}
 	}
 
 }

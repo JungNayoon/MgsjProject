@@ -63,7 +63,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 		
 		logger.info("비밀번호 확인 시작");
 		
-		int Pwd = sqlSession.selectOne(NAME_SPACE + ".checkPwd", boardReplyDTO);		
+		int Pwd = sqlSession.selectOne(NAME_SPACE + ".getReplyPwd", boardReplyDTO);		
 		
 		return Pwd;
 	}
