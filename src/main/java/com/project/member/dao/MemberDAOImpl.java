@@ -79,6 +79,24 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(NAME_SPACE + ".memberFindPwd", memberDTO);
 	}
 	
+	// 회원 탈퇴
+	@Override
+	public void removeMember(MemberDTO memberDTO) throws Exception {
+		
+		logger.info("회원탈퇴 시작");
+		
+		sqlSession.selectOne(NAME_SPACE + ".removeMember", memberDTO);
+	}
+	
+	// 회원 탈퇴를 위한 비밀번호 검증
+	@Override
+	public String getUserPwd(String userId) throws Exception {
+		
+		logger.info("회원탈퇴 비밀번호 검증");
+		
+		return sqlSession.selectOne(NAME_SPACE + ".getUserPwd", userId);
+	}
+	
 	// ---------------관리자---------------
 	// 회원 관리를 위한 회원 리스트 가져오기
 	@Override
