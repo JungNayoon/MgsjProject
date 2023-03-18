@@ -25,6 +25,12 @@ public interface MemberDAO {
 	// 비밀번호 찾기
 	public MemberDTO memberFindPwd(MemberDTO memberDTO) throws Exception;
 	
+	// 회원 탈퇴
+	public void removeMember(MemberDTO memberDTO) throws Exception;
+	
+	// 회원 탈퇴를 위한 비밀번호 검증
+	public String getUserPwd(String userId) throws Exception;
+	
 	// ---------------관리자---------------
 	// 회원 관리를 위한 회원 리스트 가져오기
 	public List<MemberDTO> getMemberList(int displayTotalContent, int pageContent, String searchType, String keyword) throws Exception;
