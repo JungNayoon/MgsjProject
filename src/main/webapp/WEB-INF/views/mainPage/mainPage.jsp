@@ -17,7 +17,7 @@
 </head>
 <body>
 	<!-- header -->
-	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+ 	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
 	<!-- header -->
 
 	<div class="wrap">

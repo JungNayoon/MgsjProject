@@ -29,13 +29,13 @@ public class CategoryDAOImpl implements CategoryDAO {
 		sqlSession.insert(NAME_SPACE + ".categoryWrite", categoryDTO);
 	}
 
-	// 카테고리 조회
+	//카테고리별 품목 조회
 	@Override
-	public CategoryDTO categoryView(int cno) throws Exception {
+	public List<CategoryDTO> categoryView(int cno) throws Exception {
 
 		logger.info("카테고리 조회 categoryView - DAO");
 
-		return sqlSession.selectOne(NAME_SPACE + ".categoryView", cno);
+		return sqlSession.selectList(NAME_SPACE + ".categoryView", cno);
 	}
 
 	// 카테고리 수정
@@ -67,11 +67,21 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	// 카테고리 목록에 의한 세부 상품 출력
 	@Override
-	public List<CategoryDTO> categoryDetailProduct() throws Exception {
+	public List<CategoryDTO> categoryDetailProduct1() throws Exception {
 
 		logger.info("카테고리 목록에 의한 상품출력 categoryDetailProduct - DAO");
 
-		return sqlSession.selectList(NAME_SPACE + ".categoryDetailProduct");
+		return sqlSession.selectList(NAME_SPACE + ".categoryDetailProduct1");
+		
+	}
+	// 카테고리 목록에 의한 세부 상품 출력
+	@Override
+	public List<CategoryDTO> categoryDetailProduct2() throws Exception {
+		
+		logger.info("카테고리 목록에 의한 상품출력 categoryDetailProduct - DAO");
+
+		return sqlSession.selectList(NAME_SPACE + ".categoryDetailProduct2");
+		
 	}
 
 }

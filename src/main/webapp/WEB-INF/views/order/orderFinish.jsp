@@ -16,58 +16,97 @@ request.setCharacterEncoding("UTF-8");
 </head>
 <script src="${contextPath}/resources/order/order-finish.js"></script>
 <body>
-  <div class="wrap">
-    <h2>주문/결제</h2>
-    <p>Ezen을 이용해주셔서 감사합니다.</p>
-    <hr/>
-
-    <div class="order">
-      <!-- <div class="order-cont">
-      </div> -->
-      <div class="order-list">
-        <p class="order-cont">결제내역</p>
-        <div class="order-de">
-        <c:set var = "total" value = "${orderDetailDTO.productPrice * orderDetailDTO.totalCnt}"/>
-          <!-- 주문번호/일자 -->
-          <p>제품번호 : ${orderDetailDTO.orderNum}</p>
-          <p>제품이름 : ${orderDetailDTO.productName}&nbsp;외 ...</p>
-          <p>가격 : ${orderDetailDTO.productPrice * orderDetailDTO.totalCnt}</p>
-          <!-- <c:out value = "${total + 3000}"/> -->
-          <hr/>
-          <!-- 배송지 -->
-          <span>배송지정보 : </span>
-          <a>${orderDetailDTO.recipient}</a>
-           <br>
-           <br>
-          <span>수취인 전화번호 : </span>
-          <a>${orderDetailDTO.recipientPhone}</a>
-          <hr/>
-          <span> **수취인 주소** </span>
-           <br>
-           <br>
-          <span>우편번호 : </span>
-          <a>${orderDetailDTO.postAddress}</a>
-          <br>
-          <br>
-          <span>주소 : </span>
-          <a>${orderDetailDTO.detailAddress}&nbsp;${orderDetailDTO.detailAddress2}</a>
-          <br>
-          <hr/>
-          <!-- 결제정보 -->
-          <p>결제정보 : ${orderDetailDTO.paymentKind }</p>
-          <p>카드정보 : ${orderDetailDTO.paymentCard }</p>
-          <p>승인일시 : <fmt:formatDate value = '${orderDetailDTO.paymentRegDate}' pattern = 'yyyy년 MM월 dd일'/></p>
-          <hr/>
-          <!-- 주문상품 -->
+<!--헤더-->
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+<!--주문 완료-->
+<div class="wrap">
+    <div class="title1">주문/결제</div><br>
+    <div class="title2">MGSJ를 이용해주셔서 감사합니다.</div>
+    <br>
+    <!-- 주문번호/일자 -->
+    <div class="info_area">
+        <div class="info_head">
+            <h3>상품</h3>
         </div>
-        <!-- 금액 -->
-        <div class="order-last">
-          <p>결제금액 : <c:out value = "${total + 3000}"/>&nbsp;원</p>
+        <div class="info_cont">
+            <table>
+                <tr>
+                    <td style="width: 200px;">제품번호</td>
+                    <td>${orderDetailDTO.orderNum}</td>
+                </tr>
+                <tr>
+                    <td>제품이름</td>
+                    <td>${orderDetailDTO.productName}&nbsp;외 ...</td>
+                </tr>
+                <tr>
+                    <td>가격</td>
+                    <td>${orderDetailDTO.productPrice * orderDetailDTO.totalCnt}&nbsp;원</td>
+                </tr>
+            </table>
         </div>
-      </div>
-      <a href="/order/orderList"><button>주문목록</button></a>
     </div>
-  </div>
+
+    <!-- 배송지 -->
+    <div class="info_area">
+        <div class="info_head">
+            <h3>배송지 정보</h3>
+        </div>
+        <div class="info_cont">
+            <table>
+                <tr>
+                    <td style="width: 200px;">배송지정보</td>
+                    <td>${orderDetailDTO.recipient}</td>
+                </tr>
+                <tr>
+                    <td>수취인전화번호</td>
+                    <td>${orderDetailDTO.recipientPhone}</td>
+                </tr>
+                <tr>
+                    <td>우편번호</td>
+                    <td>${orderDetailDTO.postAddress}</td>
+                </tr>
+                <tr>
+                    <td>주소</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 결제정보 -->
+    <div class="info_area">
+        <div class="info_head">
+            <h3>결제</h3>
+        </div>
+        <div class="info_cont">
+            <table>
+                <tr>
+                    <td style="width: 200px;">결제정보</td>
+                    <td>${orderDetailDTO.paymentKind }</td>
+                </tr>
+                <tr>
+                    <td>카드정보</td>
+                    <td>${orderDetailDTO.paymentCard }</td>
+                </tr>
+                <tr>
+                    <td>승인일시</td>
+                    <td><fmt:formatDate value = '${orderDetailDTO.paymentRegDate}' pattern = 'yyyy년 MM월 dd일'/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--결제금액-->
+    <div class="info_total">
+     	<c:set var = "total" value = "${orderDetailDTO.productPrice * orderDetailDTO.totalCnt}"/>
+            <div>결제금액 :</div><div><c:out value = "${total + 3000}"/>&nbsp;원</div>
+    </div>
+
+    <div>
+        <a href="/order/orderList"><button>주문목록</button></a>
+    </div>
+</div>
+
+<!--푸터-->
+<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
 </body>
 </html>
-
