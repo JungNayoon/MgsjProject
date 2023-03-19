@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.product.domain.CategoryDTO;
 import com.project.product.service.CategoryService;
@@ -44,15 +45,23 @@ public class CategoryController {
 
 	}
 
-	// 카테고리 조회
-	@RequestMapping(value = "/category/categoryView", method = RequestMethod.GET)
-	public void categoryView(Model model, CategoryDTO categorydto, int cno) throws Exception {
+	// 카테고리별 품목 조회
+	@RequestMapping(value = "/category/categoryPro", method = RequestMethod.GET)
+	public void categoryView(@RequestParam("cno") int cno, Model model, CategoryDTO categorydto) throws Exception {
 
-		logger.info("카테고리 조회 categoryView - Controller");
+		logger.info("카테고리별 상품 조회 categoryView - Controller");
 
-		categoryService.categoryView(cno);
+		List<CategoryDTO> categoryDTO = categoryService.categoryView(cno);
 
-		model.addAttribute("categoryDTO", categorydto);
+		List<CategoryDTO> categoryList1 = categoryService.categoryDetailProduct1();
+
+		List<CategoryDTO> categoryList2 = categoryService.categoryDetailProduct2();
+
+		model.addAttribute("categoryList1", categoryList1);
+
+		model.addAttribute("categoryList2", categoryList2);
+
+		model.addAttribute("categoryDTO", categoryDTO);
 
 	}
 
@@ -80,14 +89,19 @@ public class CategoryController {
 	}
 
 	// 카테고리 목록에 대한 상품 출력
-	@RequestMapping(value = "/category/categoryList", method = RequestMethod.GET)
+	@RequestMapping(value = "/pageIngredient/header", method = RequestMethod.GET)
 	public void categoryList(Model model) throws Exception {
 
 		logger.info("카테고리 목록 categoryList - Controller");
 
-		List<CategoryDTO> categoryList = categoryService.categoryDetailProduct();
+		List<CategoryDTO> categoryList1 = categoryService.categoryDetailProduct1();
 
-		model.addAttribute("categoryList", JSONArray.fromObject(categoryList));
+		List<CategoryDTO> categoryList2 = categoryService.categoryDetailProduct2();
+
+		model.addAttribute("categoryList1", categoryList1);
+
+		model.addAttribute("categoryList2", categoryList2);
+
 	}
 
 }

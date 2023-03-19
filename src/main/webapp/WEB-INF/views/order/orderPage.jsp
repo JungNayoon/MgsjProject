@@ -15,135 +15,20 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>주문 조회</title>
-<link rel="stylesheet" href="${contextPath}/resources/order/order2.css">
+<link rel="stylesheet" href="${contextPath}/resources/order/orderPage.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
-	<div class="wrap">
-		<!--공통 헤더 영역-->
-		<div id="header">
-			<header>
-				<div id="gnb">
-					<!--상단 로고-->
-					<h1>
-						<a href="/mainPage/mainPage">MGSJ</a>
-					</h1>
-					<!--검색창-->
-					<div class="search">
-						<button type="submit">
-							<i class="bi bi-search" style="font-size: 25px;"></i>
-						</button>
-						<input class="search_box" type="text" />
-					</div>
-					<!--유틸메뉴-->
-					<div class="gnb-utilmenu">
-						<c:choose>
-							<c:when test="${(memberInfo.userVerify) == 128 && (memberInfo != null) }">
-								<!-- 관리자 -->
-								<div class="gnb-utilmenu">
-									<a href="/member/memberLoginPage" title="관리자 회원 관리 페이지">
-										<i class="bi bi-bookmark-star-fill" style="font-size: 30px;"></i>
-									</a>
-									<a href="/cart.html" title="관리자 상품 관리 페이지">
-										<i class="bi bi-box-seam-fill" style="font-size: 30px;"></i>
-									</a>
-									<a href="#" title="로그 기록 확인 페이지">
-										<i class="bi bi-clock-history" style="font-size: 30px;"></i>
-									</a>
-								</div>
-							</c:when>
-
-							<c:when test="${(memberInfo.userVerify) == 0 && (memberInfo != null) }">
-								<!-- 회원 -->
-								<div class="gnb-utilmenu">
-									<a href="/member/memberModifyPage" title="회원정보수정">
-										<i class="bi bi-person-fill" style="font-size: 30px;"></i>
-									</a>
-									<a href="/cart/cartList" title="주문내역">
-										<i class="bi bi-cart" style="font-size: 30px;"></i>
-									</a>
-									<a href="#" title="활동 기록">
-										<i class="bi bi-clock-history" style="font-size: 30px;"></i>
-									</a>
-									<a href="javascript:memberLogout()" title="로그아웃">
-										<i class="bi bi-door-open" style="font-size: 30px;"></i>
-									</a>
-								</div>
-							</c:when>
-							<c:when test="${(memberInfo.userVerify) == 5 && (memberInfo != null) }">
-								<!-- 판매자 -->
-								<div class="gnb-utilmenu">
-									<a href="/member/memberModifyPage" title="판매자 정보 수정">
-										<i class="bi bi-person-fill" style="font-size: 30px;"></i>
-									</a>
-									<a href="/cart/cartList" title="판매상품내역">
-										<i class="bi bi-cart" style="font-size: 30px;"></i>
-									</a>
-									<a href="#" title="활동 기록">
-										<i class="bi bi-clock-history" style="font-size: 30px;"></i>
-									</a>
-									<a href="javascript:memberLogout()" title="로그아웃">
-										<i class="bi bi-door-open" style="font-size: 30px;"></i>
-									</a>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<!-- 비회원 -->
-								<div class="gnb-utilmenu">
-									<a href="/member/memberLoginPage" title="로그인">
-										<i class="bi bi-person-fill" style="font-size: 30px;"></i>
-									</a>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-				<!--네비게이션토글-->
-				<div class="gnb-navmenu">
-					<ul>
-						<li class="dropdown">
-							<a href="javascript:void(0)" class="dropbtn">
-								<i class="bi bi-list"></i>
-							</a>
-							<div class="dropdown-content">
-								<c:forEach var="categoryList" items="${categoryList}">
-									<a href="#" id="cateName">${categoryList.categoryName}</a>
-								</c:forEach>
-							</div>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-01">현재 픽업 가능</a>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-02">1시간 내 픽업 가능</a>
-						</li>
-						<li>
-							<a href="pickup.html#pickup-03">3시간 내 픽업 가능</a>
-						</li>
-					</ul>
-				</div>
-			</header>
-		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<!-- header -->
+	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+	<!-- header -->
+	<div class="lay-wrap">
 
 		<form action="/payment/paymentWrite" method="post">
-			<div class="container" align="center">
-				<div class="main">
-					<div class="titlearea">
-						<p>주문하기</p>
-					</div>
+			<div class="lay-con1">
+				<div class="title">
+					<h2>주문하기</h2>
+					<hr>
 					<div class="orderarea">
 						<div class="order_lft">
 							<div class="itemcheck">
@@ -155,190 +40,236 @@ request.setCharacterEncoding("UTF-8");
 										</span>
 									</li>
 								</ul>
-								
 							</div>
+						</div>
+					</div>
+				</div>
 
-							<div class="itemview">
-								<table>
-									<colgroup>
-										<col style="width: 70px">
-										<col style="width: 140px">
-										<col style="width: 210px">
-										<col style="width: 140px">
-										<col style="width: 140px">
-									</colgroup>
 
-									<tbody>
-										<c:set var="total" value="0" />
-										<c:forEach var="cartList" items="${cartList}">
-											<tr>
-												<td class="itemview_chk"><input type="checkbox" id="chkbox" name="chkbox" class="test" data-pno="${cartList.pno}"></td>
-												<td class="itemview_thum"><a href="/product.html">
-														<img src="/resources/product/images/product_sample.png">
-													</a></td>
-												<td class="itemview_info">
+				<div class="cart">
+					<table>
+						<%-- 					<colgroup> --%>
+						<%-- 						<col style="width: 70px"> --%>
+						<%-- 						<col style="width: 140px"> --%>
+						<%-- 						<col style="width: 210px"> --%>
+						<%-- 						<col style="width: 140px"> --%>
+						<%-- 						<col style="width: 140px"> --%>
+						<%-- 					</colgroup> --%>
+						<thead>
+							<tr>
+								<th></th>
+								<th>Product</th>
+								<th>Quantity</th>
+								<th>Subtotal</th>
+							</tr>
+						</thead>
 
-													<div>
-														<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
-														<span class="product_name">
-															<input type = "hidden" name = "pno" value = "${cartList.pno}">
-															<a href="${contextPath}/product/productView?pno=${orderDetailList.pno}">${cartList.productName}</a>
-														</span>
-													</div>
+						<tbody>
+							<c:set var="total" value="0" />
+							<c:forEach var="cartList" items="${cartList}">
+								<tr>
+									<td class="itemview_chk"><input type="checkbox" id="chkbox" name="chkbox" class="test" data-pno="${cartList.pno}"></td>
+									<td class="itemview_thum"><a href="/product.html">
+											<img src="/resources/product/images/product_sample.png">
+										</a></td>
+									<td class="itemview_info">
 
-												</td>
-												<td class="itemview_price">
-
-													<div>
-														<span>금액 : <input type = "text" name = "productPrice" value = "${cartList.productPrice}"></span>
-														<span>원</span>
-													</div>
-													<div class="input-group">
-														<span>주문개수 :</span>
-														<input type="number" class="input-number" min="1" name="productCnt" value="${cartList.totalCnt}" onkeydown="javascript: return event.keyCode == 69 ? false : true" readonly="readonly">
-													</div>
-												</td>
-											</tr>
-											<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-
-							<div class="payment-wrap">
-
-								<br> <br>
-								<div class="pay-title">
-									<b>Payment</b>
-								</div>
-								<%
-								// order_date : value 출력용
-								SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-								Calendar payCal = Calendar.getInstance();
-								String paymentDate = date.format(payCal.getTime());
-								%>
-								<br>
-								<!-- 주문시 주문정보  -->
-								<div class="pay-product">
-									<b class="pro-title">결제일자</b> <input type="text" id="order_date" value="<%=paymentDate.toString()%>" readonly /> <br>
-									<div class="pay-method">
-										<b class="pro-title">결제수단</b>
-										<div class="pay-radio">
-											<!-- 자바스크립트로 라디오타입의 value값을 따와서 text할 예정 -->
-											<label>
-												<input id="pay-card" type="radio" name="paymentKind" value ="카드" checked>카드
-											</label>
-											<label>
-												<input id="pay-cash" type="radio" name="paymentTransfer" value = "계좌이체">계좌이체
-											</label>
+										<div>
+											<!--  <span>제품번호 : </span><span class="product_num">00000</span><br> -->
+											<span class="product_name">
+												<input type="hidden" name="pno" value="${cartList.pno}">
+												<a href="${contextPath}/product/productView?pno=${orderDetailList.pno}">${cartList.productName}</a>
+											</span>
 										</div>
-									</div>
-								</div>
 
-								<div class="card-container">
-									<div class="card-sel">
-										<b class="pro-title">카드선택</b>
-										<select>
-											<option value="hyundai">현대카드</option>
-											<option value="lotte">롯데카드</option>
-											<option value="ezen">이젠카드</option>
-										</select>
-										<b class="pro-title">유효기간</b> <input type="date" id="card_date" name="card_date" />
+									</td>
+									<td class="itemview_price">
+
+										<div>
+											<span>
+												금액 :
+												<input type="text" name="productPrice" value="${cartList.productPrice}">
+											</span>
+											<span>원</span>
+										</div>
+										<div class="input-group">
+											<span>주문갯수 :</span>
+											<input type="number" class="input-number" min="1" name="productCnt" value="${cartList.totalCnt}" onkeydown="javascript: return event.keyCode == 69 ? false : true" readonly="readonly">
+										</div>
+									</td>
+								</tr>
+								<c:set var="total" value="${total + (cartList.productPrice * cartList.totalCnt)}" />
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="lay-con2">
+				<!-- 결제 -->
+
+
+				<!-- 배송지 -->
+				<div class="u-post">
+
+
+					<div class="tbl_frm01 tbl_wrap" align="center">
+						<div class="post-title">
+							<b>POST</b>
+						</div>
+						<div class="order_choice_place">
+							<input type="radio" name="ad_sel_addr" value="same" id="ad_sel_addr_same">
+							<label for="ad_sel_addr_same">주문자와 동일</label>
+							<input type='radio' name="ad_sel_addr" id='my_checkbox' onclick='toggleTextbox(this)' />
+							<label for="od_sel_addr_new">신규배송지</label>
+						</div>
+						<table>
+							<tbody>
+
+								<tr class="addressIng">
+									<th scope="row"><label for="od_b_name">
+											아이디<strong class="sound_only"></strong>
+										</label></th>
+									<td><input type="text" name="userId" maxlength="200" value="${memberInfo.userId}" readOnly></td>
+								</tr>
+								<tr class="addressIng">
+									<th scope="row"><label for="od_b_name">
+											이름<strong class="sound_only"></strong>
+										</label></th>
+									<td><input type="text" class="checkDel" id="recipient" name="recipient" value="${memberInfo.userId}" maxlength="200" /></td>
+								</tr>
+								<tr class="addressIng">
+									<th scope="row"><label for="od_b_tel">
+											전화번호<strong class="sound_only"> </strong>
+										</label></th>
+									<td><input type="Number" class="checkDel" id="recipientPhone" name="recipientPhone" value="${memberAddress.userPhoneNumber}" maxlength="11" /></td>
+								</tr>
+								<tr class="addressIng">
+									<th scope="row">주소</th>
+									<td id="sod_frm_addr"><label for="od_b_zip" class="sound_only">
+											<strong class="sound_only"></strong>
+										</label> <input id="postAddress" type="text" placeholder="우편번호" name = "postAddress" readonly value="${memberAddress.postAddress}" />
+										<button class="btn_address" type="button" onclick="findAddr()">검색</button> <br /> <input type="text" class="checkDel" id="detailAddress" name="detailAddress" value="${memberAddress.address}" maxlength="200" /> <input type="text" class="checkDel" id="detailAddress2" name="detailAddress2" value="${memberAddress.detailAddress}" maxlength="200" /></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 배송지 -->
+
+				<div class="payment">
+					<div class="payment-content">
+						<div class="pay-title">
+							<b>Payment</b>
+						</div>
+						<%
+						// order_date : value 출력용
+						SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+						Calendar payCal = Calendar.getInstance();
+						String paymentDate = date.format(payCal.getTime());
+						%>
+
+						<!-- 주문시 주문정보  -->
+						<div class="pay-product">
+							<b class="pro-title">결제일자</b>
+							<input type="text" id="order_date" value="<%=paymentDate.toString()%>" readonly />
+							<br>
+							<div class="pay-method">
+								<b class="pro-title">결제수단</b>
+								<!-- 자바스크립트로 라디오타입의 value값을 따와서 text할 예정 -->
+								<label>
+									<input id="pay-card" type="radio" name="paymentKind" value="카드" checked>
+									카드
+								</label>
+								<label>
+									<input id="pay-cash" type="radio" name="paymentKind" value="계좌이체">
+									계좌이체
+								</label>
+							</div>
+						</div>
+
+						<div class="card-container">
+							<div class="card-sel">
+								<div class="card-con">
+									<b class="pro-title">카드선택</b>
+									<select name = "paymentCard">
+										<option value="hyundai">현대카드</option>
+										<option value="lotte">롯데카드</option>
+										<option value="ezen">이젠카드</option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="card-con2">
+								<div class="card-date">
+									<b class="pro-title">유효기간</b>
+									<input type="date" id="card_date" name="card_date" />
+								</div>
+								<br>
+								<div class="card-info">
+									<div class="card-num">
+										<b class="pro-title">카드번호</b>
+										<input type="text" id="card_num" name="" />
 									</div>
 									<br>
-									<div class="card-info">
-										<b class="pro-title">카드번호</b> <input type="text" id="card_num" name="paymentCard" /> <b class="cd-pw">비밀번호</b><input type="number" id="card_pwd" name="card_pwd" placeholder="카드 비밀번호" />
+									<div class="card-pwd">
+										<b class="pro-title">비밀번호</b>
+										<input type="number" id="card_pwd" name="card_pwd" placeholder="카드 비밀번호" />
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="payment">
+						<div class="pay">
+							<!-- 공란용 -->
+							<!-- 			<div class="pay-emp"></div> -->
+							<!-- 공란용 -->
+
+							<div class="order_rgt">
+								<div class="order_price">
+									<div class="order_itemprice">
+										<span>주문금액</span>
+										<span>
+											<c:out value="${total}" />
+											원
+										</span>
+									</div>
+									<div class="order_deliveryprice">
+										<span>+ 배송비</span>
+										<span>3,000원</span>
+									</div>
+								</div>
+								<br>
+								<div class="pay-rast">
+									<span>총</span>
+									<span>
+										<input type="number" name="paymentMoney" value="${total + 3000}">
+										원
+									</span>
+
+
+								</div>
+								<div class="cart-btn">
+									<a href="/cart/cartList">
+										<button type="button" class="btn_cart">
+											<span>장바구니로 이동</span>
+										</button>
+									</a>
 								</div>
 
 								<div class="payment-btn">
-									<button type="button" onclick="payment()">결제하기</button>
+									<a href="/payment/paymentPage">
+										<button type="submit" class="btn_pay">결제하기</button>
+									</a>
 								</div>
-							</div>
-						</div>
-					</div>
 
-
-					<div class="userInfo">
-						<div class="form-group">
-							<div>
-								<h2 align="center">주소 확인</h2>
 							</div>
 						</div>
-						<!-- SELECT  c.pno, p.productName, p.productPrice, c.productCnt, member.userId -->
-
-						<div class="form-group">
-							<label for="subject" class="col-sm-2 control-label">회원아이디</label>
-							<div class="col-sm-10">
-								<input type="text" name="userId" maxlength="200" value="${memberInfo.userId}" readOnly>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="writer" class="col-sm-2 control-label">우편번호</label>
-							<div class="col-sm-2">
-								<input type="Number" class="checkDel" id="postAddress" name="postAddress" value="${memberAddress.postAddress}" maxlength="200" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="writer" class="col-sm-2 control-label">상세주소1</label>
-							<div class="col-sm-2">
-								<input type="text" class="checkDel" id="detailAddress" name="detailAddress" value="${memberAddress.address}" maxlength="200" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="writer" class="col-sm-2 control-label">상세주소2</label>
-							<div class="col-sm-2">
-								<input type="text" class="checkDel" id="detailAddress2" name="detailAddress2" value="${memberAddress.detailAddress}" maxlength="200" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="writer" class="col-sm-2 control-label">수령인</label>
-							<div class="col-sm-2">
-								<input type="text" class="checkDel" id="recipient" name="recipient" value="${memberInfo.userId}" maxlength="200" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="writer" class="col-sm-2 control-label">수령인 전화번호</label>
-							<div class="col-sm-2">
-								<input type="Number" class="checkDel" id="recipientPhone" name="recipientPhone" value="${memberAddress.userPhoneNumber}" maxlength="200" />
-							</div>
-						</div>
-
-						<br> <input type='checkbox' id='my_checkbox' onclick='toggleTextbox(this)' />배송지 정보 직접입력
-					</div>
-
-					<!-- 유저 정보 저장 박스 끝 -->
-
-
-					<div class="order_rgt">
-						<div class="order_price">
-							<div class="order_itemprice">
-								<span>주문금액</span>
-								<span>
-									<c:out value="${total}" />
-									원
-								</span>
-							</div>
-							<div class="order_deliveryprice">
-								<span>배송비</span>
-								<span>3,000원</span>
-							</div>
-						</div>
-						<hr>
-						<div class="order_sum">
-							<span>결제예정금액</span>
-							<span><input type = "number" name = "paymentMoney" value = "${total}">${total + 3000}원</span>/span>
-						</div>
-						<a href="/payment/paymentPage">
-							<button type="submit" class="btn_pay">
-								<span>결제하기</span>
-							</button>
-						</a>
-						<a href="/cart/cartList">
-							<button type="button" class="btn_cart">
-								<span>장바구니로 이동</span>
-							</button>
-						</a>
 					</div>
 				</div>
 
@@ -346,26 +277,13 @@ request.setCharacterEncoding("UTF-8");
 		</form>
 	</div>
 
-	<!--푸터 영역-->
-	<footer>
-		<div class="company">
-			<div class="corporate">
-				<span>고객센터</span>
-				<i class="bi bi-headset"></i> <i>1234-5678</i>
-			</div>
-			<div class="corporate-txt">
-				<p>대표자 : 이젠3조 | 서울특별시 종로구 | 사업자등록번호 : 000-00-00000</p>
-				<br>
-				<p>
-					<a href="mailto:3teamproject@example.com">3teamproject@example.com</a>
-					&nbsp;&nbsp;| FAX : 02-0000-0000
-				</p>
-				<address>&copy;Copyright 2023. ezen3projectteam. All rights reserved.</address>
-			</div>
-		</div>
 
-	</footer>
 
+
+	<!-- footer -->
+	<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
+	<!-- footer -->
+	<!-- 스크립트 -->
 	<script>
 		 $("#allchk").click(function(){
 				var chk = $("#allchk").prop("checked");
@@ -416,7 +334,30 @@ request.setCharacterEncoding("UTF-8");
 		          });
 		        });
 		        
-		
-		</script>
+
+		        function findAddr() {
+		        	new daum.Postcode({
+		        		oncomplete: function(data) {
+		        			console.log(data);
+
+		        			// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+		        			let roadAddr = data.roadAddress; // 도로명 주소 변수
+		        			let jibunAddr = data.jibunAddress; // 지번 주소 변수
+		        			// 우편번호와 주소 정보를 해당 필드에 넣는다.
+		        			document.getElementById('postAddress').value = data.zonecode;
+		        			if (roadAddr !== '') {
+		        				document.getElementById("address").value = roadAddr;
+		        			}
+		        			else if (jibunAddr !== '') {
+		        				document.getElementById("address").value = jibunAddr;
+		        			}
+		        		}
+		        	}).open();
+		        }
+		        
+</script>
+
+	<script src="/resources/order/addressApi.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

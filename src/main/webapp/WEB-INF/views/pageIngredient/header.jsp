@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.project.member.domain.MemberDTO"%>
-<c:set var = "contextPath" value = "${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 String cp = request.getContextPath();
 request.setCharacterEncoding("UTF-8");
@@ -13,7 +13,7 @@ Cookie[] ck = request.getCookies();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>header</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/pageIngredient/header/logout.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -148,77 +148,29 @@ Cookie[] ck = request.getCookies();
 				<span></span>
 			</label>
 
-
 			<!--상품카테고리 -->
 			<div id="side_menu">
 				<aside id="left">
 					<h2>카테고리</h2>
 					<ul>
-						<li>
-							<a href="./cloth.html" target="iframe1">
-								<strong>과일</strong>
-							</a>
-							<ul class="dropdown_menu dropdown_menu_end">
-								<li>
-									<a href="#">사과/배</a>
-								</li>
-								<li>
-									<a href="#">딸기/블루베리</a>
-								</li>
-								<li>
-									<a href="#">귤/만감류</a>
-								</li>
-								<li>
-									<a href="#">수박/멜론/참외</a>
-								</li>
-								<li>
-									<a href="#">건과일</a>
-								</li>
-							</ul>
-						<li>
-							<a href="./food.html" target="iframe1">
-								<strong>육류</strong>
-							</a>
-							<ul class="dropdown_menu dropdown_menu_end_1">
-								<li>
-									<a href="#">정육</a>
-								</li>
-								<li>
-									<a href="#">계란/알류</a>
-								</li>
-								<li>
-									<a href="#">닭/오리</a>
-								</li>
-								<li>
-									<a href="#">소고기</a>
-								</li>
-								<li>
-									<a href="#">돼지고기</a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a href="./life.html" target="iframe1">
-								<strong>야채</strong>
-							</a>
-							<ul class="dropdown_menu dropdown_menu_end_2">
-								<li>
-									<a href="#">양파/마늘/파</a>
-								</li>
-								<li>
-									<a href="#">쌈채소</a>
-								</li>
-								<li>
-									<a href="#">고추/피망</a>
-								</li>
-								<li>
-									<a href="#">나물류</a>
-								</li>
-								<li>
-									<a href="#">샐러드용</a>
-								</li>
-							</ul>
-						</li>
+						<c:forEach var="categoryList1" items="${categoryList1}">
+							<li>
+								<div class="productName">
+									<c:out value="${categoryList1.categoryName}" />
+								</div>
+								<ul class="dropdown_menu dropdown_menu_end">
+									<c:forEach var="categoryList2" items="${categoryList2}">
+										<c:if test = "${categoryList2.categoryLevel == categoryList1.cno}">
+											<li>
+												<a href="/category/categoryPro?cno=${categoryList2.cno}">
+													<c:out value="${categoryList2.categoryName}" />
+												</a>
+											</li>
+										</c:if>
+									</c:forEach>
+								</ul>
+							</li>
+						</c:forEach>
 					</ul>
 				</aside>
 			</div>
@@ -246,17 +198,84 @@ Cookie[] ck = request.getCookies();
 	</div>
 	<!------------js for toggle menu-------------->
 	<script>
-		let MenuItems = document.getElementById ( "MenuItems" );
+		let MenuItems = document.getElementById ("MenuItems");
 
 		MenuItems.style.maxHeight = "0px";
 
 		function menutoggle () {
-			if ( MenuItems.style.maxHeight == "0px" ) {
+			if (MenuItems.style.maxHeight == "0px") {
 				MenuItems.style.maxHeight = "200px"
 			} else {
 				MenuItems.style.maxHeight = "0px";
 			}
 		}
+
+		/* 	//컨트롤러에서 데이터 받기
+			var jsonData = JSON.parse ( '${categoryList}' );
+			console.log ( jsonData );
+
+			var cate1Arr = new Array ();
+			var cate1Obj = new Object ();
+
+			//1차 분류 셀렉트 박스에 삽입할 데이터
+			for ( var i = 0; i < jsonData.length; i++ ) {
+
+				if ( jsonData[i].level == 1 ) {
+					cate1Obj = new Object (); //초기화
+					cate1Obj.cno = jsonData[i].cno;
+					cate1Obj.categoryName = jsonData[i].categoryName;
+					cate1Arr.push ( cate1Obj );
+				}
+			} */
+
+		/* //1차 분류 셀렉트 박스에 데이터
+		var cate1Select = $ ( '.category1' )
+		for ( var i = 0; i < cate1Arr.length; i++ ) {
+			/*	cate1Select.append("<option value='" + cate1Arr[i].cno + "'>"
+						+ cate1Arr[i].categoryName + "</option>"); 
+			cate1Select.append ( "<c:forEach items = '"cate1Arr[i]"'>" + cate1Arr.categoryName + "</c:forEach>" );
+		}
+
+		$ ( document ).on ( "change" , "category1" , function () {
+
+			var cate2Arr = new Array ();
+			var cate2Obj = new Object ();
+
+			//2차 분류 셀렉트 박스
+			for ( var i = 0; i < jsonData.length; i++ ) {
+
+				if ( jsonData[i].level == 2 ) {
+					cate2Obj = new Object ();
+					cate2Obj.cno = jsonData[i].cno;
+					cate2Obj.categoryName = jsonData[i].categoryName;
+					cate2Obj.categoryLevel = jsonData[i].categoryLevel;
+
+					cate2Arr.push ( cate2Obj );
+				}
+			}
+
+			var cate2Select = $ ( "select.category2" );
+			/* 
+			for(var i = 0; i < cate2Arr.length; i++) {
+				cate2Select.append("<option value = '" + cate2Arr[i].cno +"'>"
+									+ cate2Arr[i].categoryName + "</option>")
+			} 
+
+			cate2Select.children ().remove ();
+
+			$ ( "option:selected" , this ).each ( function () {
+
+				var selectVal = $ ( this ).val ();
+				cate2Select.append ( "<option value=''>전체</option>" );
+
+				for ( var i = 0; i < cate2Arr.length; i++ ) {
+					if ( selectVal == cate2Arr[i].categoryLevel ) {
+						cate2Select.append ( "<option value='" + cate2Arr[i].cno + "'>" + cate2Arr[i].categoryName + "</option>" );
+					}
+				}
+			} );
+
+		} ); */
 	</script>
 
 </body>

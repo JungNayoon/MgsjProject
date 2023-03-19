@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,7 +37,7 @@ public class PaymentController {
 	@RequestMapping(value = "/payment/paymentWrite", method = RequestMethod.POST)
 	public String paymentWrite(PaymentDTO paymentDTO, 
 								OrderDTO orderDTO,
-								OrderDetailDTO orderDetailDTO,
+								@ModelAttribute(value = "orderDetailDTO[]") List<OrderDetailDTO> orderDetailDTO,
 								HttpServletRequest req, 
 								String userId) throws Exception {
 		
@@ -48,8 +49,10 @@ public class PaymentController {
 
 		paymentDTO.setUserId(memberLoginSession.getUserId());
 	
+		for (OrderDetailDTO orderDetailData : orderDetailDTO) {
+			paymentService.paymentWrite(userId, paymentDTO, orderDTO, orderDetailData);
+		}
 		
-		paymentService.paymentWrite(userId, paymentDTO, orderDTO, orderDetailDTO);
 		
 		return "redirect:/order/orderList";
 	}

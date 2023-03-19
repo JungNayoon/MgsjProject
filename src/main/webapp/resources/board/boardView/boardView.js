@@ -7,7 +7,7 @@ function removeContent(bno) {
 	if (YN == true) {
 		
 		$.ajax({
-			url : '/board/boardDelete',
+			url : '/admin/boardDelete',
 			type : 'post',
 			data : {
 				bno : bno
@@ -17,7 +17,7 @@ function removeContent(bno) {
 				
 				alert('게시글이 삭제되었습니다.');
 				
-				location.href = "/board/adminBoardList?pageNum=1";
+				location.href = "/announcement/announcement?pageNum=1";
 				
 			},
 			error : function(errorMsg){

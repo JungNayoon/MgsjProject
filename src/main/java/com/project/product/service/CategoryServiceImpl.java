@@ -27,9 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryDAO.categoryWrite(categoryDTO);
 	}
 
-	// 카테고리 조회
+	//카테고리별 품목 조회
 	@Override
-	public CategoryDTO categoryView(int cno) throws Exception {
+	public List<CategoryDTO> categoryView(int cno) throws Exception {
 
 		logger.info("카테고리 조회 categoryView - Service");
 
@@ -63,12 +63,21 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.categoryList();
 	}
 
-	// 카테고리 목록에 의한 상품 출력
+	// 카테고리 목록에 의한 1차 상품 출력
 	@Override
-	public List<CategoryDTO> categoryDetailProduct() throws Exception {
+	public List<CategoryDTO> categoryDetailProduct1() throws Exception {
 
-		logger.info("카테고리 목록에 대한 상품 출력 categoryDetailProduct - service");
+		logger.info("카테고리 목록에 대한 1차 상품 출력 categoryDetailProduct1 - service");
 
-		return categoryDAO.categoryDetailProduct();
+		return categoryDAO.categoryDetailProduct1();
+	}
+	
+	// 카테고리 목록에 대한 2차 상품 출력
+	@Override
+	public List<CategoryDTO> categoryDetailProduct2() throws Exception {
+
+		logger.info("카테고리 목록에 대한 2차 상품 출력 categoryDetailProduct2 - service");
+		
+		return categoryDAO.categoryDetailProduct2();
 	}
 }

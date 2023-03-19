@@ -3,23 +3,12 @@
 
 <mapper namespace="mappers.paymentMapper">
 
-<!-- 
-
-Table: paymentdto
-orderNum	int	NO	MUL
-paymentSet	varchar(20)	NO	
-paymentCard	varchar(20)	NO	
-paymentMoney	int	NO	
-paymentRegDate	datetime	NO	
-
- -->
-
 <!--  결제 등록 -->
 <insert id = "paymentWrite" parameterType = "com.project.order.domain.PaymentDTO">
 
 INSERT INTO paymentdto(orderNum, paymentKind, paymentCard, paymentMoney, paymentRegDate)
-SELECT o.orderNum, #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()
-FROM orderdto as o
+SELECT max(orderNum), #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()
+FROM orderdto
 
 </insert>
 <!--  VALUES (#{orderNum}, #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()) -->

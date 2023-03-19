@@ -83,6 +83,7 @@
 			<mapping path="/category/**"/>
 			<mapping path="/review/**"/>
 			<exclude-mapping path="/product/productView*"/>
+			<exclude-mapping path="/category/categoryPro*"/>
 			<beans:ref bean="LoginInterceptor"/>
 		</interceptor>
 	</interceptors>

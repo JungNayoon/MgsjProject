@@ -88,7 +88,59 @@ function editInfo() {
 	}
 }
 
-function withdrawalUser() {
-	alert("탈퇴되었습니다.")
+function removeMember() {
+	
+	let removeYN = confirm("정말 탈퇴하시겠습니까? 탈퇴된 정보는 복구되지 않습니다.");
+	
+	if(removeYN){
+		
+		let userId = document.getElementById("userId");
+		let userPwd = document.getElementById("userPwd");
+		
+		if(userPwd.value == "" || userPwd.value.length < 4){
+			alert("비밀번호는 반드시 4자 이상 입력해주세요");
+			
+			return false;
+		}
+		
+		$.ajax({
+			url : "/member/removeMember",
+			type : "post",
+			data : {
+				"userId" : userId.value,
+				"userPwd" : userPwd.value
+			},
+			dataType : "json",
+			
+			success : function(result){
+				
+				if(result == true){
+					
+					alert("회원 탈퇴가 완료되었습니다.");
+					
+					location.href = "/member/memberLogout";
+					
+				} else {
+					
+					alert("비밀번호 불일치로 회원 탈퇴에 실패하였습니다.");
+					
+					return false;
+				}
+				
+			},
+			error : function(error){
+				
+				alert("알 수 없는 오류로 회원탈퇴에 실패하였습니다.");
+				
+
+			}
+		})
+		
+		
+	} else {
+		alert("탈퇴가 취소되었습니다.");
+		
+		return false;
+	}
 }
 
