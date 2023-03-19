@@ -3,10 +3,10 @@
 
 h1 {
   text-align: center;
-  margin:  50px auto 30px;
+  margin:  100px auto 30px;
 }
 .login-logo {
-  color: #297eff;
+  color: #2a2a2a;
   font-size: 40px;
   text-align: center;
 }
@@ -141,7 +141,7 @@ h1 {
 } 
 #login-btn {
 	border : none;
-  background: #297eff;
+  background: #2a2a2a;
   width: 100%;
   color: white;
   padding: 20px 0;
@@ -150,7 +150,7 @@ h1 {
 }
 .join_link {
   border: 1px solid #aaa;
-  color: #297eff;
+  color: #2a2a2a;
   padding: 20px 0;
   width: 100%;
   display: block;
