@@ -45,6 +45,11 @@
     <div class="row">
     
      <div class="col-2">
+        <!-- 
+           private String originFileName;
+           private String storedFileName;
+           private String storedThumbNail;
+           -->
         <img id="resultimg" src="${productDTO.storedFileName}" alt="상품 이미지 로딩 실패">
      </div>
      

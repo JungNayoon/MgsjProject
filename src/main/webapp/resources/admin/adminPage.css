@@ -1,7 +1,10 @@
-@charset "UTF-8";
+body {
+	margin: 0;
+}
 
 thead>tr>th {
-	background-color: #297EFF;
+	background-color: #4F4F4F;
+	color: #fff;
 	border-left: 0;
 	border-right: 0;
 }
@@ -43,8 +46,8 @@ a {
 	width : 100%;
 	text-align: center;
 	display: inline-block;
-	margin : auto auto 40px auto;
-	
+	margin-top : 30px;
+	height: 700px;
 }
 .board_write{
 	margin : 10px 0;
