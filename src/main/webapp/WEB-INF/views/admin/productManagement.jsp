@@ -11,9 +11,25 @@
 <link rel="stylesheet" type="text/css" href="/resources/admin/adminPage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
-<jsp:include page="../pageIngredient/header.jsp"></jsp:include>
+<!-- header -->        
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+<!-- header -->
+
 	<div id="boardGroup">
 		<h1>상품 목록 (관리자)</h1>
+		<!-- 게시글 검색기능 -->
+		<%
+		PageIngredient pageIngredient = (PageIngredient) request.getAttribute("page");
+		%>
+		<div>
+			<select class="searchType" name="searchType" onchange="changeInputTag();">
+				<option value="productName" <%=pageIngredient.getSearchType().equals("productName") ? "selected" : ""%>>상품이름</option>
+				<option value="cno" <%=pageIngredient.getSearchType().equals("cno") ? "selected" : ""%>>상품종류</option>
+			</select>
+			<input type="text" id="keyword" class="keyword" name="keyword" value="<%=pageIngredient.getKeyword()%>" onkeyup="enterSearching();">
+			<button id="searchingActivate" type="button" onclick="searchingActivate();">검색</button>
+		</div>
+		<!-- 게시글 검색기능 끝 -->
 		<table>
 			<thead>
 				<tr>
@@ -53,26 +69,13 @@
 						<td>
 							<a href="">[상품수정]</a>
 							<br>
-							<a href="#" onclick= "deleteProductList('${productList.pno}');">[상품삭제]</a>
+							<a href="">[상품삭제]</a>
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 
-		<!-- 게시글 검색기능 -->
-		<%
-		PageIngredient pageIngredient = (PageIngredient) request.getAttribute("page");
-		%>
-		<div>
-			<select class="searchType" name="searchType" onchange="changeInputTag();">
-				<option value="productName" <%=pageIngredient.getSearchType().equals("productName") ? "selected" : ""%>>상품이름</option>
-				<option value="cno" <%=pageIngredient.getSearchType().equals("cno") ? "selected" : ""%>>상품종류</option>
-			</select>
-			<input type="text" id="keyword" class="keyword" name="keyword" value="<%=pageIngredient.getKeyword()%>" onkeyup="enterSearching();">
-			<button id="searchingActivate" type="button" onclick="searchingActivate();">검색</button>
-		</div>
-		<!-- 게시글 검색기능 끝 -->
 
 		<!-- 페이징 시작 -->
 		<%
@@ -116,7 +119,10 @@
 		%>
 		<!-- 페이징 끝 -->
 	</div>
-	<jsp:include page="../pageIngredient/footer.jsp"></jsp:include>
+	
+<!-- footer -->        
+<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
+<!-- footer -->
 </body>
 <script type="text/javascript" src="/resources/admin/product/adminProduct.js"></script>
 </html>

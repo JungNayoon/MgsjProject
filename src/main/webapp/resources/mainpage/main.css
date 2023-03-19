@@ -92,7 +92,7 @@ body {
 
 .title::after {
   content: '';
-  background: #3b86ff;
+  background: #4f4f4f;
   width: 300px;
   height: 5px;
   border-radius: 5px;
@@ -120,6 +120,11 @@ h4 {
 }
 
 /* banner */
+
+.swiper-button-next {
+	color: #2a2a2a
+}
+
 .swiper-wrapper {
    z-index: -1;
 }

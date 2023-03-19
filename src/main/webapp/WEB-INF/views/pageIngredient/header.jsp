@@ -17,8 +17,7 @@ Cookie[] ck = request.getCookies();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/pageIngredient/header/logout.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="${contextPath}/resources/pageIngredient/header/header.css">
-<link rel="stylesheet" href="${contextPath}/resources/pageIngredient/header/hambuger.css">
+<link rel="stylesheet" href="${contextPath}/resources/pageIngredient/header/header2.css">
 </head>
 <body>
 	<div class="header">
@@ -71,36 +70,10 @@ Cookie[] ck = request.getCookies();
 									</a>
 								</li>
 								<li>
-									<a type="button" title="활동기록" onclick="openHistory()">
-										<i class="bi bi-clock-history" style="font-size: 30px;"></i>
-									</a>
-								</li>
-								<li>
 									<a href="javascript:memberLogout()" title="로그아웃">
 										<i class="bi bi-door-open" style="font-size: 30px;"></i>
 									</a>
-									<!--최근 본 상품-->
-									<div id="mySidenav" class="sidenav">
-										<div class="sidenav_top">
-											<a href="javascript:void(0)" class="closebtn" onclick="closeHistory()">&times;</a>
-											<p>최근 본 상품</p>
-										</div>
-
-										<div class="sidenav_main">
-											<div>
-												<%
-												if (ck != null) {
-													for (Cookie c : ck) {
-														if (c.getName().indexOf("sname") != -1) {
-													out.println(java.net.URLDecoder.decode(c.getValue(), "UTF-8") + "<br>");
-														}
-													}
-												}
-												%>
-											</div>
-										</div>
-									</div>
-									<!--최근 본 상품-->
+									
 								</li>
 							</ul>
 						</c:when>
@@ -138,64 +111,40 @@ Cookie[] ck = request.getCookies();
 			</div>
 		</div>
 	</div>
-	<div id="header">
-		<div class="ham-wrap">
-
-			<input type="checkbox" id="check_box" />
-			<label for="check_box">
-				<span></span>
-				<span></span>
-				<span></span>
-			</label>
-
-			<!--상품카테고리 -->
-			<div id="side_menu">
-				<aside id="left">
-					<h2>카테고리</h2>
-					<ul>
-						<c:forEach var="categoryList1" items="${categoryList1}">
-							<li>
-								<div class="productName">
-									<c:out value="${categoryList1.categoryName}" />
-								</div>
-								<ul class="dropdown_menu dropdown_menu_end">
-									<c:forEach var="categoryList2" items="${categoryList2}">
-										<c:if test = "${categoryList2.categoryLevel == categoryList1.cno}">
-											<li>
-												<a href="/category/categoryPro?cno=${categoryList2.cno}">
-													<c:out value="${categoryList2.categoryName}" />
-												</a>
-											</li>
-										</c:if>
-									</c:forEach>
-								</ul>
-							</li>
-						</c:forEach>
-					</ul>
-				</aside>
-			</div>
-
-
-			<!--네비게이션토글-->
-			<nav>
-				<ul>
-					<li>
-						<a href="/order/orderList">My Order</a>
-					</li>
-					<li>
-						<a href="/announcement/announcement?pageNum=1">NOTICE</a>
-					</li>
-					<li>
-						<a href="/inquire/inquireList">Q &amp; A</a>
-					</li>
-				</ul>
-			</nav>
-			<!--네비게이션토글 끝-->
+	<!--dropdown menu 시작-->
+   <div class="menu">
+      <a href="/order/orderList">My Page</a>
+      <a href="/announcement/announcement?pageNum=1">NOTICE</a>
+      <div class="dropdown">
+         <button class="dropbtn">Product
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <div class="row">
+              <div class="column">
+                 <c:forEach var="categoryList1" items="${categoryList1}"> <!-- 대분류 -->
+                  <span>
+                     <a href="#" class="dropdown-btn">
+                        <c:out value="${categoryList1.categoryName}" /> <!-- 대분류 이름 -->
+                     </a>
+                  </span>
+                  <c:forEach var="categoryList2" items="${categoryList2}"><!-- 소분류 -->
+                     <c:if test="${categoryList2.categoryLevel == categoryList1.cno}">
+                        <a href="/category/categoryPro?cno=${categoryList2.cno}" class="dorpdown-btn">
+                           <c:out value="${categoryList2.categoryName}" /><!-- 소분류 이름 -->
+                        </a>
+                     </c:if>
+                  </c:forEach>
+               </c:forEach>
+              </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--dropdown menu 끝-->
 
 
 
-		</div>
-	</div>
 	<!------------js for toggle menu-------------->
 	<script>
 		let MenuItems = document.getElementById ("MenuItems");
