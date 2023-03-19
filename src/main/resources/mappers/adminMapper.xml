@@ -95,4 +95,10 @@
 		
 	</select>
 	
+	<!-- 관리자 상품 삭제 -->
+	<delete id="adminProductDelete" parameterType="Integer">
+		delete from productdto
+			where pno = #{pno}
+	</delete>
+	
 </mapper>

@@ -27,4 +27,7 @@ public interface ProductDAO {
 	
 	// 상품 검색 결과 갯수 출력
 	public int totalSearchProduct(String searchType, String keyword) throws Exception;
+	
+	// 관리자 상품 ㅁ삭제
+	public void adminProductDelete(int pno) throws Exception;
 }
