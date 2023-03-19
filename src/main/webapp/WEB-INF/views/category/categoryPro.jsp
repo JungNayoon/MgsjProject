@@ -72,17 +72,17 @@ request.setCharacterEncoding("UTF-8");
 				<br>
 				<hr>
 				<ul>
-					<c:forEach var="categoryList1" items="${categoryList1}">
+					<c:forEach var="categoryList1" items="${categoryList1}"> <!-- 대분류 -->
 						<li>
 							<a href="#" class="dropdown-btn">
-								<c:out value="${categoryList1.categoryName}" />
+								<c:out value="${categoryList1.categoryName}" /> <!-- 대분류 이름 -->
 							</a>
 							<ul class="dropdown_menu dropdown_menu_end" style="display: none;">
-								<c:forEach var="categoryList2" items="${categoryList2}">
+								<c:forEach var="categoryList2" items="${categoryList2}"><!-- 소분류 -->
 									<c:if test="${categoryList2.categoryLevel == categoryList1.cno}">
 										<li>
 											<a href="/category/categoryPro?cno=${categoryList2.cno}" class="dorpdown-btn">
-												<c:out value="${categoryList2.categoryName}" />
+												<c:out value="${categoryList2.categoryName}" /><!-- 소분류 이름 -->
 											</a>
 										</li>
 									</c:if>

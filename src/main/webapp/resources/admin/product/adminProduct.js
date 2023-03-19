@@ -89,3 +89,4 @@ function deleteProductList(pno) {
 		alert("제품 삭제를 취소하였습니다.");
 	}
 }
+

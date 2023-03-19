@@ -1,3 +1,7 @@
+strong:focus {
+    outline: none;
+}
+
 .order_title{
 	height: 94px;
 	font-weight: bold;
@@ -9,7 +13,7 @@
 
 button {
   display: inline-block;
-  background: #3b86ff;
+  background: #4f4f4f;
   color: #fff;
   margin: 30px 0;
   transition: background 0.5s;
@@ -36,12 +40,13 @@ th {
   text-align: center;
   padding: 5px;
   color: #fff;
-  background: #3b86ff;
+  background: #2a2a2a;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
 }
 
 td {
-  padding: 10px 5px;
+  padding: 10px 4px;
   text-align: center;
+  border-bottom: 1px solid #ccc;
 }
