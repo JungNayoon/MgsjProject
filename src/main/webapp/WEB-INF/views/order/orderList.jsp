@@ -42,7 +42,7 @@ request.setCharacterEncoding("UTF-8");
         </colgroup>
         <thead>
           <tr>
-          	<th>주문번호</th>
+          	<th>NO</th>
             <th class="first">주문일자</th>
             <th scope="col">주문 상품 정보</th>
             <th scope="col">상품금액(수량)</th>
@@ -106,6 +106,7 @@ request.setCharacterEncoding("UTF-8");
           </c:forEach>
         </tbody>
       </table>
+          
     </div>
   </div>
 

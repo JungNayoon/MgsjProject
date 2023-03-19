@@ -129,7 +129,7 @@ public class ProductController {
 
 		productService.productDelete(pno);
 
-		return "redirect:/mainPage/mainPage";
+		return "redirect:/admin/productManagement?pageNum=1";
 	}
 
 	// 상품 상세조회
