@@ -51,11 +51,6 @@
 				</div>
 				<div class="field">
 					<b>주소</b>
-					<!-- 
-						private String postAddress;
-						private String address;
-						private String detailAddress;
-					 -->
 					<input id="postAddress" name="postAddress" type="text" placeholder="우편번호" readonly />
 					<button type="button" onclick="findAddr()">우편번호 검색</button>
 					<input id="address" name="address" type="text" placeholder="주소" readonly />

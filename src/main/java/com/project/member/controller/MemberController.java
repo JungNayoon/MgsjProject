@@ -73,10 +73,6 @@ public class MemberController {
 
 		logger.info("회원가입 실행 signUpMember - (controller)");
 
-		/*
-		 * String userId = memberDTO.getUserId(); memberAddressDTO.setUserId(userId);
-		 */
-
 		memberService.signUpMember(memberDTO, memberAddressDTO);
 
 		logger.info("회원가입 정보 : {}", memberDTO);

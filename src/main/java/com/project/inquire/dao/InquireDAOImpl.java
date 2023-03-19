@@ -28,11 +28,6 @@ public class InquireDAOImpl implements InquireDAO {
 
 		logger.info("제품 문의 등록 inquireWrite - DAO");
 
-		Map<String, Integer> inquire = new HashMap<>();
-
-//		inquire.put("askNum", askNum);
-//		inquire.put("inquirePno", inquirePno);
-
 		sqlSession.insert(NAME_SPACE + ".inquireWrite", inquireDTO);
 	}
 

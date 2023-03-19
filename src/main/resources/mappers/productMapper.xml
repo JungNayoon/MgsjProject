@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.productMapper">
-	<!-- pno int AI PK cno int productName varchar(30) productPrice int productStock int productDescription text productRegDate datetime productReadCnt int private String originFileName; private String storedFileName; private String storedThumbNail; -->
 
 	<!-- 상품 게시글 등록하기 -->
 	<insert id="productWrite" parameterType="com.project.product.domain.ProductDTO">

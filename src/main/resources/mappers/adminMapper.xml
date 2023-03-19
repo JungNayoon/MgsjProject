@@ -52,18 +52,6 @@
 	</select>
 	
 	<!-- 검색 결과에 따른 상품 목록 출력 및 페이징 -->
-	<!-- 
-		pno
-		cno
-		productName
-		productPrice
-		productStock
-		productDescription
-		productRegDate
-		originFileName
-		storedFileName
-		storedThumbNail
-	 -->
 	<select id="adminProductList" resultType="com.project.product.domain.ProductDTO" parameterType="hashMap">
 		
 		select 

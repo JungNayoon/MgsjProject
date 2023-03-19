@@ -2,28 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.orderMapper">
 
-<!-- 
-orderDTO
-orderNum int AI PK 
-userId varchar(20) 
-orderDate datetime 
-postAddress varchar(20) 
-detailAddress varchar(50) 
-detailAddress2 varchar(50) 
-recipient varchar(10) 
-recipientPhone varchar(15)
- -->
- 
-<!-- 
-orderdetailDTO
-orderDetailNum int AI PK 
-orderNum int 
-pno int 
-productTotalPrice int 
-productTotalCnt int 
-userId varchar(20)
-
- -->
 <!-- 주문 등록 -->
 <insert id = "orderWrite" parameterType = "com.project.order.domain.OrderDTO">
 
@@ -32,13 +10,14 @@ VALUES (#{userId}, NOW(), #{postAddress}, #{detailAddress}, #{detailAddress2}, #
 
 </insert>
 
-<insert id = "orderDetailWrite" parameterType = "com.project.order.domain.OrderDetailDTO">
 
-INSERT INTO orderdetaildto (orderNum, pno, productPrice, productCnt, userId)
-SELECT orderNum, #{pno}, #{productPrice}, #{productCnt}, #{userId}
-FROM orderdto
-WHERE userId = #{userId}
-
+<insert id="orderDetailWrite" parameterType="com.project.order.domain.OrderDetailDTO">
+	
+	INSERT INTO orderdetaildto (orderNum, pno, productPrice, productCnt, userId)
+	SELECT max(orderNum), #{pno}, #{productPrice}, #{productCnt}, #{userId}
+	FROM orderdto
+	WHERE userId = #{userId}
+	
 </insert>
 
 <!-- 주문 상세 조회 -->
@@ -78,15 +57,14 @@ WHERE orderNum = #{orderNum}
 <!-- 주문 목록 -->
 <select id = "orderList" parameterType = "HashMap" resultType = "com.project.order.domain.OrderDTO">
 
-SELECT o.orderNum, o.orderDate, od.pno, od.productPrice, od.userId, p.productName, SUM(od.productCnt) as totalCnt
+SELECT o.orderNum, o.orderDate, od.pno, od.productPrice, od.userId, p.productName, od.productCnt
 	FROM orderdto as o 
     INNER JOIN orderdetaildto as od
 	ON o.orderNum = od.orderNum
     JOIN productdto as p
 	ON od.pno = p.pno
 	WHERE od.userId = #{userId}
-    AND o.orderNum = od.orderNum
-	GROUP BY pno, orderNum
+	GROUP BY pno, orderNum, od.productCnt
 	ORDER BY orderNum DESC;
 	
 </select>

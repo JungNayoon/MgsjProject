@@ -10,6 +10,7 @@ public class CategoryDTO {
 	//이너 조인
 	private String productName;
 	private String productPrice;
+	private String storedFileName;
 	private int pno;
 
 	public int getCno() {
@@ -67,12 +68,19 @@ public class CategoryDTO {
 	public void setPno(int pno) {
 		this.pno = pno;
 	}
+	public String getStoredFileName() {
+		return storedFileName;
+	}
+
+	public void setStoredFileName(String storedFileName) {
+		this.storedFileName = storedFileName;
+	}
 
 	@Override
 	public String toString() {
 		return "CategoryDTO [cno=" + cno + ", categoryName=" + categoryName + ", categoryLevel=" + categoryLevel
-				+ ", level=" + level + ", productName=" + productName + ", productPrice=" + productPrice + ", pno="
-				+ pno + "]";
+				+ ", level=" + level + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", storedFileName=" + storedFileName + ", pno=" + pno + "]";
 	}
 
 	
