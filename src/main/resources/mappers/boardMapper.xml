@@ -52,8 +52,8 @@
 
 	<!-- 게시글 작성 -->
 	<insert id="boardWrite" parameterType="com.project.board.domain.BoardDTO">
-		INSERT INTO boarddto(writer, title, content, boardLevel)
-		values (#{writer}, #{title}, #{content}, #{boardLevel});
+		INSERT INTO boarddto(writer, title, content)
+		values (#{writer}, #{title}, #{content});
 	</insert>
 
 	<!-- 게시글 삭제하기 -->

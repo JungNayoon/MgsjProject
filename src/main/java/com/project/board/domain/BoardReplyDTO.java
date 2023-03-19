@@ -2,11 +2,6 @@ package com.project.board.domain;
 
 import java.util.Date;
 
-/**
- * 
- * @author 김재국, 정원진, 홍준영
- *
- */
 public class BoardReplyDTO {
 
 	private int rno;

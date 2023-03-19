@@ -12,7 +12,7 @@
 
 	<!-- 카테고리별 상품 조회 -->
 	<select id="categoryView" parameterType="int" resultType="com.project.product.domain.CategoryDTO">
-		SELECT c.cno, p.pno, p.productName, p.productPrice
+		SELECT c.cno, p.pno, p.productName, p.productPrice, p.storedFileName
 		FROM categorydto as c
 		INNER JOIN productdto as p
 		ON c.cno = p.cno

@@ -53,7 +53,7 @@
 						<td>
 							<a href="">[상품수정]</a>
 							<br>
-							<a href="">[상품삭제]</a>
+							<a href="#" onclick= "deleteProductList('${productList.pno}');">[상품삭제]</a>
 						</td>
 					</tr>
 				</c:forEach>
