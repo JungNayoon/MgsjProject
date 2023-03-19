@@ -7,66 +7,83 @@
 <meta charset="UTF-8">
 <c:choose>
 	<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
-		<title>공지 게시글 조회</title>
+		<title>공지 게시글 작성</title>
 	</c:when>
 	<c:otherwise>
-		<title>게시글 조회</title>
+		<title>게시글 작성</title>
 	</c:otherwise>
 </c:choose>
+<link rel="stylesheet" href="${contextPath}/resources/admin/boardWritePage.css">
 </head>
 <body>
+
+<!-- 헤더 -->        
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+
+<!-- 공지 게시글 작성 -->
+<div class="board_wrap">
+
 	<c:choose>
 		<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
-			<h1>공지글 작성하기</h1>
+			<div class="board_title">공지글 작성하기</div>
 		</c:when>
 		<c:otherwise>
-			<h1>게시글 작성하기</h1>
+			<div class="board_title">게시글 작성하기</div>
 		</c:otherwise>
 	</c:choose>
+	
 	<form method="post" action="/admin/boardWrite" autocomplete="off" role="form">
-
-		<div>
-			<label>게시글 제목 : </label>
-			<input type="text" name="title">
+		<!-- 작성자, 제목 -->
+		<div class="row1">
+			<table>
+				<tr>
+					<td class="table_title">게시글 제목</td>
+					<td class="blank"><input type="text" name = "title"></td>
+				</tr>
+				<c:choose>
+					<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
+						<tr>
+							<td class="table_title">작성자</td>
+							<td class="blank"><input type="text" name="writer" value="${memberInfo.userId}" readonly="readonly"><td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td class="table_title">작성자</td>
+							<td class="blank"><input type="text" name="writer" placeholder="비회원은 반드시 작성자를 입력해주세요"></td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
+			</table>
 		</div>
-
-		<hr>
-		<br>
-		<c:choose>
-			<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
-				<div>
-					<label>작성자 : </label>
-					<input type="text" name="writer" value="" readonly="readonly">
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div>
-					<label>작성자 : </label>
-					<input type="text" name="writer" placeholder="비회원은 반드시 작성자를 입력해주세요">
-				</div>
-			</c:otherwise>
-		</c:choose>
-
-		<hr>
-		<br>
-
-		<div>
-			<label>내용</label>
+		
+		<!-- 내용 -->
+		<div class="row2">
+			<table style="border-top:none;">
+				<tr>
+					<td class="table_title">내용</td>
+					<td><textarea rows="15" cols="120" class="boardTextarea" name="content" maxlength="2000"></textarea></td>
+				</tr>
+			</table>
 		</div>
-
-		<br>
-		<textarea rows="5" cols="50" class="boardTextarea" name="content" maxlength="2000"></textarea>
-		<br>
-
-		<c:choose>
-			<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
-				<button type="submit">공지올리기</button>
-			</c:when>
-			<c:otherwise>
-				<button type="submit">게시글 작성하기</button>
-			</c:otherwise>
-		</c:choose>
+		
+		<!-- 버튼 -->
+		<div class="row3">
+			<c:choose>
+				<c:when test="${(memberInfo.userVerify == 128) && (memberInfo != null) }">
+					<button type="submit">공지올리기</button>
+				</c:when>
+				<c:otherwise>
+					<button type="submit">게시글 작성하기</button>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</form>
+</div>
+
+
+<!-- 푸터 -->
+<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
 
 </body>
 </html>

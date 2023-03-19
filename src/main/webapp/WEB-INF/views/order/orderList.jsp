@@ -61,10 +61,10 @@ request.setCharacterEncoding("UTF-8");
           
             <!-- 주문일자 -->
             <td class="first" rowspan="1">
-              <fmt:formatDate value = "${orderList.orderDate}" pattern = "yyyy-MM-dd"/>  <!-- 실전에선 주문일자 값을 받아와야됨 -->
+              <fmt:formatDate value = "${orderList.orderDate}" pattern = "yyyy-MM-dd HH시 mm분 ss초"/>  <!-- 실전에선 주문일자 값을 받아와야됨 -->
             </td>
             
-            <!-- 상품정보 -->
+            <!-- 주문 상품 정보 -->
             <td>
               <div class="cont">
                 <p>
@@ -75,10 +75,10 @@ request.setCharacterEncoding("UTF-8");
               </div>
             </td>
             
-            <!-- 주문금액 -->
+            <!-- 상품금액(수량) -->
             <td>
               <p class="fnt-1">
-                <strong>${orderList.productPrice * orderList.totalCnt}</strong><span> (${orderList.totalCnt}개)</span>
+                <strong>${orderList.productPrice * orderList.productCnt}</strong><span> (${orderList.productCnt}개)</span>
               </p>
             </td>
             
@@ -95,7 +95,7 @@ request.setCharacterEncoding("UTF-8");
               </span>
             </td>
             
-            <!-- 주문상태 -->
+            <!-- 결제 상세 내역 -->
             <td>
               <div class="ord-con">
               	<a href="/order/orderView?orderNum=${orderList.orderNum}"><button>결제 내역</button></a> 

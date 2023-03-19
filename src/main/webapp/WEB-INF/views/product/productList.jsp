@@ -15,6 +15,8 @@ request.setCharacterEncoding("UTF-8");
 <title>제품 목록(간이)</title>
 </head>
 <body>
+<!-- header -->
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
 
 <div align = "center">
 		
@@ -50,6 +52,9 @@ request.setCharacterEncoding("UTF-8");
 		<button type = "button" onclick = "location.href = '/product/productWritePage'">상품 등록하기</button>
 	
 	</div>
+	
+	<!-- footer -->
+	<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
 	<script type="text/javascript">
 		function deleteProductList(pno) {
 			let deleteYN = confirm("제품을 삭제할까요?");

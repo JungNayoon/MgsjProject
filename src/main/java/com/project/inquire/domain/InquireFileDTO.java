@@ -3,15 +3,7 @@ package com.project.inquire.domain;
 import java.util.Date;
 
 public class InquireFileDTO {
-	/*
-	 * askFileNumber	int
-		askNum	int
-		originFileName	varchar(300)
-		storedFileName	varchar(300)
-		storedThumbNail	varchar(300)
-		fileSize	int
-		fileRegDate	datetime
-	*/
+	
 	private int askFileNumber;
 	private int askNum;
 	private String originFileName;

@@ -93,24 +93,26 @@ request.setCharacterEncoding("UTF-8");
 				</ul>
 			</div>
 		</div>
-
+	
 		<div class="small-container">
 
 			<div class="row row-1">
 				<h2>All Products</h2>
 			</div>
 
+		<c:forEach var = "categoryDTO" items = "${categoryDTO}">
 			<div class="row">
 				<div class="col-4">
 					<a href="products-details.html">
-						<img src="images/productimg/고기1.jpg" alt="고기">
+						<img src="${categoryDTO.storedFileName}" alt="상품 이미지 로딩 실패">
 					</a>
-					<h4>고기</h4>
-					<p>49,000원</p>
+					<h4>${categoryDTO.productName}</h4>
+					<p>${categoryDTO.productPrice}</p>
 				</div>
 			</div>
+			</c:forEach>
 		</div>
-
+	</div>
 
 		<!-- footer -->
 		<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
