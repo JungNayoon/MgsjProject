@@ -10,18 +10,6 @@
 		VALUES (#{pno}, #{productCnt}, #{userId})
 	</insert>
 
-	<!-- 장바구니 목록 주문목록으로 넘기기 -->
-	<!-- <insert id = "cartOrder" parameterType = "com.project.order.domain.OrderDetailDTO">
-	
-	INSERT INTO orderdetaildto
-	VALUES(#{orderDetailNum}, #{orderNum}, #{pno}, #{productTotalPrice}, #{productTotalCnt}, #{userId})
-	
-	</insert> -->
-
-
-	<!-- 장바구니 수정 -->
-
-
 	<!-- 장바구니 삭제 -->
 	<delete id="cartDelete" parameterType="com.project.product.domain.CartDTO">
 		DELETE FROM cartdto

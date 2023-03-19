@@ -60,3 +60,16 @@ function enterSearching() {
 		searchingActivate();
 	}
 }
+
+/* 삭제하기 구현 */
+
+function deleteProductList(pno) {
+			let deleteYN = confirm("제품을 삭제할까요?");
+			
+			if(deleteYN == true) {
+				alert("제품이 삭제되었습니다.");
+				location.href = "/product/productDelete?pno=" + pno;
+			} else {
+				alert("제품 삭제를 취소하였습니다.");
+			}
+		}

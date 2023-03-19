@@ -17,7 +17,7 @@
 </head>
 <body>
 	<!-- header -->
-	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+ 	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
 	<!-- header -->
 
 	<div class="wrap">
@@ -55,11 +55,6 @@
 		<div class="small-container">
 			<h2 class="title">먹고사는 즐거움</h2>
 			<div class="row">
-				<!-- 
-             private String originFileName;
-			private String storedFileName;
-			private String storedThumbNail;
-           -->
 				<c:forEach var="mainPageProductList" items="${mainPageProductList }">
 					<div class="col-4">
 						<a href="/product/productView?pno=${mainPageProductList.pno }">

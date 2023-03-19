@@ -98,7 +98,7 @@ public class BoardController {
 
 		}
 
-		return "redirect:/admin/announcement";
+		return "redirect:/admin/announcement?pageNum=1";
 	}
 
 	// 공지 삭제하기

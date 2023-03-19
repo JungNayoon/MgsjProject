@@ -8,13 +8,9 @@
 </head>
 <body>
 
-		<!-- 
-			categorydto 테이블
-			categoryName	varchar(20)
-			cno	int
-			categoryLevel	int 
-		-->
-		
+	<!-- header -->
+ 	<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+
 	<div class="container" align="center">
 			<form class="form-horizontal" action="/category/categoryWrite" method="post">
 			<div class="form-group">
@@ -50,5 +46,7 @@
 		</form>
 	</div>
 
+	<!-- footer -->
+	<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
 </body>
 </html>

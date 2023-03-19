@@ -36,6 +36,7 @@ request.setCharacterEncoding("UTF-8");
 				<th>Quantity</th>
 				<th>Subtotal</th>
 			</tr>
+			<c:set var = "total" value = "0"/>
 			<c:forEach var="cartList" items="${cartList}">
 				<tr class="cart-info-pachment">
 					<td class="itemview_chk">
@@ -73,8 +74,9 @@ request.setCharacterEncoding("UTF-8");
 					</td>
 
 				</tr>
+				<c:set var= "total" value = "${total + cartList.productPrice * cartList.totalCnt}"/>
 			</c:forEach>
-
+		
 		</table>
 
 		<div class="total-price">
@@ -82,7 +84,7 @@ request.setCharacterEncoding("UTF-8");
 				<tr>
 					<td>총 금액</td>
 					<td class="total_price">
-						<input type="number" name="total-price" id="total-price" value="0">
+						<input type="number" name="total-price" id="total-price" value="${total}">
 						원
 					</td>
 				</tr>

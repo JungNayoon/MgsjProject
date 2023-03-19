@@ -79,18 +79,4 @@ public class InquireController {
 		
 	}
 	
-/*
-	// 제품 문의 목록
-	@RequestMapping(value = "/inquire/inquireList", method = RequestMethod.GET)
-	public void inquireList(Model model) throws Exception {
-		
-		logger.info("제품 문의 목록 inquireList - Controller");
-		
-		List<InquireDTO> inquireList = inquireService.inquireList();
-		
-		logger.info("제품 문의 목록 ==> " + inquireList);
-		
-		model.addAttribute("inquireList", inquireList);
-	}
-*/
 }
