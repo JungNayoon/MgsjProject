@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.board.domain.PageIngredient;
 import com.project.member.domain.MemberDTO;
@@ -88,5 +89,15 @@ public class AdminTotalController {
 		// 현재 페이지가 몇페이지인지 쉽게 구분하기위한 구분자를 넘겨주자
 		model.addAttribute("selectedPageNum", pageNum);
 
+	}
+	
+	// 관리자 상품 게시글 삭제
+	@ResponseBody
+	@RequestMapping(value = "/admin/productDelete", method = RequestMethod.POST)
+	public void adminProductDelete(@RequestParam("pno") int pno) throws Exception {
+		
+		logger.info("관리자 상품 삭제. 인증 불필요.");
+		
+		productService.adminProductDelete(pno);
 	}
 }

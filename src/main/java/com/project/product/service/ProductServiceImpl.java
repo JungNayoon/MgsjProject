@@ -15,7 +15,6 @@ public class ProductServiceImpl implements ProductService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 	
-	
 	@Autowired
 	private ProductDAO productDAO;
 
@@ -73,11 +72,22 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getProductList(displayTotalContent, pageContent, searchType, keyword);
 	}
 	
+	// 검색 결과 갯수 출력
 	@Override
 	public int totalSearchProduct(String searchType, String keyword) throws Exception {
 		
 		logger.info("검색 결과에 따른 상품 목록 출력 (관리자)");
 		
 		return productDAO.totalSearchProduct(searchType, keyword);
+	}
+	
+	// 관리자 상품 삭제
+	@Override
+	public void adminProductDelete(int pno) throws Exception {
+		
+		logger.info("관리자 상품 삭제 service");
+		
+		productDAO.adminProductDelete(pno);
+		
 	}
 }

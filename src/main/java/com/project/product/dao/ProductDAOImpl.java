@@ -100,4 +100,11 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		return sqlSession.selectOne(NAME_SPACE_ADMIN + ".totalSearchProduct", productPageData);
 	}
+	
+	// 관리자 상품 삭제
+	@Override
+	public void adminProductDelete(int pno) throws Exception {
+		
+		sqlSession.delete(NAME_SPACE_ADMIN + ".adminProductDelete", pno);
+	}
 }
