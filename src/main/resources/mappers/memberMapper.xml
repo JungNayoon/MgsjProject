@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.memberMapper">
-	<!-- 
-		DB 컬럼명 쉽게보셈
-		userNum	int 				- 수정불가
-		userId	varchar(20)			- 수정불가
-		userPwd	varchar(30)			- 가능
-		userName	varchar(15)		- 수정불가
-		userPhoneNumber	varchar(20)	- 수정불가
-		userEmail	varchar(40)		- 가능
-		userJoinDate	datetime	- 수정불가
-		userGender	varchar(2) 		- 수정불가
-	-->
-	
+
 	<!-- 회원가입 -->
 	<insert id="signUpMember" parameterType="com.project.member.domain.MemberDTO">
 		insert into
-			memberdto (userId , userPwd , userName , userPhoneNumber , userEmail , userGender)
+		memberdto (userId , userPwd , userName , userPhoneNumber , userEmail , userGender)
 		values (#{userId} , #{userPwd} , #{userName} , #{userPhoneNumber} , #{userEmail} , #{userGender})
 	</insert>
-	
+
 	<!-- 회원가입 + 주소넣기 -->
 	<insert id="signUpAddress" parameterType="com.project.member.domain.MemberAddressDTO">
 		insert into
-			memberaddressdto (userId , postAddress, address, detailAddress)
+		memberaddressdto (userId , postAddress, address, detailAddress)
 		values (#{userId} , #{postAddress} , #{address} , #{detailAddress})
 	</insert>
-	
+
 	<!-- 로그인 -->
 	<select id="memberLogin" parameterType="com.project.member.domain.MemberDTO" resultType="com.project.member.domain.MemberDTO">
 		select userNum, userId, userPwd, userName, userPhoneNumber, userEmail , userJoinDate , userVerify
@@ -34,21 +23,51 @@
 		where userId = #{userId}
 		and userPwd = #{userPwd}
 	</select>
-	
+
 	<!-- 회원정보 수정 -->
 	<update id="memberModify" parameterType="com.project.member.domain.MemberDTO">
 		update memberdto
-			set
-				userPwd = #{userPwd},
-				userEmail = #{userEmail}
-			where userId = #{userId}
+		set
+		userPwd = #{userPwd},
+		userEmail = #{userEmail}
+		where userId = #{userId}
 	</update>
-	
+
 	<!-- 아이디 중복검사 로직 -->
 	<select id="checkDuplicateId" parameterType="String" resultType="int">
 		select count(*)
-			from memberdto
+		from memberdto
 		where userId = #{userId}
 	</select>
+
+	<!-- 아이디찾기 -->
+	<select id="memberFindId" parameterType="com.project.member.domain.MemberDTO" resultType="com.project.member.domain.MemberDTO">
+		select userId
+		from memberdto
+		where userName = #{userName}
+		and userEmail = #{userEmail}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="memberFindPwd" parameterType="com.project.member.domain.MemberDTO" resultType="com.project.member.domain.MemberDTO">
+		select userPwd
+		from memberdto
+		where userId = #{userId}
+		and userEmail = #{userEmail}
+	</select>
+
+	<!-- 회원 탈퇴 -->
+	<delete id="removeMember" parameterType="com.project.member.domain.MemberDTO">
+		delete 
+			from memberdto
+		where userId = #{userId}
+			and userPwd = #{userPwd}
+	</delete>
 	
+	<!-- 회원 탈퇴시 비밀번호 검증을 위한 비밀번호 찾기 -->
+	<select id="getUserPwd" parameterType="com.project.member.domain.MemberDTO" resultType="String">
+		select userPwd
+		from memberdto
+		where userId = #{userId}
+	</select>
 </mapper>

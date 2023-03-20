@@ -1,9 +1,5 @@
 package com.project.review.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.member.domain.MemberDTO;
 import com.project.review.domain.ReviewBoardDTO;
 import com.project.review.service.ReviewService;
 
@@ -37,16 +32,16 @@ public class ReviewController {
 		return "/review/reviewWritePage";
 	}
 	// 리뷰 등록
+	@ResponseBody
 	@RequestMapping(value = "/review/reviewWrite", method = RequestMethod.POST)
-	public String reviewWrite(ReviewBoardDTO reviewBoardDTO, Model model) throws Exception {
+	public void reviewWrite(ReviewBoardDTO reviewBoardDTO) throws Exception {
 		
 		logger.info("리뷰 등록 reviewWrite - Controller");
 		
 		reviewService.reviewWrite(reviewBoardDTO);
 		
-		
-		return "redirect:/product/productView?pno=" + reviewBoardDTO.getPno();
 	}
+	
 	//리뷰 조회
 	@RequestMapping(value = "/review/reviewView", method = RequestMethod.GET)
 	public void reviewView(Model model, ReviewBoardDTO reviewBoardDTO, int rvno) throws Exception {
@@ -79,19 +74,5 @@ public class ReviewController {
 		reviewService.reviewDelete(rvno);
 	}
 	
-	/*
-	 * //리뷰 목록
-	 * 
-	 * @RequestMapping(value = "/review/reviewList", method = RequestMethod.GET)
-	 * public void reviewList(Model model) throws Exception {
-	 * 
-	 * logger.info("리뷰 목록 reviewList - Controller");
-	 * 
-	 * List<ReviewBoardDTO> reviewList = reviewService.reviewList();
-	 * 
-	 * logger.info("리뷰 목록 ==> " + reviewList);
-	 * 
-	 * model.addAttribute("reviewList", reviewList); }
-	 */
 
 }

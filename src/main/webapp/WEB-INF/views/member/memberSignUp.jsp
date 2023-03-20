@@ -40,6 +40,11 @@
 					<div id="nameError" class="error"></div>
 				</div>
 				<div class="field">
+					<b>생년월일</b>
+					<input id="userBirth" name="userBirth" type="text" placeholder="20230101 식으로 입력" maxlength="20" />
+					<div id="nameError" class="error"></div>
+				</div>
+				<div class="field">
 					<b>이메일</b>
 					<input id="userEmail" name="userEmail" type="email" placeholder="이메일을 입력하세요" maxlength="30" />
 					<div id="emailError" class="error"></div>

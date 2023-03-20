@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.order.dao.PaymentDAO;
+import com.project.order.domain.OrderDTO;
+import com.project.order.domain.OrderDetailDTO;
 import com.project.order.domain.PaymentDTO;
 
 @Service
@@ -20,11 +22,16 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	//결제 등록
 	@Override
-	public void paymentWrite(PaymentDTO paymentDTO) throws Exception {
-		
+	public void paymentWrite(String userId, 
+							PaymentDTO paymentDTO, 
+							OrderDTO orderDTO, 
+							OrderDetailDTO orderDetailDTO)
+			throws Exception {
+			
 		logger.info("결제 등록 paymentWrite - Serivce");
 		
-		paymentDAO.paymentWrite(paymentDTO);
+		paymentDAO.paymentWrite(userId, paymentDTO, orderDTO, orderDetailDTO);
+		
 	}
 	
 	//결제 내역 목록
@@ -34,6 +41,17 @@ public class PaymentServiceImpl implements PaymentService {
 		logger.info("결제 내역 목록 paymentList - Service");
 		
 		return paymentDAO.paymentList(paymentDTO);
+	}
+	
+	//결제 상세내역
+	@Override
+	public PaymentDTO paymentView(String userId) throws Exception {
+		
+		logger.info("결제 상세내역 paymentView - Service");
+		
+		
+		
+		return paymentDAO.paymentView(userId);
 	}
 	
 }

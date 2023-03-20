@@ -6,6 +6,9 @@ public class MemberAddressDTO {
 	private String postAddress;
 	private String address;
 	private String detailAddress;
+	
+	//이너 조인
+	private int userPhoneNumber;
 
 	public String getUserId() {
 		return userId;
@@ -39,10 +42,19 @@ public class MemberAddressDTO {
 		this.detailAddress = detailAddress;
 	}
 
+	public int getUserPhoneNumber() {
+		return userPhoneNumber;
+	}
+
+	public void setUserPhoneNumber(int userPhoneNumber) {
+		this.userPhoneNumber = userPhoneNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberAddressDTO [userId=" + userId + ", postAddress=" + postAddress + ", address=" + address + ", detailAddress=" + detailAddress
-				+ "]";
+		return "MemberAddressDTO [userId=" + userId + ", postAddress=" + postAddress + ", address=" + address
+				+ ", detailAddress=" + detailAddress + ", userPhoneNumber=" + userPhoneNumber + "]";
 	}
+
 
 }

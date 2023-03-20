@@ -3,36 +3,41 @@
 
 <mapper namespace="mappers.paymentMapper">
 
-<!-- 
-
-Table: paymentdto
-orderNum	int	NO	MUL
-paymentSet	varchar(20)	NO	
-paymentCard	varchar(20)	NO	
-paymentMoney	int	NO	
-paymentRegDate	datetime	NO	
-
- -->
-
 <!--  결제 등록 -->
-
 <insert id = "paymentWrite" parameterType = "com.project.order.domain.PaymentDTO">
 
-INSERT INTO paymentdto(orderNum, paymentSet, paymentCard, paymentMoney, paymentRegDate)
-VALUES (#{orderNum}, #{paymentSet}, #{paymentCard}, #{paymentMoney}, NOW())
+INSERT INTO paymentdto(orderNum, paymentKind, paymentCard, paymentMoney, paymentRegDate)
+SELECT max(orderNum), #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()
+FROM orderdto
 
 </insert>
-
+<!--  VALUES (#{orderNum}, #{paymentKind}, #{paymentCard}, #{paymentMoney}, NOW()) -->
 
 <!--  결제 내역 목록 -->
 <select id = "paymentList" resultType = "com.project.order.domain.PaymentDTO" parameterType = "com.project.order.domain.PaymentDTO">
 
-SELECT p.orderNum, paymentSet, paymentCard, paymentMoney, paymentRegDate, o.userId
+SELECT p.orderNum, paymentKind, paymentCard, paymentMoney, paymentRegDate, o.userId
 FROM paymentdto as p
 INNER JOIN orderdto as o
 ON p.orderNum = o.orderNum
 WHERE o.userId = #{userId}
 ORDER BY p.orderNum;
+
+</select>
+
+<!-- 결제 상세 내역 -->
+<select id = "paymentView" parameterType = "String" resultType = "com.project.order.domain.PaymentDTO">
+
+SELECT o.orderNum, paymentKind, paymentCard, paymentMoney, paymentRegDate, o.userId, pro.productName
+FROM paymentdto as p
+INNER JOIN orderdto as o
+ON p.orderNum = o.orderNum
+JOIN orderdetaildto as d
+ON p.orderNum = d.orderNum
+JOIN productdto as pro
+ON d.pno = pro.pno
+WHERE userId = #{userId}
+
 
 </select>
 

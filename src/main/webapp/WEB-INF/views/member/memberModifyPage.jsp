@@ -6,8 +6,12 @@
 <meta charset="UTF-8">
 <title>회원정보 수정 페이지</title>
 <link rel="stylesheet" href="/resources/memberModify/userEdit.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+<!-- header -->        
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+<!-- header -->        
 	<div class="user-main">
 		<div class="user-profile">
 			<form action="/member/memberModify" method="post" id="edit-user" name="edit-user">
@@ -48,17 +52,20 @@
 						</div>
 					</div>
 				</div>
-				<hr />
+				<hr/>
 				<!--수정버튼-->
 				<div class="user-update">
-					<button type="submit" id="update-btn" name="update-btn" onclick="editInfo()">수정</button>
+					<button type="button" id="update-btn" name="update-btn" onclick="editInfo()">수정</button>
 				</div>
 				<div class="user-withdrawal">
-					<button type="submit" id="withdrawal-btn" name="withdrawal-btn" onclick="withdrawalUser()">회원탈퇴</button>
+					<button type="button" id="withdrawal-btn" name="withdrawal-btn" onclick="removeMember()">회원탈퇴</button>
 				</div>
 			</form>
 		</div>
 	</div>
+<!-- footer -->        
+<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
+<!-- footer -->        
 </body>
 <script src="/resources/memberModify/userEdit.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

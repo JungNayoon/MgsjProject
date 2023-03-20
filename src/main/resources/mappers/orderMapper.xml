@@ -2,29 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.orderMapper">
 
-<!-- 
-orderNum int AI PK 
-userId varchar(20) 
-orderDate datetime 
-postAddress varchar(20) 
-detailAddress varchar(50) 
-detailAddress2 varchar(50) 
-recipient varchar(10) 
-recipientPhone varchar(15)
- -->
 <!-- 주문 등록 -->
 <insert id = "orderWrite" parameterType = "com.project.order.domain.OrderDTO">
 
-INSERT INTO orderdto(orderNum, userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone)
-VALUES (#{orderNum}, #{userId}, NOW(), #{postAddress}, #{detailAddress}, #{detailAdderess2}, #{recipient}, #{recipientPhone})
+INSERT INTO orderdto (userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone)
+VALUES (#{userId}, NOW(), #{postAddress}, #{detailAddress}, #{detailAddress2}, #{recipient}, #{recipientPhone})
 
 </insert>
 
-<!-- 주문 조회 -->
-<select id = "orderView" parameterType = "int" resultType = "com.project.order.domain.OrderDTO">
-SELECT orderNum, userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone
-FROM orderdto
-WHERE orderNum = #{orderNum}
+
+<insert id="orderDetailWrite" parameterType="com.project.order.domain.OrderDetailDTO">
+	
+	INSERT INTO orderdetaildto (orderNum, pno, productPrice, productCnt, userId)
+	VALUES((SELECT max(orderNum) FROM orderdto), #{pno}, #{productPrice}, #{productCnt}, #{userId})
+	
+
+	<!-- SELECT max(orderNum), #{pno}, #{productPrice}, #{productCnt}, #{userId}
+		FROM orderdto
+		WHERE userId = #{userId}
+			 -->
+	
+</insert>
+
+<!-- 주문 상세 조회 -->
+<!-- orderdetailDTO -->
+<!-- 주문번호, 사용자이이디(세션용), 상품명, 주문일자, 상품가격, 카트의 상품주문량 -->
+<select id = "orderView" parameterType = "HashMap" resultType = "com.project.order.domain.OrderDTO">
+
+SELECT p.productName, od.productPrice, 
+SUM(od.productCnt) as totalCnt, o.recipient, 
+o.recipientPhone, o.postAddress, o.detailAddress, o.detailAddress2,  od.orderNum,
+pay.paymentKind, pay.paymentCard, pay.paymentMoney, pay.paymentRegDate,
+m.userId
+	FROM orderdto as o
+	INNER JOIN orderdetaildto as od
+	ON o.orderNum = od.orderNum
+	JOIN productdto as p
+	ON od.pno = p.pno
+	JOIN paymentdto as pay
+	ON o.orderNum = pay.orderNum
+	JOIN memberdto as m
+	ON o.userId = m.userId
+	WHERE o.userId = od.userId
+	AND o.orderNum = #{orderNum}
+GROUP BY od.pno, o.orderNum
+LIMIT 0,1;
+
 </select>
 
 <!-- 주문 수정 -->
@@ -35,21 +58,37 @@ DELETE FROM orderdto
 WHERE orderNum = #{orderNum}
 </delete>
 
-<!-- 주문 목록 -->
-<select id = "orderList" parameterType = "com.project.order.domain.OrderDTO" resultType = "com.project.order.domain.OrderDTO">
-SELECT orderNum, o.userId, orderDate, postAddress, detailAddress, detailAddress2, recipient, recipientPhone, p.productName, p.productPrice, c.productCnt, p.pno 
-	FROM orderdto as o
-	INNER JOIN cartdto as c
-    ON o.userId = c.userId
-    JOIN productdto as p
-    ON c.pno = p.pno
-    WHERE o.userId = #{userId}
-    ORDER BY orderNum;
+<!-- 회원 탈퇴를 위한 주문내역 삭제 -->
+<delete id = "removerMemberOrder" parameterType = "String">
+DELETE FROM orderdto
+WHERE userId = #{userId}
+</delete>
 
+<!-- 주문 목록 -->
+<select id = "orderList" parameterType = "HashMap" resultType = "com.project.order.domain.OrderDTO">
+
+SELECT o.orderNum, o.orderDate, od.pno, od.productPrice, od.userId, p.productName, od.productCnt
+	FROM orderdto as o 
+    INNER JOIN orderdetaildto as od
+	ON o.orderNum = od.orderNum
+    JOIN productdto as p
+	ON od.pno = p.pno
+	WHERE od.userId = #{userId}
+	GROUP BY pno, orderNum, od.productCnt
+	ORDER BY orderNum DESC;
+	
 </select>
 
+<!-- 회원 주소 조회 -->
+<select id = "memAddress" parameterType = "String" resultType = "com.project.member.domain.MemberAddressDTO">
 
+select m.userId, postAddress, address, detailAddress, m.userPhoneNumber
+from memberaddressdto as ma
+INNER JOIN memberdto as m
+ON ma.userId = m.userId
+where m.userId = #{userId};
 
+</select>
 
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.project.member.service;
 
+import java.util.List;
+
 import com.project.member.domain.MemberAddressDTO;
 import com.project.member.domain.MemberDTO;
 
@@ -16,4 +18,25 @@ public interface MemberService {
 	
 	// 아이디 중복검사 로직
 	public int checkDuplicateId(String userId) throws Exception;
+	
+	// 아이디 찾기
+	public MemberDTO memberFindId(MemberDTO memberDTO) throws Exception;
+	
+	// 비밀번호 찾기
+	public MemberDTO memberFindPwd(MemberDTO memberDTO) throws Exception;
+	
+	// 회원 탈퇴
+	public void removeMember(MemberDTO memberDTO) throws Exception;
+	
+	// 회원 탈퇴에 필요한 비밀번호 찾기
+	public String getUserPwd(String userId) throws Exception;
+	
+	
+	// ---------------관리자---------------
+	// 회원 관리를 위한 회원 리스트 가져오기
+	public List<MemberDTO> getMemberList(int displayTotalContent, int pageContent, String searchType, String keyword) throws Exception;
+	
+	// 회원 검색 기능
+	public int totalSearchMember(String searchType, String keyword) throws Exception;
+	// ---------------관리자 끝---------------
 }

@@ -39,13 +39,12 @@ public class BoardDAOImpl implements BoardDAO {
 
 	}
 
-	// 게시글 레벨에 따른 총 갯수. (관리자, 회원, 비회원)
+	// 검색 결과에 따른 게시글 총 갯수
 	@Override
 	public int totalSearchContent(String searchType, String keyword) throws Exception {
 
 		logger.info("게시글 총 갯수 가져오기");
 
-		// 게시판 레벨에 따른 검색어 결과
 		HashMap<String, String> searchData = new HashMap<>();
 		
 		searchData.put("searchType", searchType);

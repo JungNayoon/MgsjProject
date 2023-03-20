@@ -3,7 +3,6 @@ package com.project.order.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.project.member.domain.MemberDTO;
 import com.project.order.domain.OrderDTO;
+import com.project.order.domain.OrderDetailDTO;
 import com.project.order.domain.PaymentDTO;
+import com.project.order.service.OrderService;
 import com.project.order.service.PaymentService;
 
 @Controller
@@ -27,43 +28,33 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 	
-	//결제 페이지
-	@RequestMapping(value = "/payment/paymentPage", method = RequestMethod.GET)
-	public String paymentPage(
-			String userId,
-			PaymentDTO paymentDTO,	
-			Model model,
-			HttpServletRequest req,
-			HttpServletResponse resp) throws Exception {
-		
-		logger.info("결제 페이지 paymentPage - Controller");
-		
-		
-		
-		return "/payment/paymentPage";
-	}
+	@Autowired(required = false)
+	private OrderService orderService;
 	
-	//결제 등록
+	
+	//결제 - 주문정보(주문품목테이블), 주문세부정보(주소)
 	@RequestMapping(value = "/payment/paymentWrite", method = RequestMethod.POST)
-	public String paymentWrite(PaymentDTO paymentDTO) throws Exception {
+	public String paymentWrite(PaymentDTO paymentDTO, 
+								OrderDTO orderDTO,
+								OrderDetailDTO orderDetailDTO,
+								HttpServletRequest req, 
+								String userId) throws Exception {
 		
 		logger.info("결제 등록 paymentWrite - Controller");
 		
-		paymentService.paymentWrite(paymentDTO);
+		HttpSession session = req.getSession();
+
+		MemberDTO memberLoginSession = (MemberDTO) session.getAttribute("memberInfo");
+
+		paymentDTO.setUserId(memberLoginSession.getUserId());
 		
-		return "/payment/paymentList";
+		paymentService.paymentWrite(userId, paymentDTO, orderDTO, orderDetailDTO);
+		
+		System.out.println("값 넘어왔니?" + orderDetailDTO);
+		
+		return "redirect:/order/orderList";
 	}
 	
-	//결제 내역 조회
-	@RequestMapping(value = "/payment/paymentView", method = RequestMethod.GET)
-	public String paymentView(Model model, PaymentDTO paymentDTO, int orderNum) throws Exception {
-		
-		logger.info("결제 상세 내역 paymentView - Controller");
-		
-		// paymentService.paymentView(orderNum);
-		
-		return "/payment/paymendPage";
-	}
 	
 	//결제 내역 목록
 	@RequestMapping(value = "/payment/paymentList", method = RequestMethod.GET)
@@ -83,7 +74,6 @@ public class PaymentController {
 
 	}
 	
-	//관리자의 결제내역 삭제? 결제내역 수정?
 	
 	
 }

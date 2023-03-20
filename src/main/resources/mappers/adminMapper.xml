@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.adminMapper">
+	
+	<!-- (관리자) 회원 목록 가져오기 -->
+	<select id="getMemberList" resultType="com.project.member.domain.MemberDTO" parameterType="hashMap">
+		
+		select 
+			userNum,
+			userId,
+			userPwd,
+			userName,
+			userPhoneNumber,
+			userEmail,
+			userJoinDate,
+			userGender,
+			userVerify
+	
+		from memberdto
+		
+		<if test="searchType.equals('userId')">
+			where userId like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('userName')">
+			where userName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('userVerify')">
+			where userVerify like concat('%', #{keyword}, '%')
+		</if>
+		
+		order by userVerify desc
+		limit #{displayTotalContent} , #{pageContent}
+		
+	</select>
+	
+	<!-- 검색된 결과에 일치하는 회원수 -->
+	<select id="totalSearchMember" resultType="Int" parameterType="hashmap">
+		
+		select count(*)
+			from memberdto
+		
+		<if test="searchType.equals('userId')">
+			where userId like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('userName')">
+			where userName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('userVerify')">
+			where userVerify like concat('%', #{keyword}, '%')
+		</if>
+		
+	</select>
+	
+	<!-- 검색 결과에 따른 상품 목록 출력 및 페이징 -->
+	<select id="adminProductList" resultType="com.project.product.domain.ProductDTO" parameterType="hashMap">
+		
+		select 
+			pno,
+			cno,
+			productName,
+			productPrice,
+			productStock,
+			productDescription,
+			productRegDate,
+			originFileName,
+			storedFileName,
+			storedThumbNail
+	
+		from productdto
+		
+		<if test="searchType.equals('productName')">
+			where productName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('cno')">
+			where cno like concat('%', #{keyword}, '%')
+		</if>
+		
+		order by pno desc
+		limit #{displayTotalContent} , #{pageContent}
+		
+	</select>
+	
+	<!-- 검색 결과에 따른 상품 목록 갯수 출력 -->
+	<select id="totalSearchProduct" resultType="Int" parameterType="hashmap">
+		
+		select count(*)
+			from productdto
+		
+		<if test="searchType.equals('productName')">
+			where productName like concat('%', #{keyword}, '%')
+		</if>
+		<if test="searchType.equals('cno')">
+			where cno like concat('%', #{keyword}, '%')
+		</if>
+		
+	</select>
+	
+	<!-- 관리자 상품 삭제 -->
+	<delete id="adminProductDelete" parameterType="Integer">
+		delete from productdto
+			where pno = #{pno};
+	</delete>
+	
+	<!-- 관리자 리뷰 삭제 -->
+	<delete id="adminProductReviewDelete" parameterType="Integer">
+		delete from reviewboarddto
+			where pno = #{pno};
+	</delete>
+	
+</mapper>

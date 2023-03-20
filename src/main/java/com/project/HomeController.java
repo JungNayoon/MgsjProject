@@ -70,7 +70,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
@@ -82,6 +82,12 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+	@RequestMapping(value="/order/orderimsi", method = RequestMethod.GET)
+	public void orderimsi() throws Exception {
+		
+		
 	}
 	
 }

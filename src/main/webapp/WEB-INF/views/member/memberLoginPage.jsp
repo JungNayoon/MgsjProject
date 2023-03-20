@@ -14,7 +14,7 @@
 	<div class="login">
 		<h1>
 			<a href="/mainPage/mainPage" title="메인페이지로 이동">
-				<span class="login-logo">Ezen</span>
+				<span class="login-logo">MGSJ</span>
 			</a>
 		</h1>
 
@@ -55,10 +55,6 @@
 					<span>자동로그인</span>
 				</label>
 			</p> -->
-			<h3>
-				아이디나 비밀번호를 잊으셨나요?
-				<a href="/id&pwd/find-idpwd.html" class="idpw-search">계정찾기</a>
-			</h3>
 		</div>
 		<a href="/member/memberSignUp" class="join_link">회원가입</a>
 	</div>

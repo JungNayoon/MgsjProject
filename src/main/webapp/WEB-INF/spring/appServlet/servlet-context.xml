@@ -53,18 +53,47 @@
 	<context:component-scan base-package="com.project.interceptor"></context:component-scan>
 	<beans:bean id="AdminVerifyInterceptor" class="com.project.interceptor.AdminVerifyInterceptor"></beans:bean>
 	
+	<!-- 로그인 확인 -->
+	<context:component-scan base-package="com.project.interceptor"></context:component-scan>
+	<beans:bean id="LoginInterceptor" class="com.project.interceptor.LoginInterceptor"></beans:bean>
+	
+	<!-- 상품판매자 -->
+	<context:component-scan base-package="com.project.interceptor"></context:component-scan>
+	<beans:bean id="SellerInterceptor" class="com.project.interceptor.SellerInterceptor"></beans:bean>
+	
 	<!-- 인터셉터 세부 설정 -->
 	<interceptors>
 		<!-- 로깅 -->
 		<interceptor>
 			<mapping path="/**"/>
 			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/imgUpload/**"/>
 			<beans:ref bean="LoggerInterceptor"/>
 		</interceptor>
 		<!-- 관리자 인증 -->
 		<interceptor>
 			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/boardView*"/>
 			<beans:ref bean="AdminVerifyInterceptor"/>
+		</interceptor>
+		<!-- 로그인 확인 -->
+		<interceptor>
+			<mapping path="/cart/**"/>
+			<mapping path="/reply/**"/>
+			<mapping path="/inquire/**"/>
+			<mapping path="/order/**"/>
+			<mapping path="/payment/**"/>
+			<mapping path="/category/**"/>
+			<mapping path="/review/**"/>
+			<exclude-mapping path="/product/productView*"/>
+			<exclude-mapping path="/category/categoryPro*"/>
+			<beans:ref bean="LoginInterceptor"/>
+		</interceptor>
+		<!-- 상품판매자 -->
+		<interceptor>
+			<mapping path="/product/**"/>
+			<exclude-mapping path="/product/productView*"/>
+			<beans:ref bean="SellerInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
