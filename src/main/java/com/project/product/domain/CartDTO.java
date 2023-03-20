@@ -1,22 +1,17 @@
 package com.project.product.domain;
 
 public class CartDTO {
+	
 	private int cartNum;
 	private int pno;
-	private int productCnt;
 	private String userId;
+	private int productCnt;
 
+	private int totalCnt;
 	private String productName;
 	private int productPrice;
+	private String storedFileName;
 	
-	/*
-	private int totalPrice;
-	
-	//totalPrice에 저장될 값
-	public CartDTO() {
-		this.totalPrice = this.productCnt * this.productPrice;
-	}
-	*/
 	public int getCartNum() {
 		return cartNum;
 	}
@@ -31,6 +26,22 @@ public class CartDTO {
 
 	public void setPno(int pno) {
 		this.pno = pno;
+	}
+
+	public int getTotalCnt() {
+		return totalCnt;
+	}
+
+	public void setTotalCnt(int totalCnt) {
+		this.totalCnt = totalCnt;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public int getProductCnt() {
@@ -57,28 +68,20 @@ public class CartDTO {
 		this.productPrice = productPrice;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getStoredFileName() {
+		return storedFileName;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setStoredFileName(String storedFileName) {
+		this.storedFileName = storedFileName;
 	}
-	/*
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	*/
 
 	@Override
 	public String toString() {
-		return "CartDTO [cartNum=" + cartNum + ", pno=" + pno + ", productCnt=" + productCnt + ", userId=" + userId
-				+ ", productName=" + productName + ", productPrice=" + productPrice + "]";
+		return "CartDTO [cartNum=" + cartNum + ", pno=" + pno + ", userId=" + userId + ", productCnt=" + productCnt
+				+ ", totalCnt=" + totalCnt + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", storedFileName=" + storedFileName + "]";
 	}
-	
 
+	
 }

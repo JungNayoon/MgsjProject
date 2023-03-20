@@ -34,14 +34,14 @@ public class InquireController {
 	}
 
 	// 제품 문의 등록
+	@ResponseBody
 	@RequestMapping(value = "/inquire/inquireWrite", method = RequestMethod.POST)
-	public String inquireWrite(InquireDTO inquireDTO, Model model) throws Exception {
+	public void inquireWrite(InquireDTO inquireDTO) throws Exception {
 
 		logger.info("제품 문의 등록 inquireWrite - Controller");
 		
 		inquireService.inquireWrite(inquireDTO);
 
-		return "redirect:/product/productView?pno=" + inquireDTO.getPno();
 	}
 
 	// 제품 문의 조회
@@ -79,18 +79,4 @@ public class InquireController {
 		
 	}
 	
-/*
-	// 제품 문의 목록
-	@RequestMapping(value = "/inquire/inquireList", method = RequestMethod.GET)
-	public void inquireList(Model model) throws Exception {
-		
-		logger.info("제품 문의 목록 inquireList - Controller");
-		
-		List<InquireDTO> inquireList = inquireService.inquireList();
-		
-		logger.info("제품 문의 목록 ==> " + inquireList);
-		
-		model.addAttribute("inquireList", inquireList);
-	}
-*/
 }

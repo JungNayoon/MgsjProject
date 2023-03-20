@@ -1,7 +1,24 @@
-@charset "UTF-8";
+body {
+	margin: 0;
+}
+
+.search-box {
+	display: flex;	
+	margin: 15px 0px 15px 0px;
+	justify-content: center;
+}
+
+.search-box select {
+	margin-right: 10px; 
+}
+
+.search-box button {
+	margin-left: 10px;
+}
 
 thead>tr>th {
-	background-color: #297EFF;
+	color: #fff;
+	background-color: #4f4f4f;
 	border-left: 0;
 	border-right: 0;
 }
@@ -43,7 +60,8 @@ a {
 	width : 100%;
 	text-align: center;
 	display: inline-block;
-	margin : auto;
+	margin-top: 30px;
+    height: 700px;
 	
 }
 .board_write{

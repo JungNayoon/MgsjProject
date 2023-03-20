@@ -1,8 +1,6 @@
 package com.project.inquire.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -27,11 +25,6 @@ public class InquireDAOImpl implements InquireDAO {
 	public void inquireWrite(InquireDTO inquireDTO) throws Exception {
 
 		logger.info("제품 문의 등록 inquireWrite - DAO");
-
-		Map<String, Integer> inquire = new HashMap<>();
-
-//		inquire.put("askNum", askNum);
-//		inquire.put("inquirePno", inquirePno);
 
 		sqlSession.insert(NAME_SPACE + ".inquireWrite", inquireDTO);
 	}

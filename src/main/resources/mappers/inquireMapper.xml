@@ -2,25 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.inquireMapper">
 
-<!-- 
-	!!! 여기는 데이터베이스 테이블명이 askdto !!!!
-	askNum int AI PK 
-	pno int 
-	askTitle varchar(50) 
-	askContent text 
-	askRegDate datetime
-	
-	private int askNum;
-	private int pno;
-	private String askTitle;
-	private String askContent;
-	private Date askRegDate;
- -->
-
 <!-- 제품 문의 등록  -->
 <insert id = "inquireWrite" parameterType = "com.project.inquire.domain.InquireDTO">
-INSERT INTO askdto(pno, askTitle, askContent, askRegDate)
-VALUES (#{pno}, #{askTitle}, #{askContent}, NOW())
+INSERT INTO askdto(pno, userId, askTitle, askContent)
+VALUES (#{pno}, #{userId}, #{askTitle}, #{askContent})
 </insert>
 
 <!-- 제품 문의 조회 -->

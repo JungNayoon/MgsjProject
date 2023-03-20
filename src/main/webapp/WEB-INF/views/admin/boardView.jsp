@@ -8,34 +8,32 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<title>게시글 조회</title>
+<title>공지사항 조회</title>
 <link rel="stylesheet" type="text/css" href="/resources/board/boardView/boardView.css">
 </head>
+<!-- header -->
+<jsp:include page="../pageIngredient/header.jsp" flush="false"></jsp:include>
+<!-- header -->
 <div id="boardTB">
-		<h1>${boardDTO.bno }번게시글</h1>
+	<div class="col-1">
+		<h2>${boardDTO.bno }. 공지사항</h2>
 		<form method="post">
-			<div align="right">
-				<label>조회수 : </label>
-			</div>
-			<span>${boardDTO.readCount }</span>
-			
-			<hr>
-			<br>
-			
-			<div align="right">
-				<label>게시글 제목 : </label>
-			</div>
-			<span>${boardDTO.title }</span>
-			
-			<hr>
-			<br>
-			
-			<div align="right">
-				<label>작성자 : </label>
-			</div>
-			<span>${boardDTO.writer }</span>
-			
-			<hr>
+			<table>
+				<thead>
+					<tr align="center">
+						<th style="width: 250px;">조회수</th>
+						<th style="width: 600px;">게시글 제목</th>
+						<th style="width: 250px;">작성자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr align="center">
+						<td>${boardDTO.readCount }</td>
+						<td>${boardDTO.title }</td>
+						<td>${boardDTO.writer }</td>
+					</tr>
+				</tbody>	
+			</table>
 			<br>
 			
 			<div>
@@ -49,13 +47,15 @@
 		
 		<div align="right" class="modifyAndDelete">
 			<a href="/admin/boardModifyPage?bno=${boardDTO.bno }">
-				<button type="button" class="boardUpdate">게시글 수정하기</button>
+				<button type="button" class="boardUpdate">수정</button>
 			</a>
 			<a onclick="javascript:removeContent('${boardDTO.bno}');">
-				<button type="button" class="boardDelete">게시글삭제</button>
+				<button type="button" class="boardDelete">삭제</button>
 			</a>
 		</div>
-		
+	</div>
+	
+	<div class="col-2">
 		<hr>
 		<!-- 댓글 구현하기 -->
 		<h2>댓글</h2>
@@ -104,6 +104,7 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
 
 		<!-- 댓글 수정 모달창 : #modal -->
 		<div id="modal" class="modal_overlay">
@@ -143,7 +144,7 @@
 
 		<br>
 		<hr>
-
+	<div class="col-3">
 		<h2>댓글 작성</h2>
 
 		<div align="center">
@@ -174,6 +175,11 @@
 		</div>
 		<!-- 댓글 구현 끝 -->
 	</div>
+</div>
+
+<!-- footer -->
+<jsp:include page="../pageIngredient/footer.jsp" flush="false"></jsp:include>
+<!-- footer -->
 </body>
 <script type="text/javascript" src="/resources/board/boardView/boardView.js"></script>
 </html>

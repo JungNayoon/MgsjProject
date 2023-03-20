@@ -1,4 +1,10 @@
 /* reset */
+.input-group input {
+	height : 30px;
+  	width : 30px;
+  	font-size:1px;
+}
+
 * {
     margin: 0;
     padding: 0;

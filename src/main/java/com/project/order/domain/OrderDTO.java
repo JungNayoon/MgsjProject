@@ -3,7 +3,7 @@ package com.project.order.domain;
 import java.util.Date;
 
 public class OrderDTO {
-	
+
 	private int orderNum;
 	private String userId;
 	private Date orderDate;
@@ -12,18 +12,21 @@ public class OrderDTO {
 	private String detailAddress2;
 	private String recipient;
 	private String recipientPhone;
-	
-	
-	 //조인용 변수 private String productName; private int productPrice; private int
+
+	// 조인용 변수 private String productName; private int productPrice; private int
 	private String productName;
 	private int productPrice;
 	private int productCnt;
 	private int pno;
-	 
-	/* alt + shift + a로 지우기
-	 * private int totalPrice; public OrderDTO() { this.totalPrice = this.productCnt
-	 * * this.productPrice; }
-	 */
+	private int totalCnt;
+	private int paymentMoney;
+	private String paymentCard;
+	private String paymentKind;
+	private Date paymentRegDate;
+	
+	public OrderDTO() {
+		
+	}
 
 	public int getOrderNum() {
 		return orderNum;
@@ -88,8 +91,7 @@ public class OrderDTO {
 	public void setRecipientPhone(String recipientPhone) {
 		this.recipientPhone = recipientPhone;
 	}
-	
-	//조인용
+
 	public String getProductName() {
 		return productName;
 	}
@@ -113,12 +115,6 @@ public class OrderDTO {
 	public void setProductCnt(int productCnt) {
 		this.productCnt = productCnt;
 	}
-	
-	/*
-	 * public int getTotalPrice() { return totalPrice; }
-	 * 
-	 * public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
-	 */
 
 	public int getPno() {
 		return pno;
@@ -127,12 +123,59 @@ public class OrderDTO {
 	public void setPno(int pno) {
 		this.pno = pno;
 	}
+	
+	public int getTotalCnt() {
+		return totalCnt;
+	}
+
+	public void setTotalCnt(int totalCnt) {
+		this.totalCnt = totalCnt;
+	}
+
+	public int getPaymentMoney() {
+		return paymentMoney;
+	}
+
+	public void setPaymentMoney(int paymentMoney) {
+		this.paymentMoney = paymentMoney;
+	}
+
+	public String getPaymentCard() {
+		return paymentCard;
+	}
+
+	public void setPaymentCard(String paymentCard) {
+		this.paymentCard = paymentCard;
+	}
+
+	public String getPaymentKind() {
+		return paymentKind;
+	}
+
+	public void setPaymentKind(String paymentKind) {
+		this.paymentKind = paymentKind;
+	}
+
+	public Date getPaymentRegDate() {
+		return paymentRegDate;
+	}
+
+	public void setPaymentRegDate(Date paymentRegDate) {
+		this.paymentRegDate = paymentRegDate;
+	}
 
 	@Override
 	public String toString() {
 		return "OrderDTO [orderNum=" + orderNum + ", userId=" + userId + ", orderDate=" + orderDate + ", postAddress="
 				+ postAddress + ", detailAddress=" + detailAddress + ", detailAddress2=" + detailAddress2
 				+ ", recipient=" + recipient + ", recipientPhone=" + recipientPhone + ", productName=" + productName
-				+ ", productPrice=" + productPrice + ", productCnt=" + productCnt + ", pno=" + pno + "]";
+				+ ", productPrice=" + productPrice + ", productCnt=" + productCnt + ", pno=" + pno + ", totalCnt="
+				+ totalCnt + ", paymentMoney=" + paymentMoney + ", paymentCard=" + paymentCard + ", paymentKind="
+				+ paymentKind + ", paymentRegDate=" + paymentRegDate + "]";
 	}
+
+	
+	
+
+
 }
